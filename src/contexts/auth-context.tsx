@@ -1,26 +1,20 @@
 import React, { createContext } from "react";
 import { useLocalStorageState } from "ahooks";
+import { AuthContextType, UserState } from "@/lib/types";
 
-// Define the type for the user state
-type UserState = {
-  id: string;
-  image?: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-};
+
 
 // Create the context
-type AuthContextType = {
-  token: string | undefined;
-  user: UserState | undefined;
-  setToken: React.Dispatch<React.SetStateAction<string | undefined>>;
-  setUser: React.Dispatch<React.SetStateAction<UserState | undefined>>;
-  setDummyAuth: () => void;
-  clearDummyAuth: () => void;
-};
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+const AuthContext = createContext<AuthContextType>({
+  token: "",
+  user: undefined,
+  setToken: () => {},
+  setUser: () => {},
+  setDummyAuth: () => {},
+  clearDummyAuth: () => {},
+});
 
 // Create a provider component to wrap your app with
 const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
