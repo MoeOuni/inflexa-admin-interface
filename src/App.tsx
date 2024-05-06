@@ -14,16 +14,16 @@ function App() {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#0F172A",
-          colorInfo: "#0F172A",
+          colorPrimary: "#F97315",
+          colorInfo: "#F97315",
         },
       }}
     >
-       <TooltipProvider>
-      <Router>
-        {/* Routes go here */}
-        {token ? <ProtectedRoutes /> : <PublicRoutes />}
-      </Router>
+      <TooltipProvider>
+        <Router>
+          {/* Routes go here */}
+          {token ? <ProtectedRoutes /> : <PublicRoutes />}
+        </Router>
       </TooltipProvider>
     </ConfigProvider>
   );
