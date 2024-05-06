@@ -101,7 +101,7 @@ const SidebarMobile = () => {
               to={item.path}
               key={index}
               className={`${
-                item?.path === pathname ? "text-muted" : "text-muted-foreground"
+                item?.path === pathname ? "bg-muted text-primary" : "text-muted-foreground"
               } mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground`}
             >
               {item.icon}
