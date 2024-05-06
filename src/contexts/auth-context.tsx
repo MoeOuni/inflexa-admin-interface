@@ -17,6 +17,7 @@ type AuthContextType = {
   setToken: React.Dispatch<React.SetStateAction<string | undefined>>;
   setUser: React.Dispatch<React.SetStateAction<UserState | undefined>>;
   setDummyAuth: () => void;
+  clearDummyAuth: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -50,6 +51,11 @@ const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
+  const clearDummyAuth = () => {
+    setToken(undefined);
+    setUser(undefined);
+  }
+
   // Create a value object to pass to the context provider
   const contextValue: AuthContextType = {
     token,
@@ -57,6 +63,7 @@ const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setToken,
     setUser,
     setDummyAuth,
+    clearDummyAuth,
   };
 
   return (

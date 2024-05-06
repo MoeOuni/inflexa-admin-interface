@@ -1,5 +1,5 @@
 import React, { lazy } from "react";
-import { Key, LoaderCircle } from "lucide-react";
+import { Key, LoaderCircle, LogOut } from "lucide-react";
 import {
   Route,
   Routes,
@@ -18,6 +18,7 @@ const MainLayout = lazy(() => import("@/layouts/main-layout"));
 const Home = lazy(() => import("@/pages/admin/home"));
 
 // Auth Pages
+const PublicLayout = lazy(() => import("@/layouts/public-layout"));
 const Login = lazy(() => import("@/pages/auth/login"));
 const Register = lazy(() => import("@/pages/auth/register"));
 const ForgotPassword = lazy(() => import("@/pages/auth/forgot-password"));
@@ -50,21 +51,35 @@ const PublicRoutes = React.memo(() => {
       }
     >
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path="*" element={<Navigate to={"/login"} />} />
+        <Route element={<PublicLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="*" element={<Navigate to={"/login"} />} />
+        </Route>
       </Routes>
       <Tooltip title="Preview Login">
-        <FloatButton type="primary" icon={<Key size={18}/>} onClick={handleClick} />
+        <FloatButton
+          type="primary"
+          icon={<Key size={18} />}
+          onClick={handleClick}
+        />
       </Tooltip>
     </React.Suspense>
   );
 });
 
 const ProtectedRoutes = React.memo(() => {
+  const { clearDummyAuth } = React.useContext(AuthContext);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    clearDummyAuth();
+    navigate("/login");
+  };
+
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -83,6 +98,13 @@ const ProtectedRoutes = React.memo(() => {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+      <Tooltip title="Logout">
+        <FloatButton
+          type="primary"
+          icon={<LogOut size={18} />}
+          onClick={handleClick}
+        />
+      </Tooltip>
     </React.Suspense>
   );
 });

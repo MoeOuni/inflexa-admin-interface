@@ -4,6 +4,7 @@ import { ProtectedRoutes, PublicRoutes } from "./routes";
 import { useContext } from "react";
 import { AuthContext } from "./contexts/auth-context";
 import { ConfigProvider } from "antd";
+import { TooltipProvider } from "./components/ui/tooltip";
 
 function App() {
   const { token } = useContext(AuthContext)!;
@@ -13,15 +14,17 @@ function App() {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#475569",
-          colorInfo: "#475569",
+          colorPrimary: "#0F172A",
+          colorInfo: "#0F172A",
         },
       }}
     >
+       <TooltipProvider>
       <Router>
         {/* Routes go here */}
         {token ? <ProtectedRoutes /> : <PublicRoutes />}
       </Router>
+      </TooltipProvider>
     </ConfigProvider>
   );
 }
