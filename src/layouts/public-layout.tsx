@@ -1,9 +1,7 @@
-import React from 'react'
 import { Outlet } from 'react-router-dom'
 
-type Props = {}
 
-const PublicLayout = (props: Props) => {
+const PublicLayout = () => {
   return (
     <div className='min-h-[100vh] flex justify-center items-center'>
         <Outlet />

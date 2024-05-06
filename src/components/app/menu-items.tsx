@@ -1,11 +1,5 @@
-import React from 'react'
+const MenuItems = () => {
+  return <div>MenuItems</div>;
+};
 
-type Props = {}
-
-const MenuItems = (props: Props) => {
-  return (
-    <div>MenuItems</div>
-  )
-}
-
-export default MenuItems
+export default MenuItems;
