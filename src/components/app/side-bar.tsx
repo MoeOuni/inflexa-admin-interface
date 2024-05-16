@@ -1,12 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
 import {
   FileClock,
+  Handshake,
   Home,
   LineChart,
   Menu,
   Package,
   Package2,
+  ScanBarcode,
   Settings,
+  ShoppingBasket,
   ShoppingCart,
   Users2,
 } from "lucide-react";
@@ -21,6 +24,12 @@ const sidebarItems = [
     path: "/",
   },
   {
+    title: "Analytics",
+    icon: <LineChart className="h-5 w-5" />,
+    path: "/analytics",
+    separator: true,
+  },
+  {
     title: 'Inventory',
     icon: <Package className="h-5 w-5" />,
     path: '/inventory'
@@ -30,20 +39,27 @@ const sidebarItems = [
     icon: <ShoppingCart className="h-5 w-5" />,
     path: "/orders",
   },
-  // {
-  //   title: "Products",
-  //   icon: <Package className="h-5 w-5" />,
-  //   path: "/products",
-  // },
+  {
+    title: 'Sales',
+    icon: <ShoppingBasket className='h-5 w-5'/>,
+    path: '/sales'
+  },
+  {
+    title: 'Purchases',
+    icon: <ScanBarcode className='h-5 w-5'/>,
+    path: '/purchases',
+    separator: true
+  },
   {
     title: "Customers",
     icon: <Users2 className="h-5 w-5" />,
     path: "/customers",
   },
   {
-    title: "Analytics",
-    icon: <LineChart className="h-5 w-5" />,
-    path: "/analytics",
+    title: 'Suppliers',
+    icon: <Handshake className="h-5 w-5" />,
+    path: '/suppliers',
+    separator: true
   },
   {
     title: 'Logs',
@@ -62,6 +78,7 @@ const Sidebar = () => {
   return (
     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
       {sidebarItems.map((item, index) => (
+        <>
         <Link
           key={index}
           to={item.path}
@@ -72,6 +89,8 @@ const Sidebar = () => {
           {item.icon}
           {item.title}
         </Link>
+        {item.separator && <hr className="my-2 border-t border-muted" />}
+        </>
       ))}
     </nav>
   );
