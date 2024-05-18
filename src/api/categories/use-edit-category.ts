@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient, categoryQueryKeys } from "@/api";
 import { toast } from "sonner";
-import type { Category, TSFixMe } from "@/types";
+import type { Category, TSFixMe } from "@/lib/types";
 
 export function useEditCategory() {
     const queryClient = useQueryClient();

@@ -12,7 +12,7 @@ import {
 import { SquarePlus } from "lucide-react";
 import BackButton from "../app/back-button";
 import { useCategores } from "@/api";
-import { Category } from "@/types";
+import { Category } from "@/lib/types";
 
 const CategoriesSettings = () => {
   const categories = useCategores();

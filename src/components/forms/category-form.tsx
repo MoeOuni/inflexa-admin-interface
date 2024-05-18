@@ -16,7 +16,7 @@ import { Button } from "../ui/button";
 import { SmallTypography } from "../typography/small-typography";
 import { Trash2 } from "lucide-react";
 import { useCreateCategory,useEditCategory } from "@/api";
-import type { Category } from "@/types";
+import type { Category } from "@/lib/types";
 
 const CategoryFormSchema = z.object({
   name: z.string().min(2, { message: "Name is required" }),

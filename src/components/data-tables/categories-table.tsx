@@ -30,7 +30,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Category } from "@/types";
+import { Category } from "@/lib/types";
 import dayjs from "dayjs";
 import { Input } from "../ui/input";
 import {

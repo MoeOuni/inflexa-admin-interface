@@ -2,10 +2,7 @@ import React, { createContext } from "react";
 import { useLocalStorageState } from "ahooks";
 import { AuthContextType, UserState } from "@/lib/types";
 
-
-
 // Create the context
-
 
 const AuthContext = createContext<AuthContextType>({
   token: "",
@@ -48,7 +45,7 @@ const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const clearDummyAuth = () => {
     setToken(undefined);
     setUser(undefined);
-  }
+  };
 
   // Create a value object to pass to the context provider
   const contextValue: AuthContextType = {
