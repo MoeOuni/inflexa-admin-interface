@@ -34,7 +34,6 @@ const ConfirmButton = (props: Props) => {
               </Button>
             </PopoverClose>
             <Button
-              variant={"destructive"}
               size={"sm"}
               onClick={props?.confirmFunction}
             >

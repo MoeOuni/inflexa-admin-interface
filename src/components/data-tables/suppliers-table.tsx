@@ -36,15 +36,20 @@ import { Input } from "../ui/input";
 
 import ConfirmButton from "../app/confirm-button";
 import { useTranslation } from "react-i18next";
-import { useDeleteSupplier } from "@/api";
+import { useArchiveSupplier, useDeleteSupplier } from "@/api";
+import { useRestoreSupplier } from "@/api/suppliers/use-restore-supplier";
 
 type Props = {
   data: any[];
+  status: string;
 };
 
-const SuppliersTable = ({ data }: Props) => {
-  const deleteSupplier = useDeleteSupplier();
-  const {t} = useTranslation();
+const SuppliersTable = ({ data, status }: Props) => {
+  const deleteSupplier = useDeleteSupplier({ status });
+  const archiveSupplier = useArchiveSupplier({ status });
+  const restoreSupplier = useRestoreSupplier({ status });
+
+  const { t } = useTranslation();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -71,26 +76,28 @@ const SuppliersTable = ({ data }: Props) => {
     },
     {
       accessorKey: "Address",
-      header: t('supplier_address_label'),
+      header: t("supplier_address_label"),
       cell: ({ row }) => (
         <div className="capitalize">{row.original.address}</div>
       ),
     },
     {
       accessorKey: "Telephone",
-      header: t('supplier_phone_label'),
-      cell: ({ row }) => <div className="capitalize">{row.original.phoneNumber}</div>,
+      header: t("supplier_phone_label"),
+      cell: ({ row }) => (
+        <div className="capitalize">{row.original.phoneNumber}</div>
+      ),
     },
     {
       accessorKey: "Tax number",
-      header: t('supplier_tax_number_label'),
+      header: t("supplier_tax_number_label"),
       cell: ({ row }) => (
         <div className="capitalize">{row.original.taxNumber}</div>
       ),
     },
     {
       accessorKey: "Representative/trustee",
-      header: t('supplier_representative_label'),
+      header: t("supplier_representative_label"),
       cell: ({ row }) => (
         <div className="capitalize">{row.original.representative}</div>
       ),
@@ -103,12 +110,12 @@ const SuppliersTable = ({ data }: Props) => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">{t('open_menu')}</span>
+                <span className="sr-only">{t("open_menu")}</span>
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>{t('actions')}</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
 
               <Button
                 size={"sm"}
@@ -119,20 +126,39 @@ const SuppliersTable = ({ data }: Props) => {
                   return null;
                 }}
               >
-                {t('supplier_edit_button')}
+                {t("supplier_edit_button")}
               </Button>
 
               <DropdownMenuSeparator />
               <ConfirmButton
-                confirmTitle={t('supplier_archive_confirm_title')}
-                confirmText={t('supplier_archive_confirm_text')}
+                confirmTitle={t(
+                  status === "ACTIVE"
+                    ? "supplier_archive_confirm_title"
+                    : "supplier_restore_confirm_title"
+                )}
+                confirmText={t(
+                  status === "ACTIVE"
+                    ? "supplier_archive_confirm_text"
+                    : "supplier_restore_confirm_text"
+                )}
+                confirmFunction={() => {
+                  if(status === "ACTIVE") {
+                    archiveSupplier.mutate(row.original._id);
+                  } else {
+                    restoreSupplier.mutate(row.original._id);
+                  }
+                }}
               >
                 <Button
                   size={"sm"}
                   variant={"ghost"}
                   className="w-full flex justify-start"
                 >
-                  {t('supplier_archive_button')}
+                  {t(
+                    status === "ACTIVE"
+                      ? "supplier_archive_button"
+                      : "supplier_restore_button"
+                  )}
                 </Button>
               </ConfirmButton>
             </DropdownMenuContent>
@@ -166,7 +192,9 @@ const SuppliersTable = ({ data }: Props) => {
       <div className="flex items-center py-4">
         <Input
           placeholder="Search supplier..."
-          value={(table.getColumn("companyName")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("companyName")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
             table.getColumn("companyName")?.setFilterValue(event.target.value)
           }
@@ -242,7 +270,7 @@ const SuppliersTable = ({ data }: Props) => {
                   colSpan={columns?.length}
                   className="h-24 text-center"
                 >
-                  {t('no_result')}
+                  {t("no_result")}
                 </TableCell>
               </TableRow>
             )}
@@ -257,7 +285,7 @@ const SuppliersTable = ({ data }: Props) => {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            {t('previous')}
+            {t("previous")}
           </Button>
           <Button
             variant="outline"
@@ -265,7 +293,7 @@ const SuppliersTable = ({ data }: Props) => {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            {t('next')}
+            {t("next")}
           </Button>
         </div>
       </div>

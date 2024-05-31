@@ -22,15 +22,7 @@ const Suppliers = () => {
         <CardTitle>{t("suppliers")}</CardTitle>
         <CardDescription>{t("suppliers_table_description")}</CardDescription>
         <div>
-          {pathname === "/suppliers" ? (
-            <Button
-              size={"sm"}
-              className="flex gap-1 items-center"
-              onClick={() => navigate("/suppliers/save")}
-            >
-              <SquarePlus className="h-4 w-4" /> {t("supplier_add_button")}
-            </Button>
-          ) : (
+          {pathname !== "/suppliers" && (
             <BackButton onClick={() => navigate("/suppliers")} />
           )}
         </div>
