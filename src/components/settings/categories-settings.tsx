@@ -13,8 +13,10 @@ import { SquarePlus } from "lucide-react";
 import BackButton from "../app/back-button";
 import { useCategores } from "@/api";
 import { Category } from "@/lib/types";
+import { useTranslation } from "react-i18next";
 
 const CategoriesSettings = () => {
+  const {t} = useTranslation();
   const categories = useCategores();
   const [view, setView] = React.useState("table");
   const [selectedCategory, setSelectedCategory] =
@@ -33,9 +35,9 @@ const CategoriesSettings = () => {
     <>
       <Card x-chunk="dashboard-04-chunk-1">
         <CardHeader>
-          <CardTitle>Categories</CardTitle>
+          <CardTitle>{t('categories')}</CardTitle>
           <CardDescription>
-            Used to identify your products categories and sub-categories.
+            {t("categories_table_description")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -45,7 +47,7 @@ const CategoriesSettings = () => {
               className="flex gap-1 items-center"
               onClick={handleViewChange}
             >
-              <SquarePlus size={20} /> Add Category
+              <SquarePlus className="h-4 w-4" /> {t("category_add_button")}
             </Button>
           ) : (
             <BackButton onClick={handleViewChange} />

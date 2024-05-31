@@ -5,6 +5,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   children: React.ReactNode;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 const ConfirmButton = (props: Props) => {
+  const { t } = useTranslation();
   return (
     <Popover>
       <PopoverTrigger asChild>{props.children}</PopoverTrigger>
@@ -28,7 +30,7 @@ const ConfirmButton = (props: Props) => {
           <div className="flex gap-3">
             <PopoverClose asChild>
               <Button variant={"outline"} size={"sm"}>
-                Cancel
+                {t("confirm_cancel")}
               </Button>
             </PopoverClose>
             <Button
@@ -36,7 +38,7 @@ const ConfirmButton = (props: Props) => {
               size={"sm"}
               onClick={props?.confirmFunction}
             >
-              Confirm
+              {t("confirm_yes")}
             </Button>
           </div>
         </div>

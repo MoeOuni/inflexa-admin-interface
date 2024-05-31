@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 
 import { Sidebar, SidebarMobile } from "@/components/app/side-bar";
 import { ModeToggle } from "@/components/app/mode-toggle";
+import { LangToggle } from "@/components/app/lang-toggle";
 
 function MainLayout() {
   return (
@@ -68,6 +69,7 @@ function MainLayout() {
             </DropdownMenuContent>
           </DropdownMenu>
           <ModeToggle />
+          <LangToggle />
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           <Outlet />

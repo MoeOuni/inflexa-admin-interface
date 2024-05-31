@@ -18,9 +18,9 @@ export type UploadContextType = {
   handleResetFilesList: () => void;
 }
 
-export type PrevilageContextType = {
-  previlages?: Previlage[];
-  setPrevilages: React.Dispatch<React.SetStateAction<Previlage[] | undefined>>;
+export type PermissionContextType = {
+  permissions?: Permission[];
+  setPermissions: React.Dispatch<React.SetStateAction<Permission[] | undefined>>;
 }
 
 // Define the type for the user state
@@ -65,11 +65,46 @@ export interface FileList {
   uploaded: File[];
 }
 
-export interface Previlage {
+export interface Permission {
   _id?: string;
   name: string;
   description?: string;
   createdAt?: Date;
+}
+
+export interface Role {
+  _id?: string;
+  name: string;
+  description?: string;
+  permissions?: Permission[] | string[];
+  createdAt?: Date;
+}
+
+export interface Banque {
+  _id?: string;
+  _rib?: string;
+  _iban?: string;
+  _bic?: string;
+  _representative?: string;
+  _agency?: string;
+}
+
+export interface Supplier {
+  _id?: string;
+  supplierCode: string;
+  email?: string;
+  companyName: string;
+  taxNumber: string;
+  representative?: string;
+  phoneNumber?: string;
+  address?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
+  description?: string;
+  banque?: Banque;
+  profilePic?: string;
+  logo?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

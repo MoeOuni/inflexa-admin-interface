@@ -1,10 +1,11 @@
 import React from 'react'
+import SupplierForm from '../forms/supplier-form'
 
 type Props = {}
 
 const SaveSupplier = (props: Props) => {
   return (
-    <div>SaveSupplier</div>
+    <SupplierForm />
   )
 }
 

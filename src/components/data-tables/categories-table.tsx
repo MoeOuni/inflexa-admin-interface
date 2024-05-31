@@ -40,6 +40,7 @@ import {
 } from "../ui/hover-card";
 import ConfirmButton from "../app/confirm-button";
 import { useDeleteCategory } from "@/api";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   data: Category[];
@@ -47,6 +48,7 @@ type Props = {
 };
 
 export function CategoriesTable({ data, handleEdit }: Props) {
+  const { t } = useTranslation();
   const deleteCategory = useDeleteCategory();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -64,14 +66,14 @@ export function CategoriesTable({ data, handleEdit }: Props) {
   const columns: ColumnDef<Category>[] = [
     {
       accessorKey: "name",
-      header: "Name",
+      header: t("category_name_label"),
       cell: ({ row }) => (
         <div className="capitalize">{row.getValue("name")}</div>
       ),
     },
     {
       accessorKey: "createdAt",
-      header: "Created at",
+      header: t("category_created_at_label"),
       cell: ({ row }) => (
         <div className="lowercase">
           {dayjs(row.getValue("createdAt")).format("DD/MM/YYYY")}
@@ -80,14 +82,14 @@ export function CategoriesTable({ data, handleEdit }: Props) {
     },
     {
       accessorKey: "subCategory",
-      header: "Sub-Categories",
+      header: t("category_sub_category_key"),
       cell: ({ row }) => {
         const nbrSubCats = row.original.subCategories?.length;
         return (
           <HoverCard>
             <HoverCardTrigger asChild>
               <Button variant="link" className="font-medium">
-                {nbrSubCats} sub(s)
+                {nbrSubCats} {t("category_sub_category_mini_unit")}
               </Button>
             </HoverCardTrigger>
             <HoverCardContent className="w-80">
@@ -114,12 +116,12 @@ export function CategoriesTable({ data, handleEdit }: Props) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">{t("open_menu")}</span>
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
 
               <Button
                 size={"sm"}
@@ -129,7 +131,7 @@ export function CategoriesTable({ data, handleEdit }: Props) {
                   handleEdit(row.original);
                 }}
               >
-                Edit Category
+                {t("category_edit_button")}
               </Button>
 
               <DropdownMenuSeparator />
@@ -137,15 +139,15 @@ export function CategoriesTable({ data, handleEdit }: Props) {
                 confirmFunction={() =>
                   handleDeleteCategory(String(row.original._id))
                 }
-                confirmTitle="Delete category ?"
-                confirmText="Confirming deletion will affect associated products. Proceed?"
+                confirmTitle={t("category_delete_confirm_title")}
+                confirmText={t("category_delete_confirm_text")}
               >
                 <Button
                   size={"sm"}
                   variant={"ghost"}
                   className="w-full flex justify-start"
                 >
-                  Delete Category
+                  {t("category_delete_button")}
                 </Button>
               </ConfirmButton>
             </DropdownMenuContent>
@@ -166,6 +168,12 @@ export function CategoriesTable({ data, handleEdit }: Props) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    initialState: {
+      pagination: {
+        pageIndex: 0, //custom initial page index
+        pageSize: 6, //custom default page size
+      },
+    },
     state: {
       sorting,
       columnFilters,
@@ -178,7 +186,7 @@ export function CategoriesTable({ data, handleEdit }: Props) {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter categories..."
+          placeholder={t("search_category")}
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
@@ -188,7 +196,7 @@ export function CategoriesTable({ data, handleEdit }: Props) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
+              {t("columns")} <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -270,7 +278,7 @@ export function CategoriesTable({ data, handleEdit }: Props) {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            {t("previous")}
           </Button>
           <Button
             variant="outline"
@@ -278,7 +286,7 @@ export function CategoriesTable({ data, handleEdit }: Props) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            {t("next")}
           </Button>
         </div>
       </div>

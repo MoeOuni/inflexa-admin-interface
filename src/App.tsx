@@ -1,20 +1,30 @@
-import "./App.css";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner"
 import { useContext } from "react";
+import { ConfigProvider, theme as antdTheme } from "antd";
+import { BrowserRouter as Router } from "react-router-dom";
+
 import { AuthContext } from "./contexts/auth-context";
 import { useTheme } from "./providers/theme-provider";
-import { ProtectedRoutes, PublicRoutes } from "./routes";
-import { ConfigProvider, theme as antdTheme } from "antd";
+
 import { TooltipProvider } from "./components/ui/tooltip";
-import { BrowserRouter as Router } from "react-router-dom";
+import { ProtectedRoutes, PublicRoutes } from "./routes";
+
+import frFR from "antd/locale/fr_FR";
+import enGB from "antd/locale/en_GB";
+
+import "./App.css";
+import { useTranslation } from "react-i18next";
 
 const { darkAlgorithm, defaultAlgorithm } = antdTheme;
 
 function App() {
   const { token } = useContext(AuthContext);
   const { theme } = useTheme();
+  const { i18n } = useTranslation();
+
   return (
     <ConfigProvider
+      locale={i18n.language === "en" ? enGB : frFR}
       theme={{
         token: {
           colorPrimary: "#101827",

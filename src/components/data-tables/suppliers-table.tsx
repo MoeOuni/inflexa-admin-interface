@@ -32,21 +32,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import dayjs from "dayjs";
 import { Input } from "../ui/input";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "../ui/hover-card";
 
 import ConfirmButton from "../app/confirm-button";
+import { useTranslation } from "react-i18next";
+import { useDeleteSupplier } from "@/api";
 
 type Props = {
   data: any[];
 };
 
 const SuppliersTable = ({ data }: Props) => {
+  const deleteSupplier = useDeleteSupplier();
+  const {t} = useTranslation();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -59,40 +57,40 @@ const SuppliersTable = ({ data }: Props) => {
   const columns: ColumnDef<any>[] = [
     {
       accessorKey: "Supplier code",
-      header: "Supplier code",
+      header: t("supplier_code_label"),
       cell: ({ row }) => (
         <div className="capitalize">{row.original.supplierCode}</div>
       ),
     },
     {
-      accessorKey: "Company name",
-      header: "Company name",
+      accessorKey: "companyName",
+      header: t("supplier_company_name_label"),
       cell: ({ row }) => (
         <div className="capitalize">{row.original.companyName}</div>
       ),
     },
     {
       accessorKey: "Address",
-      header: "Address",
+      header: t('supplier_address_label'),
       cell: ({ row }) => (
         <div className="capitalize">{row.original.address}</div>
       ),
     },
     {
       accessorKey: "Telephone",
-      header: "Telephone",
-      cell: ({ row }) => <div className="capitalize">{row.original.phone}</div>,
+      header: t('supplier_phone_label'),
+      cell: ({ row }) => <div className="capitalize">{row.original.phoneNumber}</div>,
     },
     {
       accessorKey: "Tax number",
-      header: "Tax number",
+      header: t('supplier_tax_number_label'),
       cell: ({ row }) => (
         <div className="capitalize">{row.original.taxNumber}</div>
       ),
     },
     {
       accessorKey: "Representative/trustee",
-      header: "Representative/trustee",
+      header: t('supplier_representative_label'),
       cell: ({ row }) => (
         <div className="capitalize">{row.original.representative}</div>
       ),
@@ -105,12 +103,12 @@ const SuppliersTable = ({ data }: Props) => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">{t('open_menu')}</span>
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>{t('actions')}</DropdownMenuLabel>
 
               <Button
                 size={"sm"}
@@ -121,20 +119,20 @@ const SuppliersTable = ({ data }: Props) => {
                   return null;
                 }}
               >
-                Edit Category
+                {t('supplier_edit_button')}
               </Button>
 
               <DropdownMenuSeparator />
               <ConfirmButton
-                confirmTitle="Delete category ?"
-                confirmText="Confirming deletion will affect associated products. Proceed?"
+                confirmTitle={t('supplier_archive_confirm_title')}
+                confirmText={t('supplier_archive_confirm_text')}
               >
                 <Button
                   size={"sm"}
                   variant={"ghost"}
                   className="w-full flex justify-start"
                 >
-                  Delete Category
+                  {t('supplier_archive_button')}
                 </Button>
               </ConfirmButton>
             </DropdownMenuContent>
@@ -167,10 +165,10 @@ const SuppliersTable = ({ data }: Props) => {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter categories..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder="Search supplier..."
+          value={(table.getColumn("companyName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("companyName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -244,7 +242,7 @@ const SuppliersTable = ({ data }: Props) => {
                   colSpan={columns?.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {t('no_result')}
                 </TableCell>
               </TableRow>
             )}
@@ -259,7 +257,7 @@ const SuppliersTable = ({ data }: Props) => {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            {t('previous')}
           </Button>
           <Button
             variant="outline"
@@ -267,7 +265,7 @@ const SuppliersTable = ({ data }: Props) => {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            {t('next')}
           </Button>
         </div>
       </div>

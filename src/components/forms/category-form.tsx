@@ -17,6 +17,7 @@ import { SmallTypography } from "../typography/small-typography";
 import { Trash2 } from "lucide-react";
 import { useCreateCategory,useEditCategory } from "@/api";
 import type { Category } from "@/lib/types";
+import { useTranslation } from "react-i18next";
 
 const CategoryFormSchema = z.object({
   name: z.string().min(2, { message: "Name is required" }),
@@ -41,6 +42,7 @@ type Props = {
 };
 
 export function CategoryForm({selectedCategory}: Props) {
+  const {t} = useTranslation();
   const createCategory = useCreateCategory();
   const editCategory = useEditCategory();
   const [defaultValues, setDefaultValues] = React.useState<CategoryForm | undefined>(selectedCategory || undefined);
@@ -59,11 +61,10 @@ export function CategoryForm({selectedCategory}: Props) {
     setDefaultValues(data);
 
     let status;
-    if (editCategory) {
+    if (selectedCategory) {
       editCategory.mutate({ ...data, _id: selectedCategory?._id});
       status = editCategory.status;
-      return;
-    } else{
+    } else {
     createCategory.mutate(data);
     status = createCategory.status;
     }
@@ -88,7 +89,7 @@ export function CategoryForm({selectedCategory}: Props) {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>{t("category_name_label")}</FormLabel>
                 <FormControl>
                   <Input {...field} disabled={createCategory.isPending} />
                 </FormControl>
@@ -101,7 +102,7 @@ export function CategoryForm({selectedCategory}: Props) {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>{t("category_description_label")}</FormLabel>
                 <FormControl>
                   <Input {...field} disabled={createCategory.isPending} />
                 </FormControl>
@@ -111,7 +112,7 @@ export function CategoryForm({selectedCategory}: Props) {
           />
           <div className="p-3 border rounded-md bg-muted/40 space-y-6">
             <div>
-              <SmallTypography>Sub-Categories</SmallTypography>
+              <SmallTypography>{t("category_sub_category_key")}</SmallTypography>
             </div>
             {fields.map((field, index) => (
               <div className="flex gap-2" key={field.id}>
@@ -120,7 +121,7 @@ export function CategoryForm({selectedCategory}: Props) {
                   name={`subCategories.${index}.name`}
                   render={({ field }) => (
                     <FormItem className="w-[40%]">
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>{t("category_name_label")}</FormLabel>
                       <FormControl>
                         <Input {...field} disabled={createCategory.isPending} />
                       </FormControl>
@@ -133,7 +134,7 @@ export function CategoryForm({selectedCategory}: Props) {
                   name={`subCategories.${index}.description`}
                   render={({ field }) => (
                     <FormItem className="w-[50%]">
-                      <FormLabel>Description</FormLabel>
+                      <FormLabel>{t("category_description_label")}</FormLabel>
                       <FormControl>
                         <Input {...field} disabled={createCategory.isPending} />
                       </FormControl>
@@ -165,11 +166,11 @@ export function CategoryForm({selectedCategory}: Props) {
                 })
               }
             >
-              Add Sub-Category
+              {t('category_sub_category_add_button')}
             </Button>
           </div>
           <Button type="submit" disabled={createCategory.isPending}>
-            Submit
+            {t('submit')}
           </Button>
         </form>
       </Form>
