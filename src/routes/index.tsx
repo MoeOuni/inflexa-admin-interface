@@ -26,6 +26,11 @@ const Customers = lazy(() => import("@/pages/admin/customers"));
 const Suppliers = lazy(() => import("@/pages/admin/suppliers"));
 const Purchases = lazy(() => import("@/pages/admin/purchases"));
 
+
+const PurchaseDetails = lazy(() => import("@/components/purchases/purchase-details"));
+const PurchasesList = lazy(() => import("@/components/purchases/purchases-list"));
+const SavePurchase = lazy(() => import("@/components/purchases/save-purchase"));
+
 // Menu SubRoutes
 const GeneralSettings = lazy(() => import("@/components/settings/general-settings"));
 const SecuritySettings = lazy(() => import("@/components/settings/security-settings"));
@@ -124,14 +129,19 @@ const ProtectedRoutes = React.memo(() => {
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/sales" element={<Sales />} />
-          <Route path="/purchases" element={<Purchases />} />
+          <Route path="/purchases" element={<Purchases />} >
+            <Route index element={<PurchasesList />} />  
+            <Route path=':id' element={<PurchaseDetails />} />
+            <Route path='save/:id' element={<SavePurchase />} />
+            <Route path='save' element={<SavePurchase />} />
+          </Route>
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/suppliers" element={<Suppliers />}>
             <Route index element={<SuppliersList />} />
-            <Route path='/suppliers/:id' element={<SupplierProfile />} />
-            <Route path='/suppliers/save/:id' element={<SaveSupplier />} />
-            <Route path='/suppliers/save' element={<SaveSupplier />} />
+            <Route path=':id' element={<SupplierProfile />} />
+            <Route path='save/:id' element={<SaveSupplier />} />
+            <Route path='save' element={<SaveSupplier />} />
           </Route>
           <Route path="/logs" element={<Logs />} />
           <Route path="*" element={<NotFound />} />

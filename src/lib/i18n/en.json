@@ -61,5 +61,19 @@
   "supplier_bank_bic_placeholder": "Enter BIC", 
   "supplier_bank_representative_placeholder": "Enter Representative",
   "supplier_bank_agency_placeholder": "Enter Agency",
-  "supplier_save_button": "Save Supplier"
+  "supplier_save_button": "Save Supplier",
+
+  "purchase": "Purchase",
+  "purchases": "Purchases",
+  "purchases_table_description": "Manage your purchases and view your sales performance.",
+  "purchase_add_button": "Add New Purchase",
+  "purchase_edit_button": "Edit Purchase",
+  "purchase_delete_button": "Delete Purchase",
+  "purchase_restore_button": "Restore Purchase",
+  "purchase_restore_confirm_title": "Restore Purchase ?",
+  "purchase_restore_confirm_text": "Proceed ?",
+  "purchase_archive_button": "Archive Purchase",
+  "purchase_archive_confirm_title": "Archive Purchase ?",
+  "purchase_archive_confirm_text": "Proceed ?",
+  "purchase_code_label": "Purchase Code"
 }

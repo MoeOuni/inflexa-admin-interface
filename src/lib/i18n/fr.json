@@ -61,5 +61,19 @@
   "supplier_bank_bic_placeholder": "Entrez le BIC",
   "supplier_bank_representative_placeholder": "Entrez le représentant",
   "supplier_bank_agency_placeholder": "Entrez l'agence",
-  "supplier_save_button": "Enregistrer le fournisseur"
+  "supplier_save_button": "Enregistrer le fournisseur",
+
+  "purchase": "Achat",
+  "purchases": "Achats",
+  "purchases_table_description": "Gérez vos achats et consultez vos performances de vente.",
+  "purchase_add_button": "Ajouter un nouvel achat",
+  "purchase_edit_button": "Modifier l'achat",
+  "purchase_delete_button": "Supprimer l'achat",
+  "purchase_restore_button": "Restaurer l'achat",
+  "purchase_restore_confirm_title": "Restaurer l'achat ?",
+  "purchase_restore_confirm_text": "Procéder ?",
+  "purchase_archive_button": "Archiver l'achat",
+  "purchase_archive_confirm_title": "Archiver l'achat ?",
+  "purchase_archive_confirm_text": "Procéder ?",
+  "purchase_code_label": "Code d'achat"
 }
