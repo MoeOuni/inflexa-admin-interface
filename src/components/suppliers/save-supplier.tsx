@@ -1,12 +1,25 @@
-import React from 'react'
-import SupplierForm from '../forms/supplier-form'
+import SupplierForm from "../forms/supplier-form";
+import { useSupplierById } from "@/api";
+import { useParams } from "react-router-dom";
 
-type Props = {}
 
-const SaveSupplier = (props: Props) => {
+
+const SaveSupplier = () => {
+  const supplierById = useSupplierById();
+  const {id} = useParams();
   return (
-    <SupplierForm />
-  )
-}
+    <>
+      {supplierById.isLoading && <div>Loading...</div>}
+      {supplierById.isSuccess && (
+        <SupplierForm
+          editValues={
+            supplierById?.data ? supplierById?.data?.supplier : undefined
+          }
+        />
+      )}
+      {!id && <SupplierForm editValues={undefined} />}
+    </>
+  );
+};
 
-export default SaveSupplier
+export default SaveSupplier;

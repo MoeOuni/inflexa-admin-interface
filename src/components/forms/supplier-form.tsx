@@ -18,7 +18,8 @@ import {
 } from "../ui/form";
 import { PhoneInput } from "../app/phone-input";
 import { isValidPhoneNumber } from "react-phone-number-input";
-import { useCreateSupplier } from "@/api";
+import { useCreateSupplier, useEditSupplier } from "@/api";
+import { Supplier } from "@/lib/types";
 
 const SupplierFormSchema = z.object({
   supplierCode: z.string().min(1, "Supplier code is required"),
@@ -47,12 +48,19 @@ const SupplierFormSchema = z.object({
 
 type SupplierForm = z.infer<typeof SupplierFormSchema>;
 
-export default function SupplierForm() {
+type Props = {
+  editValues?: Supplier;
+};
+
+export default function SupplierForm({ editValues }: Props) {
   const createSupplier = useCreateSupplier();
+  const editSupplier = useEditSupplier({ status: "ACTIVE" });
+
   const { t } = useTranslation();
   const [defaultValues, setDefaultValues] = React.useState<
     SupplierForm | undefined
-  >(undefined);
+  >(editValues || undefined);
+
   const form = useForm<SupplierForm>({
     resolver: zodResolver(SupplierFormSchema),
     defaultValues,
@@ -61,12 +69,19 @@ export default function SupplierForm() {
   async function onSubmit(data: z.infer<typeof SupplierFormSchema>) {
     let status;
 
-    await createSupplier.mutateAsync({
-      ...data,
-    });
+    if (editValues) {
+      await editSupplier.mutateAsync({
+        _id: editValues?._id,
+        ...data,
+      });
+      status = editSupplier.status;
+    } else {
+      await createSupplier.mutateAsync({
+        ...data,
+      });
 
-    status = createSupplier.status;
-
+      status = createSupplier.status;
+    }
     if (status === "success") {
       setDefaultValues(undefined);
       form.reset();
@@ -89,7 +104,12 @@ export default function SupplierForm() {
               <FormItem>
                 <FormLabel>{t("supplier_company_name_label")}</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={createSupplier?.isPending} />
+                  <Input
+                    {...field}
+                    disabled={
+                      createSupplier?.isPending || editSupplier?.isPending
+                    }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -102,7 +122,12 @@ export default function SupplierForm() {
               <FormItem>
                 <FormLabel>{t("supplier_code_label")}</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={createSupplier?.isPending} />
+                  <Input
+                    {...field}
+                    disabled={
+                      createSupplier?.isPending || editSupplier?.isPending
+                    }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -115,7 +140,12 @@ export default function SupplierForm() {
               <FormItem>
                 <FormLabel>{t("supplier_tax_number_label")}</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={createSupplier?.isPending} />
+                  <Input
+                    {...field}
+                    disabled={
+                      createSupplier?.isPending || editSupplier?.isPending
+                    }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -128,7 +158,12 @@ export default function SupplierForm() {
               <FormItem>
                 <FormLabel>{t("supplier_representative_label")}</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={createSupplier?.isPending} />
+                  <Input
+                    {...field}
+                    disabled={
+                      createSupplier?.isPending || editSupplier?.isPending
+                    }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -142,7 +177,9 @@ export default function SupplierForm() {
                 <FormLabel>{t("supplier_phone_label")}</FormLabel>
                 <FormControl>
                   <PhoneInput
-                    disabled={createSupplier?.isPending}
+                    disabled={
+                      createSupplier?.isPending || editSupplier?.isPending
+                    }
                     defaultCountry="TN"
                     placeholder="Enter a phone number"
                     {...field}
@@ -161,7 +198,9 @@ export default function SupplierForm() {
                 <FormControl>
                   <Input
                     {...field}
-                    disabled={createSupplier?.isPending}
+                    disabled={
+                      createSupplier?.isPending || editSupplier?.isPending
+                    }
                     placeholder="Enter Email"
                   />
                 </FormControl>
@@ -177,7 +216,12 @@ export default function SupplierForm() {
             <FormItem>
               <FormLabel>{t("supplier_address_label")}</FormLabel>
               <FormControl>
-                <Textarea {...field} disabled={createSupplier?.isPending} />
+                <Textarea
+                  {...field}
+                  disabled={
+                    createSupplier?.isPending || editSupplier?.isPending
+                  }
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -191,7 +235,12 @@ export default function SupplierForm() {
             <FormItem>
               <FormLabel>{t("supplier_description_label")}</FormLabel>
               <FormControl>
-                <Textarea {...field} disabled={createSupplier?.isPending} />
+                <Textarea
+                  {...field}
+                  disabled={
+                    createSupplier?.isPending || editSupplier?.isPending
+                  }
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -215,7 +264,9 @@ export default function SupplierForm() {
                         id="rib"
                         {...field}
                         placeholder={t("supplier_bank_rib_placeholder")}
-                        disabled={createSupplier?.isPending}
+                        disabled={
+                          createSupplier?.isPending || editSupplier?.isPending
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -232,8 +283,10 @@ export default function SupplierForm() {
                       <Input
                         id="iban"
                         {...field}
-                        placeholder={t('supplier_bank_iban_placeholder')}
-                        disabled={createSupplier?.isPending}
+                        placeholder={t("supplier_bank_iban_placeholder")}
+                        disabled={
+                          createSupplier?.isPending || editSupplier?.isPending
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -250,8 +303,10 @@ export default function SupplierForm() {
                       <Input
                         id="bic"
                         {...field}
-                        placeholder={t('supplier_bank_bic_placeholder')}
-                        disabled={createSupplier?.isPending}
+                        placeholder={t("supplier_bank_bic_placeholder")}
+                        disabled={
+                          createSupplier?.isPending || editSupplier?.isPending
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -270,8 +325,12 @@ export default function SupplierForm() {
                       <Input
                         id="representative"
                         {...field}
-                        placeholder={t('supplier_bank_representative_placeholder')}
-                        disabled={createSupplier?.isPending}
+                        placeholder={t(
+                          "supplier_bank_representative_placeholder"
+                        )}
+                        disabled={
+                          createSupplier?.isPending || editSupplier?.isPending
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -290,8 +349,10 @@ export default function SupplierForm() {
                       <Input
                         {...field}
                         id="agency"
-                        placeholder={t('supplier_bank_agency_placeholder')}
-                        disabled={createSupplier?.isPending}
+                        placeholder={t("supplier_bank_agency_placeholder")}
+                        disabled={
+                          createSupplier?.isPending || editSupplier?.isPending
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -302,7 +363,9 @@ export default function SupplierForm() {
           </div>
         </div>
         <div>
-          <Button type="submit">{t('supplier_save_button')}</Button>
+          <Button type="submit">
+            {t(editValues ? "supplier_edit_button" : "supplier_save_button")}
+          </Button>
         </div>
       </form>
     </Form>

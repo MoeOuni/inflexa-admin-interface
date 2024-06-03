@@ -5,7 +5,7 @@
 export const supplierQueryKeys = {
     all: ['suppliers'],
     details: () => [...supplierQueryKeys.all, 'detail'],
-    detail: (id: number) => [...supplierQueryKeys.details(), id],
-    pagination: (page: number) => [...supplierQueryKeys.all, 'pagination', page],
+    detail: (id?: string) => [...supplierQueryKeys.details(), id],
+    pagination: (page: string) => [...supplierQueryKeys.all, 'pagination', page],
     infinite: () => [...supplierQueryKeys.all, 'infinite'],
 };

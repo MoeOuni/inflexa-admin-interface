@@ -38,6 +38,7 @@ import ConfirmButton from "../app/confirm-button";
 import { useTranslation } from "react-i18next";
 import { useArchiveSupplier, useDeleteSupplier } from "@/api";
 import { useRestoreSupplier } from "@/api/suppliers/use-restore-supplier";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   data: any[];
@@ -48,6 +49,8 @@ const SuppliersTable = ({ data, status }: Props) => {
   const deleteSupplier = useDeleteSupplier({ status });
   const archiveSupplier = useArchiveSupplier({ status });
   const restoreSupplier = useRestoreSupplier({ status });
+
+  const navigate = useNavigate();
 
   const { t } = useTranslation();
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -122,8 +125,8 @@ const SuppliersTable = ({ data, status }: Props) => {
                 variant={"ghost"}
                 className="w-full flex justify-start"
                 onClick={() => {
-                  //   handleEdit(row.original);
-                  return null;
+                  navigate(`/suppliers/save/${row.original._id}`)
+
                 }}
               >
                 {t("supplier_edit_button")}

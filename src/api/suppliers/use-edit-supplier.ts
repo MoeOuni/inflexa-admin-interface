@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 
 import type { Supplier, TSFixMe } from '@/lib/types';
 
-export function useEditSupplier() {
+export function useEditSupplier({ status }: { status: string }) {
     const queryClient = useQueryClient();
 
     const editSupplierFN = async (supplier: Supplier) => {
@@ -18,7 +18,7 @@ export function useEditSupplier() {
     return useMutation({
         mutationFn: editSupplierFN,
         onMutate: async () => {
-            await queryClient.cancelQueries({ queryKey: supplierQueryKeys.all });
+            await queryClient.cancelQueries({ queryKey: [supplierQueryKeys.all, status] });
         },
         onSuccess: () => {
             toast.success('Supplier updated successfully');
@@ -29,7 +29,7 @@ export function useEditSupplier() {
             );
         },
         onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: supplierQueryKeys.all });
+            queryClient.invalidateQueries({ queryKey: [supplierQueryKeys.all, status] });
         },
     });
 }

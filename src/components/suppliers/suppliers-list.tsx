@@ -49,7 +49,6 @@ const SuppliersList = (props: Props) => {
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 onClick={() => {
-                  console.log("clicked")
                   setStatus("DELETED");
                 }}
                 checked={status === "DELETED"}
