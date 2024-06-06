@@ -58,7 +58,7 @@
   "supplier_bank_agency_label": "Agency",
   "supplier_bank_rib_placeholder": "Enter RIB",
   "supplier_bank_iban_placeholder": "Enter IBAN",
-  "supplier_bank_bic_placeholder": "Enter BIC", 
+  "supplier_bank_bic_placeholder": "Enter BIC",
   "supplier_bank_representative_placeholder": "Enter Representative",
   "supplier_bank_agency_placeholder": "Enter Agency",
   "supplier_save_button": "Save Supplier",
@@ -75,5 +75,10 @@
   "purchase_archive_button": "Archive Purchase",
   "purchase_archive_confirm_title": "Archive Purchase ?",
   "purchase_archive_confirm_text": "Proceed ?",
-  "purchase_code_label": "Purchase Code"
+  "purchase_code_label": "Purchase Code",
+
+  "errors": {
+    "error_required_id_supplier": "Please select a supplier.",
+    "error_required_reference": "Please enter a reference."
+  }
 }

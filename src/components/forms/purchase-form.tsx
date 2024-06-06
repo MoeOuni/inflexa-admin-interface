@@ -1,87 +1,73 @@
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import MultiUpload from "../app/multiple-upload"
+import { useSuppliers } from "@/api";
+import { ComboBox } from "../app/combo-box";
+import { Purchase, Supplier } from "@/lib/types";
+import { Label } from "@radix-ui/react-dropdown-menu";
+import { Input } from "../ui/input";
+import PurchaseDetailsList from "../purchases/purchase-details-list";
+import { useStore } from "@/contexts/store-context";
 
-export default function PurchaseForm() {
+type Props = {
+  purchase: Purchase;
+  setPurchase: (purchase: Purchase) => void;
+};
+
+const PurchaseForm = ({ purchase, setPurchase }: Props) => {
+  const { currency } = useStore();
+  const suppliers = useSuppliers({ status: "ACTIVE" });
+
+  const handlePurchaseSupplierChange = (value: string, label?: string) => {
+    setPurchase({ ...purchase, supplierId: value, supplierLabel: label });
+  };
+
+  const handlePurchaseDateChange = (value: string) => {
+    setPurchase({ ...purchase, createdAt: value });
+  };
+
   return (
-    <div className="grid md:grid-cols-[300px_1fr] gap-8  mx-auto py-10 px-4 md:px-6">
-      <div className="bg-muted/40 rounded-lg p-6 sticky top-6">
-        <div className="grid gap-4">
-          <div className="grid gap-2 pb-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Acme Product</span>
-              <span className="font-medium text-sm">120 (Unity)</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-gray-500 dark:text-gray-400 text-sm">Purchase Price</span>
-              <span className="font-medium text-sm">$19.99 per unity</span>
-            </div>
-          </div>
-          <div className="grid gap-2 pb-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Acme Product</span>
-              <span className="font-medium text-sm">120 (Unity)</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-gray-500 dark:text-gray-400 text-sm">Purchase Price</span>
-              <span className="font-medium text-sm">$19.99 per unity</span>
-            </div>
-          </div>
-          <div className="grid gap-2 pb-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Acme Product</span>
-              <span className="font-medium text-sm">120 (Unity)</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-gray-500 dark:text-gray-400 text-sm">Purchase Price</span>
-              <span className="font-medium text-sm">$19.99 per unity</span>
-            </div>
-          </div>
+    <div className="grid md:grid-cols-[350px_1fr] gap-8  mx-auto ">
+      <PurchaseDetailsList purchase={purchase} currency={currency} />
+      <div className="w-full max-w-md flex flex-col gap-4 pb-4">
+        <div className="space-y-2">
+          <Label>Supplier</Label>
+          <ComboBox
+            value={purchase?.supplierId}
+            onChange={handlePurchaseSupplierChange}
+            placeholder="supplier"
+            items={
+              suppliers?.status !== "success"
+                ? []
+                : suppliers?.data?.suppliers?.map((supplier: Supplier) => {
+                    return {
+                      label: supplier?.companyName,
+                      value: supplier?._id,
+                    };
+                  })
+            }
+          />
         </div>
-      </div>
-      <div className="grid gap-6">
-        <div className="grid gap-4">
-          <Label htmlFor="name">Product Name</Label>
-          <Input id="name" placeholder="Enter product name" />
+        <div className="space-y-2">
+          <Label>Date</Label>
+          <Input
+            id="date"
+            type="date"
+            value={purchase?.createdAt}
+            onChange={(e) => handlePurchaseDateChange(e.target.value)}
+          />
         </div>
-        <div className="grid gap-4">
-          <Label htmlFor="description">Description</Label>
-          <Textarea id="description" placeholder="Enter product description" />
-        </div>
-        <div className="grid gap-4">
-         <MultiUpload />
-        </div>
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="grid gap-4">
-            <Label htmlFor="purchase-price">Purchase Price</Label>
-            <Input id="purchase-price" type="number" min="0"  />
-          </div>
-          <div className="grid gap-4">
-            <Label htmlFor="tax">Tax</Label>
-            <Input id="tax" type="number" min="0" max='100' />
-          </div>
-        </div>
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="grid gap-4">
-            <Label htmlFor="price">Price</Label>
-            <Input id="price" type="number" min="0"  />
-          </div>
-          <div className="grid gap-4">
-            <Label htmlFor="quantity">Quantity</Label>
-            <Input id="quantity" type="number" min="0" step="1" />
-          </div>
-        </div>
-        <div className="grid gap-4">
-          <Label htmlFor="unity">Unity</Label>
-          <Input id="unity" placeholder="Enter product unity" />
-        </div>
-        <div className="flex justify-end gap-2">
-          <Button variant="outline">Cancel</Button>
-          <Button>Save</Button>
+        <div className="space-y-2">
+          <Label>Reference</Label>
+          <Input
+            id="reference"
+            placeholder="Enter reference"
+            value={purchase.reference}
+            onChange={(e) =>
+              setPurchase({ ...purchase, reference: e.target.value })
+            }
+          />
         </div>
       </div>
     </div>
-  )
-}  
+  );
+};
+
+export default PurchaseForm;

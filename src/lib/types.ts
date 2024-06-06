@@ -1,27 +1,7 @@
+import { z } from "zod";
+import { ProductFomSchema } from "./schemas";
 
 // Define the type for the context
-export type AuthContextType = {
-  token: string | undefined;
-  user: UserState | undefined;
-  setToken: React.Dispatch<React.SetStateAction<string | undefined>>;
-  setUser: React.Dispatch<React.SetStateAction<UserState | undefined>>;
-  setDummyAuth: () => void | undefined;
-  clearDummyAuth: () => void | undefined;
-};
-
-export type UploadContextType = {
-  filesList?: FileList;
-  setFilesList: React.Dispatch<React.SetStateAction<FileList | undefined>>;
-  singleFile?: SingleFile;
-  setSingleFile: React.Dispatch<React.SetStateAction<SingleFile | undefined>>;
-  handleResetSingleFile: () => void;
-  handleResetFilesList: () => void;
-}
-
-export type PermissionContextType = {
-  permissions?: Permission[];
-  setPermissions: React.Dispatch<React.SetStateAction<Permission[] | undefined>>;
-}
 
 // Define the type for the user state
 export type UserState = {
@@ -56,12 +36,12 @@ export interface File {
 }
 
 export interface SingleFile {
-  original?: any;
+  original?: never;
   uploaded?: File;
 }
 
 export interface FileList {
-  original: any[];
+  original: never[];
   uploaded: File[];
 }
 
@@ -105,6 +85,44 @@ export interface Supplier {
   banque?: Banque;
   profilePic?: string;
   logo?: string;
+}
+
+export type ProductForm = z.infer<typeof ProductFomSchema>;
+
+export interface Purchase {
+  _id?: string;
+  reference: string;
+  supplierId: string;
+  supplierLabel?: string;
+  purchaseDetails?: ProductForm[]
+  createdBy?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  total: number;
+}
+
+
+
+export interface Product {
+  _id?: string;
+  name: string;
+  description?: string;
+  category?: string;
+  subCategory?: string;
+  purchasePrice: number;
+  price?: number;
+  tax: number;
+  quantity: number;
+  unity: string;
+  image?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
+}
+
+export interface Currency {
+  symbol: string;
+  name: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

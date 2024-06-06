@@ -75,5 +75,10 @@
   "purchase_archive_button": "Archiver l'achat",
   "purchase_archive_confirm_title": "Archiver l'achat ?",
   "purchase_archive_confirm_text": "Procéder ?",
-  "purchase_code_label": "Code d'achat"
+  "purchase_code_label": "Code d'achat",
+
+  "errors": {
+    "error_required_id_supplier": "Veuillez sélectionner un fournisseur.",
+    "error_required_reference": "Veuillez entrer une référence."
+  }
 }

@@ -1,8 +1,10 @@
-import React from 'react'
+import PurchasesTable from '../data-tables/purchases-table'
 
 const PurchasesList = () => {
   return (
-    <div>PurchasesList</div>
+    <div>
+      <PurchasesTable data={[]} />
+    </div>
   )
 }
 
