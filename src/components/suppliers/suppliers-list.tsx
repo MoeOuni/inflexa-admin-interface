@@ -14,9 +14,7 @@ import { File, ListFilter, SquarePlus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-type Props = {};
-
-const SuppliersList = (props: Props) => {
+const SuppliersList = () => {
   const [status, setStatus] = useState<string>("ACTIVE");
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -84,7 +82,10 @@ const SuppliersList = (props: Props) => {
         </div>
       </div>
       <div className="bg-muted/40 rounded-md py-2 px-4 border">
-        <ProvidersTable data={suppliers?.data?.suppliers ?? []} status={status}/>
+        <ProvidersTable
+          data={suppliers?.data?.suppliers ?? []}
+          status={status}
+        />
       </div>
     </div>
   );

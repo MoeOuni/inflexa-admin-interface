@@ -24,9 +24,9 @@ const PurchaseForm = ({ purchase, setPurchase }: Props) => {
   };
 
   return (
-    <div className="grid md:grid-cols-[350px_1fr] gap-8  mx-auto ">
+    <div className="grid md:grid-cols-[350px_1fr] gap-4  mx-auto ">
       <PurchaseDetailsList purchase={purchase} currency={currency} />
-      <div className="w-full max-w-md flex flex-col gap-4 pb-4">
+      <div className="w-full  flex bg-muted/40 border rounded-lg flex-col gap-4 p-4">
         <div className="space-y-2">
           <Label>Supplier</Label>
           <ComboBox

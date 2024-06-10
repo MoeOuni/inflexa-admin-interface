@@ -1,8 +1,4 @@
-import React from "react";
-
-type Props = {};
-
-const Analytics = (props: Props) => {
+const Analytics = () => {
   return (
     <>
       <div className="flex items-center">

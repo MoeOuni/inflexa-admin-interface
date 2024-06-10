@@ -1,15 +1,15 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import { Languages } from "lucide-react";
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "react-i18next";
 
 export function LangToggle() {
-  const {t, i18n} = useTranslation();
+  const { i18n } = useTranslation();
 
   return (
     <DropdownMenu>
@@ -23,10 +23,10 @@ export function LangToggle() {
         <DropdownMenuItem onClick={() => i18n.changeLanguage("fr")}>
           Français
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() =>  i18n.changeLanguage("en")}>
+        <DropdownMenuItem onClick={() => i18n.changeLanguage("en")}>
           English
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

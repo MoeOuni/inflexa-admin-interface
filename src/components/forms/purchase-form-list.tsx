@@ -110,17 +110,19 @@ export default function PurchaseFormList({
         unit: "",
       });
     } catch (error) {
-      console.log(error);
       toast.error("An error occurred while saving the product.");
     }
   };
 
   return (
-    <div className="grid md:grid-cols-[350px_1fr] gap-8  mx-auto ">
+    <div className="grid md:grid-cols-[350px_1fr] gap-4  mx-auto ">
       <PurchaseDetailsList purchase={purchase} currency={currency} />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-6">
-          <div className="grid md:grid-cols-2 gap-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid border p-4 bg-muted/40 rounded-lg gap-6"
+        >
+          <div className="grid md:grid-cols-2 gap-4 ">
             <div className="grid gap-4">
               <FormField
                 name="name"

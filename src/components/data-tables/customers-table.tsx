@@ -11,21 +11,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
 import {
-  ArchiveRestore,
   ArrowDownNarrowWide,
   ArrowDownWideNarrow,
   ChevronDown,
-  Download,
-  Eye,
-  FileText,
-  Link,
-  Mail,
   MoreHorizontal,
-  Send,
-  Sheet,
-  SquarePen,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -33,14 +23,8 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -51,24 +35,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import { Category } from "@/lib/types";
 import { Input } from "../ui/input";
 
 import { useTranslation } from "react-i18next";
-// import { useNavigate } from "react-router-dom";
-import { Purchase } from "@/lib/interfaces";
-import dayjs from "dayjs";
-import { useStore } from "@/contexts/store-context";
 import { Tooltip } from "antd";
 
 type Props = {
-  data: Purchase[];
+  data: Category[];
 };
 
-const PurchasesTable = ({ data }: Props) => {
-  // const navigate = useNavigate();
-  const { currency } = useStore();
+export function CustomersTable({ data }: Props) {
   const { t } = useTranslation();
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -78,67 +57,39 @@ const PurchasesTable = ({ data }: Props) => {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const columns: ColumnDef<Purchase>[] = [
+  const columns: ColumnDef<any>[] = [
     {
-      accessorKey: "reference",
-      header: "Reference",
+      accessorKey: "customerID",
+      header: t("customer_id_label"),
+      cell: ({ row }) => <div>{row.original.customerId}</div>,
+    },
+    {
+      accessorKey: "name",
+      header: t("customer_name_label"),
+      cell: ({ row }) => <div className="capitalize">{row.original.name}</div>,
+    },
+    {
+      accessorKey: "email",
+      header: t("customer_email_label"),
+      cell: ({ row }) => <div className="capitalize">{row.original.email}</div>,
+    },
+    {
+      accessorKey: "phone",
+      header: t("customer_phone_label"),
+      cell: ({ row }) => <div className="capitalize">{row.original.phone}</div>,
+    },
+    {
+      accessorKey: "billingAddress",
+      header: t("customer_billing_city_label"),
       cell: ({ row }) => (
-        <div className="capitalize">{row.original.reference}</div>
+        <div className="capitalize">{row.original.billingAddress}</div>
       ),
     },
     {
-      accessorKey: "broughtAt",
-      header: "Purchased At",
+      accessorKey: "totalSpent",
+      header: t("customer_total_spent_label"),
       cell: ({ row }) => (
-        <div className="capitalize">
-          {dayjs(row.original.broughtAt).format("DD/MM/YYYY")}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "supplierLabel",
-      header: "Supplier",
-      cell: ({ row }) => (
-        <div className="capitalize">{row.original.supplierLabel}</div>
-      ),
-    },
-    {
-      accessorKey: "totalWithoutTax",
-      header: "Total Price (Without Taxes)",
-      cell: ({ row }) => (
-        <div className="capitalize">
-          {row.original.totalWithoutTax?.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}{" "}
-          {currency?.symbol}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "totalTax",
-      header: "Total Taxes",
-      cell: ({ row }) => (
-        <div className="capitalize">
-          {row.original.totalTax?.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}{" "}
-          {currency?.symbol}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "totalPrice",
-      header: "Total Price",
-      cell: ({ row }) => (
-        <div className="capitalize">
-          {row.original.totalPrice?.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}{" "}
-          {currency?.symbol}
-        </div>
+        <div className="capitalize">{row.original.totalSpent}</div>
       ),
     },
     {
@@ -155,60 +106,19 @@ const PurchasesTable = ({ data }: Props) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
+
+              <Button
+                size={"sm"}
+                variant={"ghost"}
+                className="w-full flex justify-start"
+                // onClick={() => {
+                //   handleEdit(row.original);
+                // }}
+              >
+                {t("category_edit_button")}
+              </Button>
+
               <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <Eye className="mr-2 h-4 w-4" />
-                  <span>View Details</span>
-                </DropdownMenuItem>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <Download className="mr-2 h-4 w-4" />
-                    <span>Export</span>
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
-                      <DropdownMenuItem>
-                        <FileText className="mr-2 h-4 w-4" />
-                        <span>Export as PDF</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Sheet className="mr-2 h-4 w-4" />
-                        <span>Export as Excel</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuSubContent>
-                  </DropdownMenuPortal>
-                </DropdownMenuSub>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <Send className="mr-2 h-4 w-4" />
-                    <span>Share</span>
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
-                      <DropdownMenuItem>
-                        <Link className="mr-2 h-4 w-4" />
-                        <span>Share via Link</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Mail className="mr-2 h-4 w-4" />
-                        <span>Share via Email</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuSubContent>
-                  </DropdownMenuPortal>
-                </DropdownMenuSub>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <SquarePen className="mr-2 h-4 w-4" />
-                  <span>Edit</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <ArchiveRestore className="mr-2 h-4 w-4" />{" "}
-                  <span>Archive</span>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -227,6 +137,12 @@ const PurchasesTable = ({ data }: Props) => {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    initialState: {
+      pagination: {
+        pageIndex: 0, //custom initial page index
+        pageSize: 6, //custom default page size
+      },
+    },
     state: {
       sorting,
       columnFilters,
@@ -237,31 +153,19 @@ const PurchasesTable = ({ data }: Props) => {
 
   return (
     <div className="w-full">
-      <div className="flex items-start md:items-center flex-col md:flex-row gap-2 py-4">
+      <div className="flex items-center py-4">
         <Input
-          placeholder="Search by supplier..."
-          value={
-            (table.getColumn("supplierLabel")?.getFilterValue() as string) ?? ""
-          }
+          placeholder={t("search_customer")}
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("supplierLabel")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="max-w-xs"
-        />
-        <Input
-          placeholder="Search by reference..."
-          value={
-            (table.getColumn("reference")?.getFilterValue() as string) ?? ""
-          }
-          onChange={(event) =>
-            table.getColumn("reference")?.setFilterValue(event.target.value)
-          }
-          className="max-w-xs"
+          className="max-w-sm"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="md:ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
+            <Button variant="outline" className="ml-auto">
+              {t("columns")} <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -358,7 +262,7 @@ const PurchasesTable = ({ data }: Props) => {
                   colSpan={columns?.length}
                   className="h-24 text-center"
                 >
-                  {t("no_result")}
+                  No results.
                 </TableCell>
               </TableRow>
             )}
@@ -387,6 +291,4 @@ const PurchasesTable = ({ data }: Props) => {
       </div>
     </div>
   );
-};
-
-export default PurchasesTable;
+}

@@ -77,6 +77,18 @@
   "purchase_archive_confirm_text": "Proceed ?",
   "purchase_code_label": "Purchase Code",
 
+  "customers": "Customers",
+  "customer": "Customer",
+  "customers_table_description": "Manage your customers and view your sales performance.",
+  "customer_add_button": "Add New Customer",
+  "customer_id_label": "Customer ID",
+  "customer_name_label": "Name",
+  "customer_email_label": "Email",
+  "customer_phone_label": "Phone",
+  "customer_billing_city_label": "Billing City",
+  "customer_total_spent_label": "Total Spent",
+  "search_customer": "Search customer",
+
   "errors": {
     "error_required_id_supplier": "Please select a supplier.",
     "error_required_reference": "Please enter a reference."

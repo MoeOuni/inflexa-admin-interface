@@ -21,7 +21,7 @@ type Props = {
   placeholder: string;
   items: { value: string; label: string }[];
   value: string;
-  onChange: (value: string, label?:string) => void;
+  onChange: (value: string, label?: string) => void;
 };
 export function ComboBox({ items, value, onChange, placeholder }: Props) {
   const [open, setOpen] = React.useState(false);
@@ -42,9 +42,9 @@ export function ComboBox({ items, value, onChange, placeholder }: Props) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-0">
-        <Command>
-          <CommandInput placeholder={`Search ${placeholder}...`} />
-          <CommandList>
+        <Command className="">
+          <CommandInput className="" placeholder={`Search ${placeholder}...`} />
+          <CommandList className="">
             <CommandEmpty>No {placeholder} found.</CommandEmpty>
             <CommandGroup>
               {items.map((item) => (
@@ -52,8 +52,13 @@ export function ComboBox({ items, value, onChange, placeholder }: Props) {
                   key={item.value}
                   value={item.value}
                   onSelect={(currentValue) => {
-                    const selectedValue = currentValue === value ? "" : currentValue;
-                    const selectedLabel = currentValue === value ? "" : items.find((item) => item.value === selectedValue)?.label;
+                    const selectedValue =
+                      currentValue === value ? "" : currentValue;
+                    const selectedLabel =
+                      currentValue === value
+                        ? ""
+                        : items.find((item) => item.value === selectedValue)
+                            ?.label;
                     onChange(selectedValue, selectedLabel);
                     setOpen(false);
                   }}

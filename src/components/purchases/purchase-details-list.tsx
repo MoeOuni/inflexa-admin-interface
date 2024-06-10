@@ -13,7 +13,7 @@ type Props = {
 
 export default function PurchaseDetailsList({ purchase, currency }: Props) {
   return (
-    <div className="bg-muted/40 rounded-lg p-6">
+    <div className="bg-muted/40 border rounded-lg p-6">
       <div className="grid gap-4 text-sm">
         <div className="font-semibold">
           Purchase Details: {purchase?.reference}

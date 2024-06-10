@@ -9,7 +9,6 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
-import { Input as AntdInput } from "antd";
 import SingleUpload from "../app/single-upload";
 
 const GeneralSettings = () => {

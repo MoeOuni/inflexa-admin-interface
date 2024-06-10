@@ -10,19 +10,19 @@ const PermissionsContext = createContext<PermissionContextType>({
 const PermissionsContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { token } = useContext(AuthContext);  
+  const { token } = useContext(AuthContext);
   const [permissions, setPermissions] = useState<Permission[] | undefined>(
     undefined
   );
 
-  async function fetchPermissions(token: string) {
-    // Fetch the permissions from the server using the user token,
-    // setPermissions(data);
-  }
+  // async function fetchPermissions(token: string) {
+  //   // Fetch the permissions from the server using the user token,
+  //   // setPermissions(data);
+  // }
 
   useEffect(() => {
     // fetchPermissions(token);
-  }, [token])
+  }, [token]);
 
   const contextValue = {
     permissions,

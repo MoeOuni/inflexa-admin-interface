@@ -2,6 +2,29 @@ import { z } from "zod";
 import { ProductFomSchema } from "./schemas";
 
 // Define the type for the context
+export type AuthContextType = {
+  token: string | undefined;
+  user: UserState | undefined;
+  setToken: (token: string | undefined) => void;
+  setUser: (user: UserState | undefined) => void;
+  setDummyAuth: () => void;
+  clearDummyAuth: () => void;
+};
+
+export type UploadContextType = {
+  filesList?: FileList;
+  setFilesList: (value: FileList) => void;
+  singleFile?: SingleFile;
+  setSingleFile: (value: SingleFile) => void;
+  handleResetFilesList: () => void;
+  handleResetSingleFile: () => void;
+};
+
+export type PermissionContextType = {
+  permissions: Permission[] | undefined;
+  setPermissions: (permissions: Permission[] | undefined) => void;
+}
+
 
 // Define the type for the user state
 export type UserState = {

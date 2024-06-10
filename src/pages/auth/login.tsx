@@ -14,7 +14,13 @@ const Login = () => {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardTitle className="text-2xl flex items-center gap-2">
+          Login to{" "}
+          <div className="flex items-center gap-1">
+            <img src="./icon-logo.svg" className="h-8" />{" "}
+            <span style={{ color: "#0074D9" }}>Inflexa admin</span>
+          </div>
+        </CardTitle>
         <CardDescription>
           Enter your email below to login to your account.
         </CardDescription>
@@ -34,6 +40,6 @@ const Login = () => {
       </CardFooter>
     </Card>
   );
-}
+};
 
 export default Login;

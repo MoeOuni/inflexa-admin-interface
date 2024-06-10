@@ -2,10 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import {
@@ -20,6 +18,7 @@ import { PhoneInput } from "../app/phone-input";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { useCreateSupplier, useEditSupplier } from "@/api";
 import { Supplier } from "@/lib/types";
+import { Divider } from "antd";
 
 const SupplierFormSchema = z.object({
   supplierCode: z.string().min(1, "Supplier code is required"),
@@ -93,9 +92,9 @@ export default function SupplierForm({ editValues }: Props) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid gap-6 p-4 rounded-md border bg-muted/40"
       >
-        <Label className="text-xl">
+        <Divider orientation="left">
           {t("supplier_general_information_label")}
-        </Label>
+        </Divider>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={form.control}
@@ -246,12 +245,12 @@ export default function SupplierForm({ editValues }: Props) {
             </FormItem>
           )}
         />
-        <Separator />
+
         <div className="grid gap-4">
           <div className="grid gap-6">
-            <Label className="text-xl">
+            <Divider orientation="left">
               {t("supplier_bank_info_label_optional")}
-            </Label>
+            </Divider>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
@@ -362,7 +361,7 @@ export default function SupplierForm({ editValues }: Props) {
             </div>
           </div>
         </div>
-        <div>
+        <div className="flex justify-end">
           <Button type="submit">
             {t(editValues ? "supplier_edit_button" : "supplier_save_button")}
           </Button>

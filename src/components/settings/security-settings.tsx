@@ -18,7 +18,13 @@ import { ArrowUpDown, Cog, SquarePlus, Trash2 } from "lucide-react";
 import RoleForm from "../forms/role-form";
 import BackButton from "../app/back-button";
 
-const CollapsibleRole = ({ role }: { role: Role }) => {
+const CollapsibleRole = ({
+  role,
+  setSelectedRole,
+}: {
+  role: Role;
+  setSelectedRole: (role: Role) => void;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
@@ -32,7 +38,11 @@ const CollapsibleRole = ({ role }: { role: Role }) => {
             <span className="sr-only">Delete</span>
           </Button>
 
-          <Button variant={"ghost"} size={"sm"}>
+          <Button
+            variant={"ghost"}
+            size={"sm"}
+            onClick={() => setSelectedRole(role)}
+          >
             <Cog className="h-4 w-4" />
             <span className="sr-only">Edit</span>
           </Button>
@@ -69,16 +79,19 @@ const CollapsibleRole = ({ role }: { role: Role }) => {
 
 const SecuritySettings = () => {
   const [view, setView] = useState("display");
+
+  // tsc-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
 
   const handleViewChange = () => {
     setView(view === "display" ? "form" : "display");
   };
 
-  const handleEdit = (role?: Role) => {
-    setSelectedRole(role || null);
-    if (role) setView("form");
-  };
+  // const handleEdit = (role?: Role) => {
+  //   setSelectedRole(role || null);
+  //   if (role) setView("form");
+  // };
 
   const roles = useRoles();
   return (
@@ -104,7 +117,11 @@ const SecuritySettings = () => {
               </Button>
               <div className="space-y-2">
                 {roles.data?.roles?.map((role: Role) => (
-                  <CollapsibleRole key={role._id} role={role} />
+                  <CollapsibleRole
+                    key={role._id}
+                    role={role}
+                    setSelectedRole={setSelectedRole}
+                  />
                 ))}
               </div>
             </>

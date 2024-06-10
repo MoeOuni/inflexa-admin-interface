@@ -1,4 +1,4 @@
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 import { useContext } from "react";
 import { ConfigProvider, theme as antdTheme } from "antd";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -27,8 +27,8 @@ function App() {
       locale={i18n.language === "en" ? enGB : frFR}
       theme={{
         token: {
-          colorPrimary: "#101827",
-          colorInfo: "#101827",
+          colorPrimary: "#3C82F6",
+          colorInfo: "#3C82F6",
           colorBgContainer: theme === "dark" ? "#030712" : "#ffffff",
           borderRadius: 5,
         },

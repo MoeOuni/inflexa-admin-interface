@@ -26,21 +26,46 @@ const Customers = lazy(() => import("@/pages/admin/customers"));
 const Suppliers = lazy(() => import("@/pages/admin/suppliers"));
 const Purchases = lazy(() => import("@/pages/admin/purchases"));
 
-
-const PurchaseDetails = lazy(() => import("@/components/purchases/purchase-details"));
-const PurchasesList = lazy(() => import("@/components/purchases/purchases-list"));
+const PurchaseDetails = lazy(
+  () => import("@/components/purchases/purchase-details")
+);
+const PurchasesList = lazy(
+  () => import("@/components/purchases/purchases-list")
+);
 const SavePurchase = lazy(() => import("@/components/purchases/save-purchase"));
 
 // Menu SubRoutes
-const GeneralSettings = lazy(() => import("@/components/settings/general-settings"));
-const SecuritySettings = lazy(() => import("@/components/settings/security-settings"));
-const RepportsSettings = lazy(() => import("@/components/settings/repports-settings"));
-const AdvancedSettings = lazy(() => import("@/components/settings/advanced-settings"));
-const CategoriesSettings = lazy(() => import("@/components/settings/categories-settings"));
+const GeneralSettings = lazy(
+  () => import("@/components/settings/general-settings")
+);
+const SecuritySettings = lazy(
+  () => import("@/components/settings/security-settings")
+);
+const RepportsSettings = lazy(
+  () => import("@/components/settings/repports-settings")
+);
+const AdvancedSettings = lazy(
+  () => import("@/components/settings/advanced-settings")
+);
+const CategoriesSettings = lazy(
+  () => import("@/components/settings/categories-settings")
+);
 
-const SupplierProfile = lazy(() => import("@/components/suppliers/supplier-profile"));
-const SuppliersList = lazy(() => import("@/components/suppliers/suppliers-list"));
+const SupplierProfile = lazy(
+  () => import("@/components/suppliers/supplier-profile")
+);
+const SuppliersList = lazy(
+  () => import("@/components/suppliers/suppliers-list")
+);
 const SaveSupplier = lazy(() => import("@/components/suppliers/save-supplier"));
+
+const CustomersList = lazy(
+  () => import("@/components/customers/customers-list")
+);
+const CustomerDetails = lazy(
+  () => import("@/components/customers/customer-details")
+);
+const SaveCustomer = lazy(() => import("@/components/customers/save-customer"));
 
 // Auth Pages
 const Login = lazy(() => import("@/pages/auth/login"));
@@ -85,10 +110,7 @@ const PublicRoutes = React.memo(() => {
         </Route>
       </Routes>
       <Tooltip title="Preview Login">
-        <FloatButton
-          icon={<Key size={18} />}
-          onClick={handleClick}
-        />
+        <FloatButton icon={<Key size={18} />} onClick={handleClick} />
       </Tooltip>
     </React.Suspense>
   );
@@ -129,29 +151,31 @@ const ProtectedRoutes = React.memo(() => {
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/sales" element={<Sales />} />
-          <Route path="/purchases" element={<Purchases />} >
-            <Route index element={<PurchasesList />} />  
-            <Route path=':id' element={<PurchaseDetails />} />
-            <Route path='save/:id' element={<SavePurchase />} />
-            <Route path='save' element={<SavePurchase />} />
+          <Route path="/purchases" element={<Purchases />}>
+            <Route index element={<PurchasesList />} />
+            <Route path=":id" element={<PurchaseDetails />} />
+            <Route path="save/:id" element={<SavePurchase />} />
+            <Route path="save" element={<SavePurchase />} />
           </Route>
           <Route path="/analytics" element={<Analytics />} />
-          <Route path="/customers" element={<Customers />} />
+          <Route path="/customers" element={<Customers />}>
+            <Route index element={<CustomersList />} />
+            <Route path=":id" element={<CustomerDetails />} />
+            <Route path="save/:id" element={<SaveCustomer />} />
+            <Route path="save" element={<SaveCustomer />} />
+          </Route>
           <Route path="/suppliers" element={<Suppliers />}>
             <Route index element={<SuppliersList />} />
-            <Route path=':id' element={<SupplierProfile />} />
-            <Route path='save/:id' element={<SaveSupplier />} />
-            <Route path='save' element={<SaveSupplier />} />
+            <Route path=":id" element={<SupplierProfile />} />
+            <Route path="save/:id" element={<SaveSupplier />} />
+            <Route path="save" element={<SaveSupplier />} />
           </Route>
           <Route path="/logs" element={<Logs />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
       <Tooltip title="Logout">
-        <FloatButton
-          icon={<LogOut size={18} />}
-          onClick={handleClick}
-        />
+        <FloatButton icon={<LogOut size={18} />} onClick={handleClick} />
       </Tooltip>
     </React.Suspense>
   );

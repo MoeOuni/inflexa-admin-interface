@@ -36,7 +36,7 @@ import { Input } from "../ui/input";
 
 import ConfirmButton from "../app/confirm-button";
 import { useTranslation } from "react-i18next";
-import { useArchiveSupplier, useDeleteSupplier } from "@/api";
+import { useArchiveSupplier } from "@/api";
 import { useRestoreSupplier } from "@/api/suppliers/use-restore-supplier";
 import { useNavigate } from "react-router-dom";
 
@@ -46,7 +46,7 @@ type Props = {
 };
 
 const SuppliersTable = ({ data, status }: Props) => {
-  const deleteSupplier = useDeleteSupplier({ status });
+  // const deleteSupplier = useDeleteSupplier({ status });
   const archiveSupplier = useArchiveSupplier({ status });
   const restoreSupplier = useRestoreSupplier({ status });
 
@@ -125,8 +125,7 @@ const SuppliersTable = ({ data, status }: Props) => {
                 variant={"ghost"}
                 className="w-full flex justify-start"
                 onClick={() => {
-                  navigate(`/suppliers/save/${row.original._id}`)
-
+                  navigate(`/suppliers/save/${row.original._id}`);
                 }}
               >
                 {t("supplier_edit_button")}
@@ -145,7 +144,7 @@ const SuppliersTable = ({ data, status }: Props) => {
                     : "supplier_restore_confirm_text"
                 )}
                 confirmFunction={() => {
-                  if(status === "ACTIVE") {
+                  if (status === "ACTIVE") {
                     archiveSupplier.mutate(row.original._id);
                   } else {
                     restoreSupplier.mutate(row.original._id);

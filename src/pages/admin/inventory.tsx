@@ -1,9 +1,6 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
 
-type Props = {};
-
-const Inventory = (props: Props) => {
+const Inventory = () => {
   return (
     <>
       <div className="flex items-center">

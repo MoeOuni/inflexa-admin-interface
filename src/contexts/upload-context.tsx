@@ -6,7 +6,7 @@ const UploadContext = createContext<UploadContextType>({
   filesList: { original: [], uploaded: [] },
   setFilesList: () => {},
   singleFile: {
-    original: {},
+    original: undefined,
     uploaded: {
       originalName: "",
       path: "",
@@ -31,7 +31,7 @@ const UploadContextProvider: React.FC<{ children: React.ReactNode }> = ({
     SingleFile | undefined
   >("x-temp-upload-persisting-single-file-x", {
     defaultValue: {
-      original: {},
+      original: undefined,
       uploaded: {
         originalName: "",
         path: "",
@@ -46,7 +46,7 @@ const UploadContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const handleResetSingleFile = () => {
     setSingleFile({
-      original: {},
+      original: undefined,
       uploaded: {
         originalName: "",
         path: "",
@@ -56,9 +56,9 @@ const UploadContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const contextValue: UploadContextType = {
-    filesList,
+    filesList: filesList || { original: [], uploaded: [] },
     setFilesList,
-    singleFile,
+    singleFile: singleFile,
     setSingleFile,
     handleResetSingleFile,
     handleResetFilesList,

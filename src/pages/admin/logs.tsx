@@ -1,8 +1,4 @@
-import React from "react";
-
-type Props = {};
-
-const Logs = (props: Props) => {
+const Logs = () => {
   return (
     <>
       <div className="flex items-center">

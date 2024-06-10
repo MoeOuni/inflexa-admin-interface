@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
-import { Bell, CircleUser,  Search, Store } from "lucide-react";
+import { Bell, CircleUser, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -19,13 +19,13 @@ import { LangToggle } from "@/components/app/lang-toggle";
 
 function MainLayout() {
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+    <div className="lg:grid md:grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link to="/" className="flex items-center gap-2 font-semibold">
-              <Store className="h-6 w-6"/>
-              <span className="">My Store</span>
+              <img src="./icon-logo.svg" className="h-8" />
+              <span className="text-2xl">Inflexa</span>
             </Link>
             <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />
@@ -71,9 +71,9 @@ function MainLayout() {
           <ModeToggle />
           <LangToggle />
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+        <div className="p-4 lg:p-6 w-auto md:w-full">
           <Outlet />
-        </main>
+        </div>
       </div>
     </div>
   );

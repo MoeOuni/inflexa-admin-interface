@@ -1,8 +1,4 @@
-import React from "react";
-
-type Props = {};
-
-const Orders = (props: Props) => {
+const Orders = () => {
   return (
     <>
       <div className="flex items-center">
