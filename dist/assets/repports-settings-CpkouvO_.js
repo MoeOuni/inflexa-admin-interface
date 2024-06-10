@@ -1,0 +1,1 @@
+import{j as r}from"./index-3nPIAQnH.js";import{C as s,a as e,b as a,c as t,d}from"./card-BJonHnI2.js";const i=()=>r.jsx(r.Fragment,{children:r.jsxs(s,{"x-chunk":"dashboard-04-chunk-1",children:[r.jsxs(e,{children:[r.jsx(a,{children:"Repports"}),r.jsx(t,{children:"Used to define your repportings parameters."})]}),r.jsx(d,{})]})});export{i as default};

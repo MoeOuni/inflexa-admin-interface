@@ -1,0 +1,1 @@
+import{j as e}from"./index-3nPIAQnH.js";const s=()=>e.jsx(e.Fragment,{children:e.jsx("div",{className:"flex items-center",children:e.jsx("h1",{className:"text-lg font-semibold md:text-2xl",children:"Inventory"})})});export{s as default};
