@@ -87,6 +87,7 @@
   "customer_phone_label": "Phone",
   "customer_billing_city_label": "Billing City",
   "customer_total_spent_label": "Total Spent",
+  "customer_credit_limit_label": "Credit Limit",
   "search_customer": "Search customer",
 
   "errors": {

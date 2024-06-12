@@ -20,11 +20,13 @@ import {
   FormMessage,
 } from "../ui/form";
 import { PhoneInput } from "../app/phone-input";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { useStore } from "@/contexts/store-context";
+import { useCreateCustomer } from "@/api";
 
 type CustomerFormType = z.infer<typeof CustomerFormSchema>;
 function CustomerForm() {
+  const createCustomer = useCreateCustomer();
   const { currency } = useStore();
   const [defaultValues, setDefaultValues] = useState<CustomerFormType>({
     ...CustomerFormSchemaDefaultValues,
@@ -36,13 +38,16 @@ function CustomerForm() {
   });
 
   const onSubmit = async (data: CustomerFormType) => {
-    setDefaultValues(data);
+    let status = "";
 
-    toast(
-      <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-        <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-      </pre>
-    );
+    await createCustomer.mutateAsync(data);
+
+    status = createCustomer.status;
+
+    if (status === "success") {
+      setDefaultValues({ ...CustomerFormSchemaDefaultValues });
+      form.reset(CustomerFormSchemaDefaultValues);
+    }
   };
   return (
     <Form {...form}>

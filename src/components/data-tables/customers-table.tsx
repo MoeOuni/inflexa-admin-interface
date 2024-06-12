@@ -15,7 +15,6 @@ import {
   ArrowDownNarrowWide,
   ArrowDownWideNarrow,
   ChevronDown,
-  MoreHorizontal,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -23,8 +22,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -35,18 +32,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Category } from "@/lib/types";
 import { Input } from "../ui/input";
 
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "antd";
+import { Customer } from "@/lib/interfaces/customer";
+import { useStore } from "@/contexts/store-context";
+import { CustomerActionMenu } from "../action-menus/customer-action-menu";
 
 type Props = {
-  data: Category[];
+  data: Customer[];
 };
 
 export function CustomersTable({ data }: Props) {
   const { t } = useTranslation();
+  const { currency } = useStore();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -57,9 +57,9 @@ export function CustomersTable({ data }: Props) {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const columns: ColumnDef<any>[] = [
+  const columns: ColumnDef<Customer>[] = [
     {
-      accessorKey: "customerID",
+      accessorKey: "customerId",
       header: t("customer_id_label"),
       cell: ({ row }) => <div>{row.original.customerId}</div>,
     },
@@ -69,59 +69,46 @@ export function CustomersTable({ data }: Props) {
       cell: ({ row }) => <div className="capitalize">{row.original.name}</div>,
     },
     {
-      accessorKey: "email",
+      accessorKey: "contactInfo.email",
       header: t("customer_email_label"),
-      cell: ({ row }) => <div className="capitalize">{row.original.email}</div>,
+      cell: ({ row }) => (
+        <div className="capitalize">
+          {row.original.contactInfo?.email
+            ? row.original.contactInfo?.email
+            : " - "}
+        </div>
+      ),
     },
     {
-      accessorKey: "phone",
+      accessorKey: "contactInfo.phone",
       header: t("customer_phone_label"),
-      cell: ({ row }) => <div className="capitalize">{row.original.phone}</div>,
-    },
-    {
-      accessorKey: "billingAddress",
-      header: t("customer_billing_city_label"),
       cell: ({ row }) => (
-        <div className="capitalize">{row.original.billingAddress}</div>
+        <div className="capitalize">{row.original.contactInfo?.phone}</div>
       ),
     },
+    // {
+    //   accessorKey: "totalSpent",
+    //   header: t("customer_total_spent_label"),
+    //   cell: ({ row }) => (
+    //     <div className="capitalize">{row.original.totalSpent}</div>
+    //   ),
+    // },
     {
-      accessorKey: "totalSpent",
-      header: t("customer_total_spent_label"),
-      cell: ({ row }) => (
-        <div className="capitalize">{row.original.totalSpent}</div>
-      ),
+      accessorKey: "financialInfo.creditLimit",
+      header: t("customer_credit_limit_label"),
+      cell: ({ row }) => {
+        const displayValue = `${
+          row.original.financialInfo?.creditLimit?.toLocaleString() ?? "0"
+        }
+        ${currency?.symbol}`;
+        return <div className="capitalize">{displayValue}</div>;
+      },
     },
     {
       id: "actions",
       enableHiding: false,
-      cell: () => {
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">{t("open_menu")}</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
-
-              <Button
-                size={"sm"}
-                variant={"ghost"}
-                className="w-full flex justify-start"
-                // onClick={() => {
-                //   handleEdit(row.original);
-                // }}
-              >
-                {t("category_edit_button")}
-              </Button>
-
-              <DropdownMenuSeparator />
-            </DropdownMenuContent>
-          </DropdownMenu>
-        );
+      cell: ({ row }) => {
+        return <CustomerActionMenu customer={row.original} />;
       },
     },
   ];

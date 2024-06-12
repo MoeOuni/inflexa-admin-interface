@@ -77,6 +77,19 @@
   "purchase_archive_confirm_text": "Procéder ?",
   "purchase_code_label": "Code d'achat",
 
+  "customers": "Clients",
+  "customer": "Client",
+  "customers_table_description": "Gérez vos clients et consultez vos performances de vente.",
+  "customer_add_button": "Ajouter un nouveau client",
+  "customer_id_label": "ID Client",
+  "customer_name_label": "Nom",
+  "customer_email_label": "Email",
+  "customer_phone_label": "Téléphone",
+  "customer_billing_city_label": "Ville de facturation",
+  "customer_total_spent_label": "Total Dépensé",
+  "customer_credit_limit_label": "Limite de crédit",
+  "search_customer": "Rechercher un client",
+
   "errors": {
     "error_required_id_supplier": "Veuillez sélectionner un fournisseur.",
     "error_required_reference": "Veuillez entrer une référence."

@@ -22,3 +22,20 @@ export interface APIPurchase {
     totalWithoutTax?: number;
     totalTax?: number;
 }
+
+export interface APISaveCustomer {
+    name: string;
+    email?: string;
+    phone: string;
+    fax?: string;
+    customerId: string;
+    creditLimit: number;
+    shippingAddress: {
+        street: string;
+        city: string;
+        state: string;
+        postalCode: string;
+        country: string;
+    };
+    identicalShippingAndBilling?: boolean;
+}

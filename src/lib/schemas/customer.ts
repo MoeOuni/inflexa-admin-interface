@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 export const CustomerFormSchema = z.object({
     name: z.string().min(1, { message: "Customer name is required" }),
-    email: z.string().email().optional(),
+    email: z.string().optional(),
     phone: z.string().refine(isValidPhoneNumber, { message: "Invalid phone number" }),
     fax: z.string().optional(),
     customerId: z.string().min(1, { message: 'Customer Code is required' }),
