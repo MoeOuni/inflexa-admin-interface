@@ -1,10 +1,17 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
+
 const Logs = () => {
+  const { t } = useTranslation();
+
   return (
-    <>
-      <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Inventory</h1>
-      </div>
-    </>
+    <Card x-chunk="dashboard-06-chunk-0">
+      <CardHeader>
+        <CardTitle>{t("logs")}</CardTitle>
+        {/* <CardDescription>{t("customers_table_description")}</CardDescription> */}
+      </CardHeader>
+      <CardContent className="p-2 md:p-4 lg:p-6"></CardContent>
+    </Card>
   );
 };
 

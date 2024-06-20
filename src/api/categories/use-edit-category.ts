@@ -7,7 +7,7 @@ export function useEditCategory() {
     const queryClient = useQueryClient();
 
     const editCategoryFn = async (category: Category) => {
-        const response = await apiClient.put(
+        const response = await apiClient.patch(
             `/categories/${category._id}`,
             category
         );

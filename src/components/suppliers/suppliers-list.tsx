@@ -83,8 +83,9 @@ const SuppliersList = () => {
       </div>
       <div className="bg-muted/40 rounded-md py-2 px-4 border">
         <ProvidersTable
-          data={suppliers?.data?.suppliers ?? []}
+          data={suppliers?.data?.data ?? []}
           status={status}
+          loading={suppliers?.isLoading}
         />
       </div>
     </div>

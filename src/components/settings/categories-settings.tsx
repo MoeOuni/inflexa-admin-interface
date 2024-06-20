@@ -16,7 +16,7 @@ import { Category } from "@/lib/types";
 import { useTranslation } from "react-i18next";
 
 const CategoriesSettings = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const categories = useCategores();
   const [view, setView] = React.useState("table");
   const [selectedCategory, setSelectedCategory] =
@@ -35,10 +35,8 @@ const CategoriesSettings = () => {
     <>
       <Card x-chunk="dashboard-04-chunk-1">
         <CardHeader>
-          <CardTitle>{t('categories')}</CardTitle>
-          <CardDescription>
-            {t("categories_table_description")}
-          </CardDescription>
+          <CardTitle>{t("categories")}</CardTitle>
+          <CardDescription>{t("categories_table_description")}</CardDescription>
         </CardHeader>
         <CardContent>
           {view === "table" ? (
@@ -54,8 +52,9 @@ const CategoriesSettings = () => {
           )}
           {view === "table" ? (
             <CategoriesTable
-              data={categories?.data?.categories ?? []}
+              data={categories?.data?.data ?? []}
               handleEdit={handleEdit}
+              loading={categories.isLoading}
             />
           ) : (
             <CategoryForm

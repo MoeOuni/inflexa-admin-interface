@@ -15,6 +15,7 @@ import {
   ArrowDownNarrowWide,
   ArrowDownWideNarrow,
   ChevronDown,
+  Loader2,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -42,9 +43,10 @@ import { CustomerActionMenu } from "../action-menus/customer-action-menu";
 
 type Props = {
   data: Customer[];
+  loading: boolean;
 };
 
-export function CustomersTable({ data }: Props) {
+export function CustomersTable({ data, loading }: Props) {
   const { t } = useTranslation();
   const { currency } = useStore();
 
@@ -72,7 +74,7 @@ export function CustomersTable({ data }: Props) {
       accessorKey: "contactInfo.email",
       header: t("customer_email_label"),
       cell: ({ row }) => (
-        <div className="capitalize">
+        <div>
           {row.original.contactInfo?.email
             ? row.original.contactInfo?.email
             : " - "}
@@ -249,7 +251,13 @@ export function CustomersTable({ data }: Props) {
                   colSpan={columns?.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {loading ? (
+                    <div className="flex justify-center">
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    </div>
+                  ) : (
+                    "No results."
+                  )}
                 </TableCell>
               </TableRow>
             )}

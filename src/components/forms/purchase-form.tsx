@@ -36,7 +36,7 @@ const PurchaseForm = ({ purchase, setPurchase }: Props) => {
             items={
               suppliers?.status !== "success"
                 ? []
-                : suppliers?.data?.suppliers?.map((supplier: Supplier) => {
+                : suppliers?.data?.data?.map((supplier: Supplier) => {
                     return {
                       label: supplier?.companyName,
                       value: supplier?._id,

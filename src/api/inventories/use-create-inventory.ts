@@ -5,7 +5,7 @@ import type { APICreateInventory } from "@/lib/interfaces";
 import { TSFixMe } from "@/lib/types";
 
 const createInventoryFN = async (inventory: APICreateInventory) => {
-    const response = await apiClient.post("/inventory", inventory);
+    const response = await apiClient.post("/products/init", inventory);
     return response;
 }
 

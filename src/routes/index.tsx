@@ -67,6 +67,12 @@ const CustomerDetails = lazy(
 );
 const SaveCustomer = lazy(() => import("@/components/customers/save-customer"));
 
+const SaveProduct = lazy(() => import("@/components/products/save-product"));
+const ListProducts = lazy(() => import("@/components/products/list-products")); // Fix the casing here
+const ProductDetails = lazy(
+  () => import("@/components/products/product-details")
+);
+
 // Auth Pages
 const Login = lazy(() => import("@/pages/auth/login"));
 const Register = lazy(() => import("@/pages/auth/register"));
@@ -148,7 +154,11 @@ const ProtectedRoutes = React.memo(() => {
             <Route path="repports" element={<RepportsSettings />} />
             <Route path="advanced" element={<AdvancedSettings />} />
           </Route>
-          <Route path="/inventory" element={<Inventory />} />
+          <Route path="/inventory" element={<Inventory />}>
+            <Route index element={<ListProducts />} />
+            <Route path="product/:id" element={<SaveProduct />} />
+            <Route path="product/:id/details" element={<ProductDetails />} />
+          </Route>
           <Route path="/orders" element={<Orders />} />
           <Route path="/sales" element={<Sales />} />
           <Route path="/purchases" element={<Purchases />}>

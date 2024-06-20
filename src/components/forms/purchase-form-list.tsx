@@ -81,7 +81,7 @@ export default function PurchaseFormList({
     try {
       if (!purchase?._id)
         return toast.error(
-          "Purchase not created yet try again. or cantact the support team."
+          "Purchase not created yet try again. or contact the support team."
         );
 
       const payload: APICreateInventory = {

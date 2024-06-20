@@ -58,11 +58,12 @@ const SavePurchase = () => {
 
   useEffect(() => {
     if (createPurchase.isSuccess) {
+      debugger;
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return setPurchase({
         ...purchase,
-        _id: createPurchase?.data?.data?.purchase?._id,
+        _id: createPurchase?.data?.data?.data?._id,
       });
     }
   }, [createPurchase?.isSuccess]);

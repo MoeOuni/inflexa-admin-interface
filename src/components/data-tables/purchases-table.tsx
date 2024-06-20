@@ -21,6 +21,7 @@ import {
   Eye,
   FileText,
   Link,
+  Loader2,
   Mail,
   MoreHorizontal,
   Send,
@@ -63,9 +64,10 @@ import { Tooltip } from "antd";
 
 type Props = {
   data: Purchase[];
+  loading: boolean;
 };
 
-const PurchasesTable = ({ data }: Props) => {
+const PurchasesTable = ({ data, loading }: Props) => {
   // const navigate = useNavigate();
   const { currency } = useStore();
   const { t } = useTranslation();
@@ -358,7 +360,13 @@ const PurchasesTable = ({ data }: Props) => {
                   colSpan={columns?.length}
                   className="h-24 text-center"
                 >
-                  {t("no_result")}
+                  {loading ? (
+                    <div className="flex justify-center">
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    </div>
+                  ) : (
+                    t("no_result")
+                  )}
                 </TableCell>
               </TableRow>
             )}

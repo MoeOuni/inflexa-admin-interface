@@ -6,7 +6,7 @@ export function useSupplierById() {
     const { id } = useParams();
     const getSupplierByIdFn = async () => {
         if (id) {
-            const { data } = await apiClient.get(`/suppliers/${id}`);
+            const { data } = await apiClient.get(`/supplier/${id}`);
             return data;
         }
     };

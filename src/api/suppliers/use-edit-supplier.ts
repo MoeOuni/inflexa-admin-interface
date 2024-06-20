@@ -8,7 +8,7 @@ export function useEditSupplier({ status }: { status: string }) {
     const queryClient = useQueryClient();
 
     const editSupplierFN = async (supplier: Supplier) => {
-        const response = await apiClient.put(
+        const response = await apiClient.patch(
             `/suppliers/${supplier._id}`,
             supplier
         );

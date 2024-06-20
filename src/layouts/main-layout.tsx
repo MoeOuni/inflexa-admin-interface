@@ -71,8 +71,10 @@ function MainLayout() {
           <ModeToggle />
           <LangToggle />
         </header>
-        <div className="p-4 lg:p-6 w-auto md:w-full">
-          <Outlet />
+        <div style={{ height: "calc(100vh - 60px)", overflow: "hidden" }}>
+          <div className="p-4 lg:p-6 w-auto md:w-full max-h-full overflow-y-scroll">
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>

@@ -39,18 +39,16 @@ import {
   HoverCardTrigger,
 } from "../ui/hover-card";
 import ConfirmButton from "../app/confirm-button";
-import { useDeleteCategory } from "@/api";
 import { useTranslation } from "react-i18next";
 
 type Props = {
-  data: Category[];
-  handleEdit: (category?: Category) => void;
+  data: any[];
   loading: boolean;
 };
 
-export function CategoriesTable({ data, handleEdit, loading }: Props) {
+export function LogsTable({ data, loading }: Props) {
   const { t } = useTranslation();
-  const deleteCategory = useDeleteCategory();
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -59,10 +57,6 @@ export function CategoriesTable({ data, handleEdit, loading }: Props) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-
-  const handleDeleteCategory = async (id: string) => {
-    await deleteCategory.mutateAsync(id);
-  };
 
   const columns: ColumnDef<Category>[] = [
     {
@@ -82,79 +76,13 @@ export function CategoriesTable({ data, handleEdit, loading }: Props) {
       ),
     },
     {
-      accessorKey: "subCategory",
-      header: t("category_sub_category_key"),
-      cell: ({ row }) => {
-        const nbrSubCats = row.original.subCategories?.length;
-        return (
-          <HoverCard>
-            <HoverCardTrigger asChild>
-              <Button variant="link" className="font-medium">
-                {nbrSubCats} {t("category_sub_category_mini_unit")}
-              </Button>
-            </HoverCardTrigger>
-            <HoverCardContent className="w-80">
-              <ul className="my-2 ml-5 list-disc [&>li]:mt-2">
-                {row.original.subCategories?.map((subCategory) => (
-                  <li key={subCategory._id}>
-                    <div className="capitalize">{subCategory.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {subCategory.description}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </HoverCardContent>
-          </HoverCard>
-        );
-      },
-    },
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => {
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">{t("open_menu")}</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
-
-              <Button
-                size={"sm"}
-                variant={"ghost"}
-                className="w-full flex justify-start"
-                onClick={() => {
-                  handleEdit(row.original);
-                }}
-              >
-                {t("category_edit_button")}
-              </Button>
-
-              <DropdownMenuSeparator />
-              <ConfirmButton
-                confirmFunction={() =>
-                  handleDeleteCategory(String(row.original._id))
-                }
-                confirmTitle={t("category_delete_confirm_title")}
-                confirmText={t("category_delete_confirm_text")}
-              >
-                <Button
-                  size={"sm"}
-                  variant={"ghost"}
-                  className="w-full flex justify-start"
-                >
-                  {t("category_delete_button")}
-                </Button>
-              </ConfirmButton>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        );
-      },
+      accessorKey: "createdAt",
+      header: t("category_created_at_label"),
+      cell: ({ row }) => (
+        <div className="lowercase">
+          {dayjs(row.getValue("createdAt")).format("DD/MM/YYYY")}
+        </div>
+      ),
     },
   ];
 

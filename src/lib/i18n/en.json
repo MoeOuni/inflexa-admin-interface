@@ -90,6 +90,8 @@
   "customer_credit_limit_label": "Credit Limit",
   "search_customer": "Search customer",
 
+  "logs": "Logs",
+
   "errors": {
     "error_required_id_supplier": "Please select a supplier.",
     "error_required_reference": "Please enter a reference."

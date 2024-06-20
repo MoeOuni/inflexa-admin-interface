@@ -9,7 +9,7 @@ export function useUpdatePurchase() {
     const queryClient = useQueryClient();
 
     const updatePurchaseFN = async (purchase: APIPurchase) => {
-        const response = await apiClient.put(`/purchases/${purchase?._id}`, purchase);
+        const response = await apiClient.patch(`/purchases/${purchase?._id}`, purchase);
         return response;
     }
 

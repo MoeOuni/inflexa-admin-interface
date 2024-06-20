@@ -6,7 +6,7 @@ import { TSFixMe } from '@/lib/types';
 import { APISaveCustomer } from '@/lib/interfaces';
 
 const createCustomerFn = async (customer: APISaveCustomer) => {
-    const response = await apiClient.post('/customers', customer);
+    const response = await apiClient.post('/customers/init', customer);
     return response;
 }
 

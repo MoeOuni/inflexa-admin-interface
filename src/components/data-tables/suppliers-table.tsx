@@ -12,7 +12,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { ChevronDown, MoreHorizontal } from "lucide-react";
+import { ChevronDown, Loader2, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -43,9 +43,10 @@ import { useNavigate } from "react-router-dom";
 type Props = {
   data: any[];
   status: string;
+  loading: boolean;
 };
 
-const SuppliersTable = ({ data, status }: Props) => {
+const SuppliersTable = ({ data, status, loading }: Props) => {
   // const deleteSupplier = useDeleteSupplier({ status });
   const archiveSupplier = useArchiveSupplier({ status });
   const restoreSupplier = useRestoreSupplier({ status });
@@ -272,7 +273,13 @@ const SuppliersTable = ({ data, status }: Props) => {
                   colSpan={columns?.length}
                   className="h-24 text-center"
                 >
-                  {t("no_result")}
+                  {loading ? (
+                    <div className="flex justify-center">
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    </div>
+                  ) : (
+                    t("no_result")
+                  )}
                 </TableCell>
               </TableRow>
             )}
