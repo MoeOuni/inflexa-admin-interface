@@ -6,7 +6,7 @@ export function useRestoreSupplier({ status }: { status: string }) {
     const queryClient = useQueryClient();
 
     const restoreSupplierFN = async (id: string) => {
-        const response = await apiClient.put(`/suppliers/restore/${id}`);
+        const response = await apiClient.patch(`/suppliers/${id}/restore`);
         return response;
     };
 

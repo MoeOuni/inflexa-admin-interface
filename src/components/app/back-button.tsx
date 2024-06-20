@@ -1,18 +1,25 @@
-import { ArrowLeft } from "lucide-react"
-import { Button } from "../ui/button"
-import { useTranslation } from "react-i18next"
+import { ArrowLeft, ChevronLeft } from "lucide-react";
+import { Button } from "../ui/button";
+import { useTranslation } from "react-i18next";
 
 type Props = {
-    onClick?: () => void
-}
+  onClick?: () => void;
+};
 
 const BackButton = (props: Props) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
-    <Button variant={'outline'} size={'sm'} onClick={props.onClick} className="flex items-center gap-1">
-        <ArrowLeft className="h-4 w-4" /> {t("back")}
+    <Button
+      type="button"
+      variant="outline"
+      size="icon"
+      className="h-7 w-7"
+      onClick={props.onClick}
+    >
+      <ChevronLeft className="h-4 w-4" />
+      <span className="sr-only">{t("back")}</span>
     </Button>
-  )
-}
+  );
+};
 
-export default BackButton
+export default BackButton;

@@ -20,6 +20,7 @@
   "category_delete_confirm_title": "Supprimer la catégorie ?",
   "category_delete_confirm_text": "La confirmation de la suppression affectera les produits associés. Procéder ?",
   "category_name_label": "Nom",
+  "save_category_button": "Enregistrer la catégorie",
   "category_created_at_label": "Créé le",
   "category_description_label": "Description",
   "category_sub_category_key": "Sous-catégories",

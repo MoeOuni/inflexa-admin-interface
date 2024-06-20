@@ -20,6 +20,7 @@
   "category_delete_confirm_title": "Delete Category ?",
   "category_delete_confirm_text": "Confirming deletion will affect associated products. Proceed?",
   "category_name_label": "Name",
+  "save_category_button": "Save Category",
   "category_created_at_label": "Created at",
   "category_description_label": "Description",
   "category_sub_category_key": "Sub-Categories",

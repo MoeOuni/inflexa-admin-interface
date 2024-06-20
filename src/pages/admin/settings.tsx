@@ -28,14 +28,16 @@ const SettingsSubMenu = () => {
   return (
     <>
       <nav
-        className="grid gap-2 text-sm text-muted-foreground rounded-md bg-muted/40 border p-4"
+        className="grid gap-2 text-sm text-muted-foreground rounded-md border p-4"
         x-chunk="dashboard-04-chunk-0"
       >
         {menuItems.map((item, index) => (
           <Link
             key={index}
             to={item.path}
-            className={`${item?.path === pathname && "font-semibold text-primary"}`}
+            className={`${
+              item?.path === pathname && "font-semibold text-primary"
+            }`}
           >
             {item.name}
           </Link>
@@ -51,9 +53,9 @@ const Settings = () => {
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Settings</h1>
       </div>
-      <div className="grid w-full max-w-6xl items-start gap-4 lg:grid-cols-[150px_1fr]">
+      <div className="grid w-full max-w-6xl items-start gap-4 my-3 lg:grid-cols-[150px_1fr]">
         <SettingsSubMenu />
-        <div className="grid gap-6">
+        <div>
           <Outlet />
         </div>
       </div>

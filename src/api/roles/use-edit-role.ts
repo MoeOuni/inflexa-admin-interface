@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import type { Role, TSFixMe } from "@/lib/types";
 
 const editRoleFn = async (role: Role) => {
-    const response = await apiClient.put(`/roles/${role._id}`, role);
+    const response = await apiClient.patch(`/roles/${role._id}`, role);
     return response;
 };
 

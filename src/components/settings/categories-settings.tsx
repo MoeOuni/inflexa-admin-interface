@@ -14,6 +14,7 @@ import BackButton from "../app/back-button";
 import { useCategores } from "@/api";
 import { Category } from "@/lib/types";
 import { useTranslation } from "react-i18next";
+import { Badge } from "../ui/badge";
 
 const CategoriesSettings = () => {
   const { t } = useTranslation();
@@ -33,37 +34,42 @@ const CategoriesSettings = () => {
 
   return (
     <>
-      <Card x-chunk="dashboard-04-chunk-1">
-        <CardHeader>
-          <CardTitle>{t("categories")}</CardTitle>
-          <CardDescription>{t("categories_table_description")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {view === "table" ? (
-            <Button
-              size={"sm"}
-              className="flex gap-1 items-center"
-              onClick={handleViewChange}
-            >
-              <SquarePlus className="h-4 w-4" /> {t("category_add_button")}
+      <div className="pb-3">
+        {view === "table" && (
+          <div className="justify-between w-full flex items-center gap-2">
+            <CardHeader>
+              <CardTitle>{t("categories")}</CardTitle>
+              <CardDescription>
+                {t("categories_table_description")}
+              </CardDescription>
+            </CardHeader>
+            <Button size="sm" className="h-8 gap-1" onClick={handleViewChange}>
+              <SquarePlus className="h-3.5 w-3.5" />
+              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                {t("category_add_button")}
+              </span>
             </Button>
-          ) : (
-            <BackButton onClick={handleViewChange} />
-          )}
-          {view === "table" ? (
+          </div>
+        )}
+      </div>
+
+      {view !== "table" ? (
+        <CategoryForm
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          handleChangeView={handleViewChange}
+        />
+      ) : (
+        <Card x-chunk="dashboard-04-chunk-1">
+          <CardContent>
             <CategoriesTable
               data={categories?.data?.data ?? []}
               handleEdit={handleEdit}
               loading={categories.isLoading}
             />
-          ) : (
-            <CategoryForm
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-            />
-          )}
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
     </>
   );
 };
