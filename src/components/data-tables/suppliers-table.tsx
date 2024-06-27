@@ -39,17 +39,17 @@ import { useTranslation } from "react-i18next";
 import { useArchiveSupplier } from "@/api";
 import { useRestoreSupplier } from "@/api/suppliers/use-restore-supplier";
 import { useNavigate } from "react-router-dom";
+import { Supplier } from "@/lib/interfaces";
+import { SupplierActionMenu } from "../action-menus/supplier-action-menu";
 
 type Props = {
-  data: any[];
+  data: Supplier[];
   status: string;
   loading: boolean;
 };
 
 const SuppliersTable = ({ data, status, loading }: Props) => {
   // const deleteSupplier = useDeleteSupplier({ status });
-  const archiveSupplier = useArchiveSupplier({ status });
-  const restoreSupplier = useRestoreSupplier({ status });
 
   const navigate = useNavigate();
 
@@ -63,7 +63,7 @@ const SuppliersTable = ({ data, status, loading }: Props) => {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const columns: ColumnDef<any>[] = [
+  const columns: ColumnDef<Supplier>[] = [
     {
       accessorKey: "Supplier code",
       header: t("supplier_code_label"),
@@ -110,63 +110,7 @@ const SuppliersTable = ({ data, status, loading }: Props) => {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">{t("open_menu")}</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
-
-              <Button
-                size={"sm"}
-                variant={"ghost"}
-                className="w-full flex justify-start"
-                onClick={() => {
-                  navigate(`/suppliers/save/${row.original._id}`);
-                }}
-              >
-                {t("supplier_edit_button")}
-              </Button>
-
-              <DropdownMenuSeparator />
-              <ConfirmButton
-                confirmTitle={t(
-                  status === "ACTIVE"
-                    ? "supplier_archive_confirm_title"
-                    : "supplier_restore_confirm_title"
-                )}
-                confirmText={t(
-                  status === "ACTIVE"
-                    ? "supplier_archive_confirm_text"
-                    : "supplier_restore_confirm_text"
-                )}
-                confirmFunction={() => {
-                  if (status === "ACTIVE") {
-                    archiveSupplier.mutate(row.original._id);
-                  } else {
-                    restoreSupplier.mutate(row.original._id);
-                  }
-                }}
-              >
-                <Button
-                  size={"sm"}
-                  variant={"ghost"}
-                  className="w-full flex justify-start"
-                >
-                  {t(
-                    status === "ACTIVE"
-                      ? "supplier_archive_button"
-                      : "supplier_restore_button"
-                  )}
-                </Button>
-              </ConfirmButton>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        );
+        return <SupplierActionMenu supplier={row?.original} status={status} />;
       },
     },
   ];
