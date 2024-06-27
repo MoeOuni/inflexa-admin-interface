@@ -23,6 +23,10 @@ import {
   calculateTotalTax,
   calculateTotalWithoutTax,
 } from "@/lib/utils";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import BackButton from "../app/back-button";
+import { useNavigate } from "react-router-dom";
+import { Save, Tags } from "lucide-react";
 
 type Props = {
   purchase: Purchase;
@@ -37,6 +41,9 @@ export default function PurchaseFormList({
 }: Props) {
   const createInventory = useCreateInventory();
   const updatePurchase = useUpdatePurchase();
+
+  const navigate = useNavigate();
+
   const { tax, currency } = useStore();
 
   const form = useForm<ProductForm>({
@@ -115,129 +122,159 @@ export default function PurchaseFormList({
   };
 
   return (
-    <div className="grid md:grid-cols-[350px_1fr] gap-4  mx-auto ">
-      <PurchaseDetailsList purchase={purchase} currency={currency} />
+    <div>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="grid border p-4 bg-muted/40 rounded-lg gap-6"
-        >
-          <div className="grid md:grid-cols-2 gap-4 ">
-            <div className="grid gap-4">
-              <FormField
-                name="name"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Product Name</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="grid gap-4">
-              <FormField
-                name="reference"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Reference</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="flex items-center gap-4">
+            <BackButton
+              onClick={() => {
+                navigate("/purchases");
+              }}
+            />
+            <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+              New Purchase
+            </h1>
+            <div className="hidden items-center gap-2 md:ml-auto md:flex">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8 gap-1"
+                onClick={handleFinish}
+              >
+                <Save className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Save Purchase
+                </span>
+              </Button>
+              <Button type="submit" size="sm" className="h-8 gap-1">
+                <Tags className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Save Product
+                </span>
+              </Button>
             </div>
           </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            <FormField
-              name="price"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price ({currency?.symbol})</FormLabel>
-                  <Input
-                    type="number"
-                    step="0.01" // Set the step value to allow decimal numbers with two decimal places
-                    min={0}
-                    {...field}
-                    onChange={(event) => {
-                      const value = parseFloat(event.target.value);
-                      field.onChange(typeof value === "number" && value);
-                    }}
+          <div className="grid md:grid-cols-[350px_1fr] gap-4 mx-auto py-3 ">
+            <PurchaseDetailsList purchase={purchase} currency={currency} />
+            <Card>
+              <CardHeader>
+                <CardTitle>Product</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-6">
+                <div className="grid md:grid-cols-2 gap-4 ">
+                  <div className="grid gap-4">
+                    <FormField
+                      name="name"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Product Name</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="grid gap-4">
+                    <FormField
+                      name="reference"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Reference</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <FormField
+                    name="price"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Price ({currency?.symbol})</FormLabel>
+                        <Input
+                          type="number"
+                          step="0.01" // Set the step value to allow decimal numbers with two decimal places
+                          min={0}
+                          {...field}
+                          onChange={(event) => {
+                            const value = parseFloat(event.target.value);
+                            field.onChange(typeof value === "number" && value);
+                          }}
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="tax"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tax</FormLabel>
-                  <Input
-                    type="number"
-                    step="0.01" // Set the step value to allow decimal numbers with two decimal places
-                    min={0}
-                    {...field}
-                    onChange={(event) => {
-                      const value = parseFloat(event.target.value);
-                      field.onChange(typeof value === "number" && value);
-                    }}
+                  <FormField
+                    name="tax"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Tax</FormLabel>
+                        <Input
+                          type="number"
+                          step="0.01" // Set the step value to allow decimal numbers with two decimal places
+                          min={0}
+                          {...field}
+                          onChange={(event) => {
+                            const value = parseFloat(event.target.value);
+                            field.onChange(typeof value === "number" && value);
+                          }}
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            <FormField
-              name="unit"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Unit</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="quantity"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Quantity</FormLabel>
+                </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <FormField
+                    name="unit"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Unit</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    name="quantity"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Quantity</FormLabel>
 
-                  <Input
-                    type="number"
-                    min={0}
-                    step="0.01" // Set the step value to allow decimal numbers with two decimal places
-                    {...field}
-                    onChange={(event) => {
-                      const value = parseFloat(event.target.value);
-                      field.onChange(typeof value === "number" && value);
-                    }}
-                  />
+                        <Input
+                          type="number"
+                          min={0}
+                          step="0.01" // Set the step value to allow decimal numbers with two decimal places
+                          {...field}
+                          onChange={(event) => {
+                            const value = parseFloat(event.target.value);
+                            field.onChange(typeof value === "number" && value);
+                          }}
+                        />
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={handleFinish}>
-              Finish
-            </Button>
-            <Button type="submit">Save</Button>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </form>
       </Form>

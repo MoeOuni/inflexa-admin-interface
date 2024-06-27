@@ -1,6 +1,6 @@
 import { useLocalStorageState } from "ahooks";
 import PurchaseFormList from "../forms/purchase-form-list";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import PurchaseForm from "../forms/purchase-form";
 import { Purchase } from "@/lib/types";
@@ -9,12 +9,16 @@ import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 import { useCreatePurchase } from "@/api";
 import { useEffect } from "react";
-import { Loader2 } from "lucide-react";
+import { ArrowRight, ClipboardX, Loader2 } from "lucide-react";
 import { APIPurchase } from "@/lib/interfaces";
+import BackButton from "../app/back-button";
 
 const SavePurchase = () => {
   const createPurchase = useCreatePurchase();
+
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
   const [purchase, setPurchase] = useLocalStorageState<Purchase>(
     "__purchase_form",
     {
@@ -73,6 +77,47 @@ const SavePurchase = () => {
         <div>
           {steps === 0 ? (
             <div>
+              <div className="flex items-center gap-4">
+                <BackButton
+                  onClick={() => {
+                    navigate("/purchases");
+                  }}
+                />
+                <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+                  New Purchase
+                </h1>
+                <div className="hidden items-center gap-2 md:ml-auto md:flex">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-8 gap-1"
+                    onClick={() => {
+                      navigate("/purchases");
+                    }}
+                  >
+                    <ClipboardX className="h-3.5 w-3.5" />
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                      Discard
+                    </span>
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={handleNext}
+                    disabled={createPurchase.isPending}
+                    className="h-8 gap-1"
+                  >
+                    {createPurchase.isPending ? (
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    )}
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                      Next
+                    </span>
+                  </Button>
+                </div>
+              </div>
               <PurchaseForm
                 purchase={
                   purchase ?? {
@@ -87,17 +132,6 @@ const SavePurchase = () => {
                 }
                 setPurchase={setPurchase}
               />
-              <div className="flex justify-end">
-                <Button
-                  onClick={handleNext}
-                  disabled={createPurchase.isPending}
-                >
-                  {createPurchase.isPending && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  )}
-                  Next
-                </Button>
-              </div>
             </div>
           ) : (
             <PurchaseFormList

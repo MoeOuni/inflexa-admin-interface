@@ -5,6 +5,7 @@ import { Label } from "@radix-ui/react-dropdown-menu";
 import { Input } from "../ui/input";
 import PurchaseDetailsList from "../purchases/purchase-details-list";
 import { useStore } from "@/contexts/store-context";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 type Props = {
   purchase: Purchase;
@@ -24,48 +25,53 @@ const PurchaseForm = ({ purchase, setPurchase }: Props) => {
   };
 
   return (
-    <div className="grid md:grid-cols-[350px_1fr] gap-4  mx-auto ">
+    <div className="grid md:grid-cols-[350px_1fr] gap-4  mx-auto py-3">
       <PurchaseDetailsList purchase={purchase} currency={currency} />
-      <div className="w-full  flex bg-muted/40 border rounded-lg flex-col gap-4 p-4">
-        <div className="space-y-2">
-          <Label>Supplier</Label>
-          <ComboBox
-            value={purchase?.supplierId}
-            onChange={handlePurchaseSupplierChange}
-            placeholder="supplier"
-            items={
-              suppliers?.status !== "success"
-                ? []
-                : suppliers?.data?.data?.map((supplier: Supplier) => {
-                    return {
-                      label: supplier?.companyName,
-                      value: supplier?._id,
-                    };
-                  })
-            }
-          />
-        </div>
-        <div className="space-y-2">
-          <Label>Date</Label>
-          <Input
-            id="date"
-            type="date"
-            value={purchase?.createdAt}
-            onChange={(e) => handlePurchaseDateChange(e.target.value)}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label>Reference</Label>
-          <Input
-            id="reference"
-            placeholder="Enter reference"
-            value={purchase.reference}
-            onChange={(e) =>
-              setPurchase({ ...purchase, reference: e.target.value })
-            }
-          />
-        </div>
-      </div>
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle>General Informations (Required)</CardTitle>
+        </CardHeader>
+        <CardContent className="grid xlg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
+          <div className="space-y-2">
+            <Label>Supplier</Label>
+            <ComboBox
+              value={purchase?.supplierId}
+              onChange={handlePurchaseSupplierChange}
+              placeholder="supplier"
+              items={
+                suppliers?.status !== "success"
+                  ? []
+                  : suppliers?.data?.data?.map((supplier: Supplier) => {
+                      return {
+                        label: supplier?.companyName,
+                        value: supplier?._id,
+                      };
+                    })
+              }
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Date</Label>
+            <Input
+              id="date"
+              type="date"
+              value={purchase?.createdAt}
+              onChange={(e) => handlePurchaseDateChange(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Reference</Label>
+            <Input
+              id="reference"
+              placeholder="Enter reference"
+              value={purchase.reference}
+              onChange={(e) =>
+                setPurchase({ ...purchase, reference: e.target.value })
+              }
+            />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
