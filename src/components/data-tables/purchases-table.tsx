@@ -61,6 +61,7 @@ import { Purchase } from "@/lib/interfaces";
 import dayjs from "dayjs";
 import { useStore } from "@/contexts/store-context";
 import { Tooltip } from "antd";
+import { PurchaseActionMenu } from "../action-menus/purchase-action-menu";
 
 type Props = {
   data: Purchase[];
@@ -146,74 +147,8 @@ const PurchasesTable = ({ data, loading }: Props) => {
     {
       id: "actions",
       enableHiding: false,
-      cell: () => {
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">{t("open_menu")}</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <Eye className="mr-2 h-4 w-4" />
-                  <span>View Details</span>
-                </DropdownMenuItem>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <Download className="mr-2 h-4 w-4" />
-                    <span>Export</span>
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
-                      <DropdownMenuItem>
-                        <FileText className="mr-2 h-4 w-4" />
-                        <span>Export as PDF</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Sheet className="mr-2 h-4 w-4" />
-                        <span>Export as Excel</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuSubContent>
-                  </DropdownMenuPortal>
-                </DropdownMenuSub>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <Send className="mr-2 h-4 w-4" />
-                    <span>Share</span>
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
-                      <DropdownMenuItem>
-                        <Link className="mr-2 h-4 w-4" />
-                        <span>Share via Link</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Mail className="mr-2 h-4 w-4" />
-                        <span>Share via Email</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuSubContent>
-                  </DropdownMenuPortal>
-                </DropdownMenuSub>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <SquarePen className="mr-2 h-4 w-4" />
-                  <span>Edit</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <ArchiveRestore className="mr-2 h-4 w-4" />{" "}
-                  <span>Archive</span>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        );
+      cell: ({ row }) => {
+        return <PurchaseActionMenu purchase={row.original} />;
       },
     },
   ];
