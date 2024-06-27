@@ -13,6 +13,13 @@ import { Button } from "../ui/button";
 import { File, ListFilter, SquarePlus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 
 const SuppliersList = () => {
   const [status, setStatus] = useState<string>("ACTIVE");
@@ -23,12 +30,12 @@ const SuppliersList = () => {
 
   return (
     <div>
-      <div className="flex items-center mb-5">
+      <div className="flex items-center pb-3">
         <div className="ml-auto flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="gap-1">
-                <ListFilter className="h-4 w-4" />
+              <Button variant="outline" size="sm" className="h-8 gap-1">
+                <ListFilter className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                   Filter
                 </span>
@@ -63,31 +70,38 @@ const SuppliersList = () => {
               </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="outline" className="gap-1">
-            <File className="h-4 w-4" />
+          <Button size="sm" variant="outline" className="h-8 gap-1">
+            <File className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
               Export
             </span>
           </Button>
           <Button
-            size={"sm"}
-            className="gap-1"
+            size="sm"
+            className="h-8 gap-1"
             onClick={() => navigate("/suppliers/save")}
           >
-            <SquarePlus className="h-4 w-4" />
+            <SquarePlus className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
               {t("supplier_add_button")}
             </span>
           </Button>
         </div>
       </div>
-      <div className="bg-muted/40 rounded-md py-2 px-4 border">
-        <ProvidersTable
-          data={suppliers?.data?.data ?? []}
-          status={status}
-          loading={suppliers?.isLoading}
-        />
-      </div>
+
+      <Card x-chunk="dashboard-06-chunk-0">
+        <CardHeader>
+          <CardTitle>{t("suppliers")}</CardTitle>
+          <CardDescription>{t("suppliers_table_description")}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ProvidersTable
+            data={suppliers?.data?.data ?? []}
+            status={status}
+            loading={suppliers?.isLoading}
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 };
