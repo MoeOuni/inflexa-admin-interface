@@ -1,7 +1,7 @@
-import { Link, Outlet } from "react-router-dom";
-import { Bell, CircleUser, Search } from "lucide-react";
+import { Link, Outlet } from 'react-router-dom';
+import { Bell, CircleUser, LoaderCircle, Search } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 import {
   DropdownMenu,
@@ -10,12 +10,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 
-import { Sidebar, SidebarMobile } from "@/components/app/side-bar";
-import { ModeToggle } from "@/components/app/mode-toggle";
-import { LangToggle } from "@/components/app/lang-toggle";
+import { Sidebar, SidebarMobile } from '@/components/app/side-bar';
+import { ModeToggle } from '@/components/app/mode-toggle';
+import { LangToggle } from '@/components/app/lang-toggle';
+import { Suspense } from 'react';
+
+const Spin = () => {
+  return <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />;
+};
 
 function MainLayout() {
   return (
@@ -71,9 +76,20 @@ function MainLayout() {
           <ModeToggle />
           <LangToggle />
         </header>
-        <div style={{ height: "calc(100vh - 60px)", overflow: "hidden" }}>
-          <div className="p-4 lg:p-6 w-auto md:w-full max-h-full overflow-y-scroll">
-            <Outlet />
+        <div style={{ height: 'calc(100vh - 60px)', overflow: 'hidden' }}>
+          <div
+            className="p-4 lg:p-6 w-auto overflow-y-scroll"
+            style={{ maxHeight: 'calc(100vh - 60px)' }}
+          >
+            <Suspense
+              fallback={
+                <div className="flex min-h-[100vh] items-center justify-center">
+                  <Spin />
+                </div>
+              }
+            >
+              <Outlet />
+            </Suspense>
           </div>
         </div>
       </div>

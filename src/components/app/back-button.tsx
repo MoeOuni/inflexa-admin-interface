@@ -1,6 +1,6 @@
-import { ArrowLeft, ChevronLeft } from "lucide-react";
-import { Button } from "../ui/button";
-import { useTranslation } from "react-i18next";
+import { ChevronLeft } from 'lucide-react';
+import { Button } from '../ui/button';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   onClick?: () => void;
@@ -17,7 +17,7 @@ const BackButton = (props: Props) => {
       onClick={props.onClick}
     >
       <ChevronLeft className="h-4 w-4" />
-      <span className="sr-only">{t("back")}</span>
+      <span className="sr-only">{t('back')}</span>
     </Button>
   );
 };

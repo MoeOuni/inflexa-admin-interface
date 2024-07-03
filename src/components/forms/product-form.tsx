@@ -1,69 +1,139 @@
-import { Image } from "antd";
-import { ChevronLeft, PlusCircle, Upload } from "lucide-react";
+// import { PlusCircle } from 'lucide-react';
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
+  // CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
+// import {
+//   Table,
+//   TableBody,
+//   TableCell,
+//   TableHead,
+//   TableHeader,
+//   TableRow,
+// } from '@/components/ui/table';
+import { Textarea } from '@/components/ui/textarea';
+// import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+
+import MultiUpload from '../app/multiple-upload';
+
+import { ProductSchema } from '@/lib/schemas';
+import { useStore } from '@/contexts/store-context';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Textarea } from "@/components/ui/textarea";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useNavigate } from "react-router-dom";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '../ui/form';
+import BackButton from '../app/back-button';
+
+type ProductFormType = z.infer<typeof ProductSchema>;
 
 const ProductForm = () => {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
+  // const updateProduct = useUpdateProduct();
+  const { currency } = useStore();
+
+  const form = useForm<ProductFormType>({
+    resolver: zodResolver(ProductSchema),
+    defaultValues: {
+      reference: '',
+      category: {
+        categoryId: '',
+        categoryName: '',
+        subCategoryId: '',
+        subCategoryName: '',
+      },
+      name: '',
+      description: '',
+      stock: {
+        initialStock: 0,
+        currentStock: 0,
+        soldStock: 0,
+        damagedStock: 0,
+        returnedStock: 0,
+        warehouseLocation: '',
+        unit: '',
+      },
+      variants: [
+        {
+          title: '',
+          reference: '',
+          otherAttributes: '',
+          stock: {
+            initialStock: 0,
+            currentStock: 0,
+            soldStock: 0,
+            damagedStock: 0,
+            returnedStock: 0,
+          },
+          price: {
+            currency: currency.symbol,
+            listPrice: 0,
+            discountPrice: 0,
+          },
+        },
+      ],
+    },
+    mode: 'onChange',
+  });
+
+  const onSubmit = async (data: ProductFormType) => {
+    // await updateProduct.mutateAsync(data);
+
+    console.log(data);
+  };
 
   const handleReturnNavigate = () => {
-    Navigate(`/inventory`);
+    navigate(`/inventory`);
   };
   return (
-    <>
-      <div className="mx-auto grid  flex-1 auto-rows-max gap-4">
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid flex-1 auto-rows-max gap-4"
+      >
+        {/* Top Side Menu */}
         <div className="flex items-center gap-4">
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-7 w-7"
-            onClick={handleReturnNavigate}
-          >
-            <ChevronLeft className="h-4 w-4" />
-            <span className="sr-only">Back</span>
-          </Button>
+          <BackButton onClick={handleReturnNavigate} />
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-            Pro Controller
+            [Product Name]
           </h1>
           <Badge variant="outline" className="ml-auto sm:ml-0">
-            In stock
+            [Product STATUS]
           </Badge>
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
             <Button variant="outline" size="sm">
               Discard
             </Button>
-            <Button size="sm">Save Product</Button>
+            <Button type="submit" size="sm" className="h-8 gap-1">
+              Save Product
+            </Button>
           </div>
         </div>
+
+        {/* Product Details */}
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
             <Card x-chunk="dashboard-07-chunk-0">
@@ -77,23 +147,41 @@ const ProductForm = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid gap-6">
-                  <div className="grid gap-3">
-                    <Label htmlFor="name">Name</Label>
-                    <Input
-                      id="name"
-                      type="text"
-                      className="w-full"
-                      defaultValue="Gamer Gear Pro Controller"
-                    />
-                  </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="description">Description</Label>
-                    <Textarea
-                      id="description"
-                      defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc."
-                      className="min-h-32"
-                    />
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem className="grid gap-3">
+                        <FormLabel htmlFor="name">Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            id="name"
+                            type="text"
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem className="grid gap-3">
+                        <FormLabel htmlFor="description">Description</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            {...field}
+                            id="description"
+                            className="min-h-32"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -101,18 +189,94 @@ const ProductForm = () => {
               <CardHeader>
                 <CardTitle>Stock</CardTitle>
                 <CardDescription>
-                  Manage the stock levels and pricing for each variant of the
-                  product.
+                  Manage the stock levels and pricing.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-6 grid-cols-2">
+                  <div className="grid gap-3">
+                    <Label htmlFor="initial-stock">Initial Stock</Label>
+                    <Input
+                      id="initial-stock"
+                      type="number"
+                      defaultValue={200}
+                    />
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="current-stock">Current Stock</Label>
+                    <Input
+                      id="current-stock"
+                      type="number"
+                      defaultValue={200}
+                    />
+                  </div>
+                  <div className="grid gap-3">
+                  <Label htmlFor="sold-stock">Sold Stock</Label>
+                    <Input
+                      id="sold-stock"
+                      type="number"
+                      defaultValue={200}
+                    />
+                  </div>
+                  <div className="grid gap-3">
+                  <Label htmlFor="damaged-stock">Damaged Stock</Label>
+                    <Input
+                      id="damaged-stock"
+                      type="number"
+                      defaultValue={200}
+                    />
+                  </div>
+                  <div className="grid gap-3">
+                  <Label htmlFor="warehouse-location">Warehouse Location</Label>
+                    <Input
+                      id="warehouse-location"
+                    />
+                  </div>
+                  <div className="grid gap-3">
+                  <Label htmlFor="unit">Unit</Label>
+                    <Input
+                      id="unit"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card x-chunk="dashboard-07-chunk-1">
+              <CardHeader>
+                <CardTitle>Price</CardTitle>
+                <CardDescription>
+                  Manage pricing and discounds.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-6 grid-cols-2">
+                <div className="grid gap-3">
+                    <Label>Selling Price ({currency.symbol})</Label>
+                    <Input type="number" defaultValue={99.99} />
+                  </div>
+                  <div className="grid gap-3">
+                    <Label>Discount Price ({currency.symbol})</Label>
+                    <Input type="number" defaultValue={89.99} />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            {/* <Card x-chunk="dashboard-07-chunk-6">
+              <CardHeader>
+                <CardTitle>Variants</CardTitle>
+                <CardDescription>
+                  Variants are different versions of the same product. For
+                  example a T-shirt in different sizes or colors.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[100px]">SKU</TableHead>
+                      <TableHead className="w-[100px]">REF</TableHead>
                       <TableHead>Stock</TableHead>
                       <TableHead>Price</TableHead>
-                      <TableHead className="w-[100px]">Size</TableHead>
+                      <TableHead className="w-[100px]">Variant</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -215,8 +379,8 @@ const ProductForm = () => {
                   Add Variant
                 </Button>
               </CardFooter>
-            </Card>
-            <Card x-chunk="dashboard-07-chunk-2">
+            </Card> */}
+              <Card x-chunk="dashboard-07-chunk-2">
               <CardHeader>
                 <CardTitle>Product Category</CardTitle>
               </CardHeader>
@@ -278,6 +442,7 @@ const ProductForm = () => {
                 </div>
               </CardContent>
             </Card>
+          
             <Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
               <CardHeader>
                 <CardTitle>Product Images</CardTitle>
@@ -286,39 +451,7 @@ const ProductForm = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-2">
-                  <Image
-                    alt="Product image"
-                    className="aspect-square w-full rounded-md object-cover"
-                    height="300"
-                    src="/placeholder.svg"
-                    width="300"
-                  />
-                  <div className="grid grid-cols-3 gap-2">
-                    <button>
-                      <Image
-                        alt="Product image"
-                        className="aspect-square w-full rounded-md object-cover"
-                        height="84"
-                        src="/placeholder.svg"
-                        width="84"
-                      />
-                    </button>
-                    <button>
-                      <Image
-                        alt="Product image"
-                        className="aspect-square w-full rounded-md object-cover"
-                        height="84"
-                        src="/placeholder.svg"
-                        width="84"
-                      />
-                    </button>
-                    <button className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
-                      <Upload className="h-4 w-4 text-muted-foreground" />
-                      <span className="sr-only">Upload</span>
-                    </button>
-                  </div>
-                </div>
+                <MultiUpload />
               </CardContent>
             </Card>
             <Card x-chunk="dashboard-07-chunk-5">
@@ -343,8 +476,8 @@ const ProductForm = () => {
           </Button>
           <Button size="sm">Save Product</Button>
         </div>
-      </div>
-    </>
+      </form>
+    </Form>
   );
 };
 

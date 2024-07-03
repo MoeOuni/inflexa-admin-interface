@@ -1,13 +1,8 @@
-import React from "react";
 import ProductForm from "../forms/product-form";
 
-type Props = {};
-
-const SaveProduct = (props: Props) => {
+const SaveProduct = () => {
   return (
-    <>
       <ProductForm />
-    </>
   );
 };
 
