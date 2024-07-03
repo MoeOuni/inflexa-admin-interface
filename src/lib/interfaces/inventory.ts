@@ -36,9 +36,11 @@ export interface Image {
 
 // Define the Status interface
 export interface Status {
-    isActive: boolean;
-    isFeatured: boolean;
-    featureId: string;
+    isAvailable?: boolean;
+    isActive?: boolean;
+    isFeatured?: boolean;
+    featureId?: string;
+    needsReview?: boolean;
 }
 
 // Define the Category interface
@@ -62,7 +64,7 @@ export interface Product {
     stock?: Stock;
     price?: Price;
     images?: Image[];
-    status?: Status;
+    status: Status;
     createdAt?: Date;
     updatedAt?: Date;
 }

@@ -39,6 +39,7 @@ import { useTranslation } from "react-i18next";
 import { Tooltip } from "antd";
 import { Product } from "@/lib/interfaces";
 import { ProductActionMenu } from "../action-menus/product-action-menu";
+import { ProductStatus } from "../status-views/product";
 
 type Props = {
   data: Product[];
@@ -94,6 +95,15 @@ export function ProductsTable({ data, loading }: Props) {
       header: "Current Stock",
       cell: ({ row }) => (
         <div className="capitalize">{row.original.stock?.currentStock} {row.original.stock?.unit}</div>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => (
+       <div className="flex gap-2 flex-wrap max-w-[190px]">
+          <ProductStatus status={row.original.status} />
+       </div>
       ),
     },
     {

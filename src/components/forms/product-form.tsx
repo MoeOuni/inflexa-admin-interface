@@ -47,10 +47,15 @@ import {
   FormMessage,
 } from '../ui/form';
 import BackButton from '../app/back-button';
+import { Product } from '@/lib/interfaces';
 
 type ProductFormType = z.infer<typeof ProductSchema>;
 
-const ProductForm = () => {
+type ProductFormProps = {
+  product?: Product;
+};
+
+const ProductForm = ({product}: ProductFormProps) => {
   const navigate = useNavigate();
   // const updateProduct = useUpdateProduct();
   const { currency } = useStore();
@@ -118,7 +123,7 @@ const ProductForm = () => {
         <div className="flex items-center gap-4">
           <BackButton onClick={handleReturnNavigate} />
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-            [Product Name]
+            {product?.name || 'New Product'}
           </h1>
           <Badge variant="outline" className="ml-auto sm:ml-0">
             [Product STATUS]
