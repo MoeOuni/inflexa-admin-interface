@@ -1,6 +1,5 @@
 // import { PlusCircle } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -48,6 +47,7 @@ import {
 } from '../ui/form';
 import BackButton from '../app/back-button';
 import { Product } from '@/lib/interfaces';
+import { ProductStatus } from '../status-views/product';
 
 type ProductFormType = z.infer<typeof ProductSchema>;
 
@@ -125,9 +125,9 @@ const ProductForm = ({product}: ProductFormProps) => {
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
             {product?.name || 'New Product'}
           </h1>
-          <Badge variant="outline" className="ml-auto sm:ml-0">
-            [Product STATUS]
-          </Badge>
+          <div className="ml-auto sm:ml-0">
+              <ProductStatus status={product?.status} />
+          </div>
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
             <Button variant="outline" size="sm">
               Discard

@@ -26,78 +26,93 @@ import { useState } from 'react';
 
 const sidebarItems = [
   {
+    id: 1,
     title: 'Dashboard',
     icon: <Home className="h-5 w-5" />,
     path: '/',
   },
   {
+    id: 2,
     title: 'Analytics',
     icon: <LineChart className="h-5 w-5" />,
     path: '/analytics',
     separator: true,
   },
   {
+    id: 3,
     title: 'Inventory',
     icon: <Package className="h-5 w-5" />,
     path: '/inventory',
   },
   {
+    id: 4,
     title: 'Orders',
     icon: <ShoppingCart className="h-5 w-5" />,
     path: '/orders',
   },
   {
+    id: 5,
     title: 'Sales',
     icon: <ShoppingBasket className="h-5 w-5" />,
     path: '/sales',
   },
   {
+    id: 6,
     title: 'Purchases',
     icon: <ScanBarcode className="h-5 w-5" />,
     path: '/purchases',
     separator: true,
   },
   {
+    id: 7,
     title: 'Customers',
     icon: <Users2 className="h-5 w-5" />,
     path: '/customers',
   },
   {
+    id: 8,
     title: 'Suppliers',
     icon: <Handshake className="h-5 w-5" />,
     path: '/suppliers',
     separator: true,
   },
   {
+    id: 9,
     title: 'Logs',
     icon: <FileClock className="h-5 w-5" />,
     path: '/logs',
   },
   {
+    id: 10,
     title: 'Settings',
     icon: <Settings className="h-5 w-5" />,
     children: [
       {
+        id: 101,
         title: 'General',
         path: '/settings',
         icon: <SlidersHorizontal className="h-4 w-4" />,
       },
       {
+        id: 101,
         title: 'Security',
         path: '/settings/security',
         icon: <Lock className="h-4 w-4" />,
       },
       {
+        id: 103,
         title: 'Categories',
         path: '/settings/categories',
         icon: <Tag className="h-4 w-4" />,
       },
       {
+        id: 104,
         title: 'Repports',
         path: '/settings/repports',
         icon: <BarChart className="h-4 w-4" />,
       },
       {
+        id: 105,
         title: 'Advanced',
         path: '/settings/advanced',
         icon: <MoveHorizontal className="h-4 w-4" />,
@@ -110,9 +125,7 @@ const Sidebar = () => {
   return (
     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
       {sidebarItems.map((item) => (
-        <>
-          <MenuItem item={item} />
-        </>
+          <MenuItem item={item} key={item.id} />
       ))}
     </nav>
   );
@@ -133,8 +146,8 @@ const SidebarMobile = () => {
             <img src="./icon-logo.svg" className="h-8" />
             <span className="text-2xl">Inflexa</span>
           </Link>
-          {sidebarItems.map((item) => (
-            <MenuItem item={item} />
+          {sidebarItems.map((item, index) => (
+            <MenuItem item={item} key={'sm-' + index} />
           ))}
         </nav>
       </SheetContent>

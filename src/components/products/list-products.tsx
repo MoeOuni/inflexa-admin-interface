@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+} from '../ui/card';
+import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -14,28 +14,33 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import { File, ListFilter } from "lucide-react";
-import { ProductsTable } from "../data-tables/products-table";
-import { useProducts } from "@/api";
-
-
+} from '../ui/dropdown-menu';
+import { Button } from '../ui/button';
+import { File, ListFilter } from 'lucide-react';
+import { ProductsTable } from '../data-tables/products-table';
+import { useProducts } from '@/api';
 
 const ListProducts = () => {
   const products = useProducts();
 
-  console.log(products?.data?.data)
+  const [filter, setFilter] = React.useState({
+    isAvailable: true,
+    isActive: true,
+    isFeatured: true,
+    needsReview: true,
+  });
+
   return (
-    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-      <Tabs defaultValue="all">
-        <div className="flex items-center">
+    <div>
+      <Tabs onValueChange={(e) => console.log(e)}>
+        <div className="flex items-center gap-2 flex-col md:flex-row">
           <TabsList>
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="active">In Stock</TabsTrigger>
             <TabsTrigger value="draft">Out of Stock</TabsTrigger>
+            <TabsTrigger value="archived">Archived</TabsTrigger>
           </TabsList>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="md:ml-auto flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="h-8 gap-1">
@@ -48,11 +53,50 @@ const ListProducts = () => {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Filter by</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuCheckboxItem checked>
+                <DropdownMenuCheckboxItem
+                  checked={filter?.isActive}
+                  onCheckedChange={(e) =>
+                    setFilter({
+                      ...filter,
+                      isActive: e,
+                    })
+                  }
+                >
                   Active
                 </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>Draft</DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem
+                  checked={filter?.isAvailable}
+                  onCheckedChange={(e) =>
+                    setFilter({
+                      ...filter,
+                      isAvailable: e,
+                    })
+                  }
+                >
+                  Available
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem
+                  checked={filter?.isFeatured}
+                  onCheckedChange={(e) =>
+                    setFilter({
+                      ...filter,
+                      isFeatured: e,
+                    })
+                  }
+                >
+                  Featured
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem
+                  checked={filter?.needsReview}
+                  onCheckedChange={(e) =>
+                    setFilter({
+                      ...filter,
+                      needsReview: e,
+                    })
+                  }
+                >
+                  Needs Review
+                </DropdownMenuCheckboxItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <Button size="sm" variant="outline" className="h-8 gap-1">
@@ -76,7 +120,7 @@ const ListProducts = () => {
           </CardContent>
         </Card>
       </Tabs>
-    </main>
+    </div>
   );
 };
 

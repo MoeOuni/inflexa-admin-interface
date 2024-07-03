@@ -1,7 +1,7 @@
 import { Tag } from 'antd';
 import { Status } from '@/lib/interfaces';
 import React from 'react';
-const mapStatusToText = (status: Status) => {
+const mapStatusToText = (status?: Status) => {
   const elements: JSX.Element[] = [];
 
   if (status?.isAvailable) {
@@ -18,12 +18,14 @@ const mapStatusToText = (status: Status) => {
   // }
   if (status?.needsReview) {
     elements.push(<Tag color="red">Needs Review</Tag>);
+  } else {
+    elements.push(<Tag>Unknown</Tag>);
   }
 
   return elements;
 };
 
-export const ProductStatus = ({ status }: { status: Status }) => {
+export const ProductStatus = ({ status }: { status?: Status }) => {
   const tags = mapStatusToText(status);
 
   return (
