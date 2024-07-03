@@ -1,22 +1,22 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiClient, inventoryQueryKeys } from "@/api";
+import { apiClient, productQueryKeys } from "@/api";
 import { toast } from "sonner";
 import type { APICreateInventory } from "@/lib/interfaces";
 import { TSFixMe } from "@/lib/types";
 
-const createInventoryFN = async (inventory: APICreateInventory) => {
+const createProductFN = async (inventory: APICreateInventory) => {
     const response = await apiClient.post("/products/init", inventory);
     return response;
 }
 
-export function useCreateInventory() {
+export function useCreateProduct() {
     const queryClient = useQueryClient();
 
     return useMutation(
         {
-            mutationFn: createInventoryFN,
+            mutationFn: createProductFN,
             onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: inventoryQueryKeys.all });
+                queryClient.invalidateQueries({ queryKey: productQueryKeys.all });
                 toast.success("Inventory created successfully.");
             },
             onError: (error: TSFixMe) => {

@@ -14,7 +14,7 @@ import {
 import PurchaseDetailsList from "../purchases/purchase-details-list";
 import type { ProductForm, Purchase } from "@/lib/types";
 import { ProductFomSchema } from "@/lib/schemas";
-import { useCreateInventory, useUpdatePurchase } from "@/api";
+import { useCreateProduct, useUpdatePurchase } from "@/api";
 import { APICreateInventory, APIPurchase } from "@/lib/interfaces";
 import { toast } from "sonner";
 import dayjs from "dayjs";
@@ -39,7 +39,7 @@ export default function PurchaseFormList({
   setPurchase,
   setSteps,
 }: Props) {
-  const createInventory = useCreateInventory();
+  const createInventory = useCreateProduct();
   const updatePurchase = useUpdatePurchase();
 
   const navigate = useNavigate();

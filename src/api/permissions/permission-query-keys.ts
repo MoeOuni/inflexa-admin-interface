@@ -5,7 +5,7 @@
 export const permissionQueryKeys = {
     all: ['permissions'],
     details: () => [...permissionQueryKeys.all, 'detail'],
-    detail: (id: number) => [...permissionQueryKeys.details(), id],
+    detail: (id: string) => [...permissionQueryKeys.details(), id],
     pagination: (page: number) => [...permissionQueryKeys.all, 'pagination', page],
     infinite: () => [...permissionQueryKeys.all, 'infinite'],
 };

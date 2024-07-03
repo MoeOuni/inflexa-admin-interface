@@ -5,7 +5,7 @@
 export const customerQueryKeys = {
     all: ['customers'],
     details: () => [...customerQueryKeys.all, 'detail'],
-    detail: (id: number) => [...customerQueryKeys.details(), id],
+    detail: (id: string) => [...customerQueryKeys.details(), id],
     pagination: (page: number) => [...customerQueryKeys.all, 'pagination', page],
     infinite: () => [...customerQueryKeys.all, 'infinite'],
 };

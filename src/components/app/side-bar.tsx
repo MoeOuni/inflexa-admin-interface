@@ -108,7 +108,7 @@ const sidebarItems = [
 
 const Sidebar = () => {
   return (
-    <nav className="grid items-start px-2 text-sm font-medium lg:px-4 overflow-y-scroll">
+    <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
       {sidebarItems.map((item) => (
         <>
           <MenuItem item={item} />

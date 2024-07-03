@@ -10,6 +10,7 @@ export interface PurchaseInvoice {
     purchasePrice?: number;
     taxes?: Tax;
     purchaseDate?: Date;
+    purchaseAmount?: number;
 }
 
 export interface Stock {
@@ -49,14 +50,15 @@ export interface Category {
 }
 
 // Define the Inventory interface extending the Document interface from Mongoose
-export interface Inventory {
+export interface Product {
+    _id?: string;
     reference: string;
     supplier: string;
     name: string;
     description?: string;
     createdBy?: string;
     category?: Category;
-    purchaseInvoice?: PurchaseInvoice;
+    purchaseInvoice?: PurchaseInvoice[];
     stock?: Stock;
     price?: Price;
     images?: Image[];

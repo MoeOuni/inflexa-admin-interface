@@ -5,4 +5,4 @@ export * from "./customers";
 export * from "./categories";
 export * from "./api-clients";
 export * from "./permissions";
-export * from "./inventories";
+export * from "./products";

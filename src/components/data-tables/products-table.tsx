@@ -37,17 +37,16 @@ import { Input } from "../ui/input";
 
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "antd";
-import { useStore } from "@/contexts/store-context";
-import { CustomerActionMenu } from "../action-menus/customer-action-menu";
+import { Product } from "@/lib/interfaces";
+import { ProductActionMenu } from "../action-menus/product-action-menu";
 
 type Props = {
-  data: any[];
+  data: Product[];
   loading: boolean;
 };
 
 export function ProductsTable({ data, loading }: Props) {
   const { t } = useTranslation();
-  const { currency } = useStore();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -58,11 +57,11 @@ export function ProductsTable({ data, loading }: Props) {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const columns: ColumnDef<any>[] = [
+  const columns: ColumnDef<Product>[] = [
     {
       accessorKey: "reference",
       header: "Reference",
-      cell: ({ row }) => <div>{row.original.customerId}</div>,
+      cell: ({ row }) => <div>{row.original.reference}</div>,
     },
     {
       accessorKey: "name",
@@ -70,59 +69,41 @@ export function ProductsTable({ data, loading }: Props) {
       cell: ({ row }) => <div className="capitalize">{row.original.name}</div>,
     },
     {
-      accessorKey: "supplier",
-      header: "Supplier",
-      cell: ({ row }) => (
-        <div>
-          {row.original.contactInfo?.email
-            ? row.original.contactInfo?.email
-            : " - "}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "category",
+      accessorKey: "category.categoryName",
       header: "Category",
       cell: ({ row }) => (
-        <div className="capitalize">{row.original.contactInfo?.phone}</div>
+        <div className="capitalize">{row.original?.category?.categoryName}</div>
       ),
     },
     {
-      accessorKey: "list_price",
+      accessorKey: "price.listPrice",
       header: "List Price",
       cell: ({ row }) => (
-        <div className="capitalize">{row.original.contactInfo?.phone}</div>
+        <div className="capitalize">{row.original.price?.listPrice}</div>
       ),
     },
     {
-      accessorKey: "list_price",
+      accessorKey: "price.discountPrice",
       header: "Discount Price",
       cell: ({ row }) => (
-        <div className="capitalize">{row.original.contactInfo?.phone}</div>
+        <div className="capitalize">{row.original.price?.discountPrice}</div>
       ),
     },
     {
-      accessorKey: "list_price",
+      accessorKey: "stock.currentStock",
       header: "Current Stock",
       cell: ({ row }) => (
-        <div className="capitalize">{row.original.contactInfo?.phone}</div>
+        <div className="capitalize">{row.original.stock?.currentStock} {row.original.stock?.unit}</div>
       ),
     },
     {
-      accessorKey: "list_price",
-      header: "Status",
+      accessorKey: "actions",
+      header: "Actions",
       cell: ({ row }) => (
-        <div className="capitalize">{row.original.contactInfo?.phone}</div>
+        <ProductActionMenu product={row.original} />
       ),
     },
 
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => {
-        return <CustomerActionMenu customer={row.original} />;
-      },
-    },
   ];
 
   const table = useReactTable({

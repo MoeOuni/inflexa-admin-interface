@@ -5,7 +5,7 @@
 export const roleQueryKeys = {
     all: ['roles'],
     details: () => [...roleQueryKeys.all, 'detail'],
-    detail: (id: number) => [...roleQueryKeys.details(), id],
+    detail: (id: string) => [...roleQueryKeys.details(), id],
     pagination: (page: number) => [...roleQueryKeys.all, 'pagination', page],
     infinite: () => [...roleQueryKeys.all, 'infinite'],
 };
