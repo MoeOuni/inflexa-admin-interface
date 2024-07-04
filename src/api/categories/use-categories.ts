@@ -7,7 +7,7 @@ const getCategoriesFn = async () => {
     return response.data;
 }
 
-export function useCategores() {
+export function useCategories() {
     return useQuery(
         {
             queryKey: categoryQueryKeys.all,

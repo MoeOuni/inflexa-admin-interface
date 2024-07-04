@@ -135,7 +135,7 @@ const SidebarMobile = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+        <Button variant="outline" size="icon" className="shrink-0 lg:hidden">
           <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle navigation menu</span>
         </Button>
@@ -146,6 +146,7 @@ const SidebarMobile = () => {
             <img src="./icon-logo.svg" className="h-8" />
             <span className="text-2xl">Inflexa</span>
           </Link>
+          <hr className="my-2 border-t border-muted" />
           {sidebarItems.map((item, index) => (
             <MenuItem item={item} key={'sm-' + index} />
           ))}

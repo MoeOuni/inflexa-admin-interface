@@ -10,15 +10,13 @@ import {
   CardTitle,
 } from "../ui/card";
 import { SquarePlus } from "lucide-react";
-import BackButton from "../app/back-button";
-import { useCategores } from "@/api";
+import { useCategories } from "@/api";
 import { Category } from "@/lib/types";
 import { useTranslation } from "react-i18next";
-import { Badge } from "../ui/badge";
 
 const CategoriesSettings = () => {
   const { t } = useTranslation();
-  const categories = useCategores();
+  const categories = useCategories();
   const [view, setView] = React.useState("table");
   const [selectedCategory, setSelectedCategory] =
     React.useState<Category | null>(null);
