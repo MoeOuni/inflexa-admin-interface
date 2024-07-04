@@ -11,14 +11,6 @@ export type AuthContextType = {
   clearDummyAuth: () => void;
 };
 
-export type UploadContextType = {
-  filesList?: FileList;
-  setFilesList: (value: FileList) => void;
-  singleFile?: SingleFile;
-  setSingleFile: (value: SingleFile) => void;
-  handleResetFilesList: () => void;
-  handleResetSingleFile: () => void;
-};
 
 export type PermissionContextType = {
   permissions: Permission[] | undefined;
@@ -50,22 +42,6 @@ export interface Category {
   image?: string;
   createdAt?: Date;
   subCategories?: SubCategory[];
-}
-
-export interface File {
-  originalName: string;
-  path: string;
-  size: number;
-}
-
-export interface SingleFile {
-  original?: never;
-  uploaded?: File;
-}
-
-export interface FileList {
-  original: never[];
-  uploaded: File[];
 }
 
 export interface Permission {

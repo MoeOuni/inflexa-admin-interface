@@ -39,3 +39,40 @@ export interface APISaveCustomer {
     };
     identicalShippingAndBilling?: boolean;
 }
+
+export interface APIUpdateProduct {
+    reference: string;
+    category: {
+      categoryId: string;
+      categoryName: string;
+      subCategoryId?: string;
+      subCategoryName?: string;
+    };
+    name: string;
+    description: string;
+    stock: {
+        initialStock: number;
+        currentStock: number;
+        soldStock: number;
+        damagedStock: number;
+        returnedStock: number;
+        warehouseLocation?: string;
+        unit: string;
+    }
+    price: {
+      listPrice: number;
+      discountPrice: number;
+      currency: string;
+    };
+    status: {
+      isAvailable: boolean;
+      isActive: boolean;
+      isFeatured: boolean;
+      featureId?: string;
+      needsReview: boolean;
+    };
+    images?: Array<{
+      url: string;
+      altText: string;
+    }>;
+}

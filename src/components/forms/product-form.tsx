@@ -36,12 +36,12 @@ import {
   FormMessage,
 } from '../ui/form';
 import BackButton from '../app/back-button';
-import { Product } from '@/lib/interfaces';
+import { APIUpdateProduct, FileFromApi, Product } from '@/lib/interfaces';
 import { ProductStatus } from '../status-views/product';
 import { Tag } from 'antd';
-import { useCategories } from '@/api';
+import { useCategories, useUpdateProduct } from '@/api';
 import { Category, SubCategory } from '@/lib/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Checkbox } from '../ui/checkbox';
 
 type ProductFormType = z.infer<typeof ProductSchema>;
@@ -51,11 +51,24 @@ type ProductFormProps = {
 };
 
 const ProductForm = ({ product }: ProductFormProps) => {
-  const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
+  const [fileList, setFileList] = useState<FileFromApi[]>(
+    product?.images
+      ? product?.images.map((image) => {
+          return {
+            baseDir: image.url,
+            fileName: image.altText,
+            fileExtension: image.altText.split('.').pop() || '',
+            originalName: image.altText,
+          };
+        })
+      : []
+  );
 
   const navigate = useNavigate();
-  // const updateProduct = useUpdateProduct();
+
   const { currency } = useStore();
+
+  const updateProduct = useUpdateProduct();
 
   const categories = useCategories();
 
@@ -116,15 +129,42 @@ const ProductForm = ({ product }: ProductFormProps) => {
     mode: 'onChange',
   });
 
-  const onSubmit = async (data: ProductFormType) => {
-    // await updateProduct.mutateAsync(data);
+  const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
 
-    console.log(data);
+  const onSubmit = async (data: ProductFormType) => {
+    const tempPayload: APIUpdateProduct = {
+      ...data,
+      images: fileList?.map((file) => {
+        return {
+          url: file.baseDir,
+          altText: file.fileName,
+        };
+      }),
+    };
+
+    await updateProduct.mutateAsync({
+      id: product?._id || '',
+      product: tempPayload,
+    });
   };
 
   const handleReturnNavigate = () => {
     navigate(`/inventory`);
   };
+
+  useEffect(() => {
+    if (categories?.isSuccess && product?.category?.categoryId) {
+      setSubCategories(
+        categories?.data?.data?.find(
+          (elem: Category) => elem?._id === product?.category?.categoryId
+        )?.subCategories || []
+      );
+    }
+  }, [
+    categories?.data?.data,
+    categories?.isSuccess,
+    product?.category?.categoryId,
+  ]);
 
   return (
     <Form {...form}>
@@ -506,13 +546,15 @@ const ProductForm = ({ product }: ProductFormProps) => {
                       <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                         <FormControl>
                           <Checkbox
-                          className='mt-[2px]'
+                            className="mt-[2px]"
                             checked={field.value}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
                         <div className="leading-none">
-                          <FormLabel><Tag color="green">Available</Tag></FormLabel>
+                          <FormLabel>
+                            <Tag color="green">Available</Tag>
+                          </FormLabel>
                           <FormDescription>
                             Indicates whether the item is currently available.
                           </FormDescription>
@@ -527,13 +569,15 @@ const ProductForm = ({ product }: ProductFormProps) => {
                       <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                         <FormControl>
                           <Checkbox
-                          className='mt-[2px]'
+                            className="mt-[2px]"
                             checked={field.value}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
                         <div className="leading-none">
-                          <FormLabel><Tag color="cyan">Active</Tag></FormLabel>
+                          <FormLabel>
+                            <Tag color="cyan">Active</Tag>
+                          </FormLabel>
                           <FormDescription>
                             Determines if the item is being displayed on the
                             online store.
@@ -549,13 +593,15 @@ const ProductForm = ({ product }: ProductFormProps) => {
                       <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                         <FormControl>
                           <Checkbox
-                          className='mt-[2px]'
+                            className="mt-[2px]"
                             checked={field.value}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
                         <div className="leading-none">
-                          <FormLabel><Tag color="gold">Featured</Tag></FormLabel>
+                          <FormLabel>
+                            <Tag color="gold">Featured</Tag>
+                          </FormLabel>
                           <FormDescription>
                             Marks the item as featured, highlighting it
                             prominently in the online store.
@@ -576,6 +622,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                   <div className="grid gap-3">
                     <Label htmlFor="category">Parent Category</Label>
                     <Select
+                      value={form.getValues('category.categoryId')}
                       onValueChange={(e) => {
                         const tempSelectCategory = categories.data?.data?.find(
                           (elem: Category) => elem?._id === e
@@ -608,7 +655,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                   <div className="grid gap-3">
                     <Label htmlFor="subcategory">Sub-Category (optional)</Label>
                     <Select
-                      disabled={!(subCategories?.length > 0)}
+                      defaultValue={product?.category?.subCategoryId}
                       onValueChange={(e) => {
                         const tempSelectSubCategory = subCategories?.find(
                           (elem: SubCategory) => elem?._id === e
@@ -619,6 +666,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                           'category.subCategoryName',
                           tempSelectSubCategory?.name || 'N/Q'
                         );
+
                       }}
                     >
                       <SelectTrigger
@@ -650,7 +698,11 @@ const ProductForm = ({ product }: ProductFormProps) => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <MultiUpload />
+                <MultiUpload
+                  fileList={fileList}
+                  setFileList={setFileList}
+                  maxCount={8}
+                />
               </CardContent>
             </Card>
             <Card x-chunk="dashboard-07-chunk-5">
@@ -673,7 +725,9 @@ const ProductForm = ({ product }: ProductFormProps) => {
           <Button variant="outline" size="sm">
             Discard
           </Button>
-          <Button size="sm" type="submit" className="h-8 gap-1">Save Product</Button>
+          <Button size="sm" type="submit" className="h-8 gap-1">
+            Save Product
+          </Button>
         </div>
       </form>
     </Form>

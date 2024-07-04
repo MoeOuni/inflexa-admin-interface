@@ -1,22 +1,40 @@
-import React from 'react';
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
+import { FileFromApi } from '@/lib/interfaces';
+// import { v4 as uuidv4 } from 'uuid';
+
 
 const { Dragger } = Upload;
 
-const MultiUpload: React.FC = () => {
+type MultipleUploadProps = {
+  fileList: FileFromApi[];
+  setFileList: (fileList: FileFromApi[]) => void;
+  maxCount?: number;
+}
+
+const MultiUpload  = ({fileList, setFileList, maxCount} : MultipleUploadProps) => {
   const props: UploadProps = {
+    fileList: fileList?.map((file) => {
+      return {
+        uid: `upload-${file?.fileName}`,
+        name: file?.fileName,
+        status: "done",
+        url: import.meta.env.VITE_API_URL + "/" + file?.baseDir,
+      }
+    }),
     name: 'file',
     multiple: true,
+    maxCount: maxCount ?? 1,
     listType: 'picture',
     action: import.meta.env.VITE_API_URL + "/upload-single",
     onChange(info) {
       const { status } = info.file;
-      if (status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
+      // if (status !== 'uploading') {
+      //   console.log(info.file, info.fileList);
+      // }
       if (status === 'done') {
+        setFileList([...fileList, info.file.response]);
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
