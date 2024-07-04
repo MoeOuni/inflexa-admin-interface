@@ -34,7 +34,7 @@ const ListProducts = () => {
     <div>
       <Tabs onValueChange={(e) => console.log(e)}>
         <div className="flex items-center gap-2 flex-col md:flex-row">
-          <TabsList>
+          <TabsList defaultValue={'all'}>
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="active">In Stock</TabsTrigger>
             <TabsTrigger value="draft">Out of Stock</TabsTrigger>

@@ -1,9 +1,9 @@
 import { InboxOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
+import type { UploadFile, UploadProps } from 'antd';
 import { message, Upload } from 'antd';
 import { FileFromApi } from '@/lib/interfaces';
+import {  useState } from 'react';
 // import { v4 as uuidv4 } from 'uuid';
-
 
 const { Dragger } = Upload;
 
@@ -11,28 +11,36 @@ type MultipleUploadProps = {
   fileList: FileFromApi[];
   setFileList: (fileList: FileFromApi[]) => void;
   maxCount?: number;
-}
+};
 
-const MultiUpload  = ({fileList, setFileList, maxCount} : MultipleUploadProps) => {
-  const props: UploadProps = {
-    fileList: fileList?.map((file) => {
+const MultiUpload = ({
+  fileList,
+  setFileList,
+  maxCount,
+}: MultipleUploadProps) => {
+  const [fileListState, setFileListState] = useState<UploadFile[]>(
+    fileList?.map((file) => {
       return {
         uid: `upload-${file?.fileName}`,
         name: file?.fileName,
-        status: "done",
-        url: import.meta.env.VITE_API_URL + "/" + file?.baseDir,
-      }
-    }),
+        status: 'done',
+        url: import.meta.env.VITE_API_URL + '/' + file?.baseDir,
+      };
+    })
+  );
+
+  const props: UploadProps = {
     name: 'file',
     multiple: true,
     maxCount: maxCount ?? 1,
     listType: 'picture',
-    action: import.meta.env.VITE_API_URL + "/upload-single",
+    action: import.meta.env.VITE_API_URL + '/upload-single',
     onChange(info) {
       const { status } = info.file;
-      // if (status !== 'uploading') {
-      //   console.log(info.file, info.fileList);
-      // }
+
+      if (status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
       if (status === 'done') {
         setFileList([...fileList, info.file.response]);
         message.success(`${info.file.name} file uploaded successfully.`);
@@ -40,13 +48,17 @@ const MultiUpload  = ({fileList, setFileList, maxCount} : MultipleUploadProps) =
         message.error(`${info.file.name} file upload failed.`);
       }
     },
-    onDrop(e) {
-      console.log('Dropped files', e.dataTransfer.files);
-    },
+    // onDrop(e) {
+    //   console.log('Dropped files', e.dataTransfer.files);
+    // },
+    defaultFileList: fileListState,
   };
 
   return (
-    <Dragger {...props}>
+    <Dragger
+      {...props}
+      // fileList={fileListState}
+    >
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>

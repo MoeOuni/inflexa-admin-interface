@@ -18,9 +18,7 @@ const mapStatusToText = (status?: Status) => {
   // }
   if (status?.needsReview) {
     elements.push(<Tag color="red">Needs Review</Tag>);
-  } else {
-    elements.push(<Tag>Unknown</Tag>);
-  }
+  } 
 
   return elements;
 };

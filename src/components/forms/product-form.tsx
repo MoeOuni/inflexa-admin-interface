@@ -95,6 +95,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
       },
       price: {
         listPrice:
+          product?.price?.listPrice ||
           Number(
             product?.purchaseInvoice?.[product?.purchaseInvoice?.length - 1]
               ?.purchasePrice
@@ -103,9 +104,9 @@ const ProductForm = ({ product }: ProductFormProps) => {
               product?.purchaseInvoice?.[product?.purchaseInvoice?.length - 1]
                 ?.taxes?.taxAmount
             ) ||
-          product?.price?.listPrice ||
           0,
         discountPrice:
+          product?.price?.discountPrice ||
           Number(
             product?.purchaseInvoice?.[product?.purchaseInvoice?.length - 1]
               ?.purchasePrice
@@ -114,7 +115,6 @@ const ProductForm = ({ product }: ProductFormProps) => {
               product?.purchaseInvoice?.[product?.purchaseInvoice?.length - 1]
                 ?.taxes?.taxAmount
             ) ||
-          product?.price?.discountPrice ||
           0,
         currency: product?.price?.currency || currency.symbol,
       },
@@ -176,7 +176,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
         <div className="flex items-center gap-4">
           <BackButton onClick={handleReturnNavigate} />
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-            {product?.name || 'New Product'}
+            {product?.name  || 'New Product'}
           </h1>
           <div className="ml-auto sm:ml-0">
             <ProductStatus status={product?.status} />
@@ -205,6 +205,9 @@ const ProductForm = ({ product }: ProductFormProps) => {
               </CardHeader>
               <CardContent>
                 <div className="grid gap-6">
+                  <Label>
+                    Reference: <Tag color="geekblue">{product?.reference}</Tag>
+                  </Label>
                   <FormField
                     control={form.control}
                     name="name"
@@ -666,7 +669,6 @@ const ProductForm = ({ product }: ProductFormProps) => {
                           'category.subCategoryName',
                           tempSelectSubCategory?.name || 'N/Q'
                         );
-
                       }}
                     >
                       <SelectTrigger
