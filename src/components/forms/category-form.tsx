@@ -13,8 +13,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { SmallTypography } from "../typography/small-typography";
-import { Car, ClipboardX, PlusCircle, Save, Trash2 } from "lucide-react";
+import {  ClipboardX, PlusCircle, Save, Trash2 } from "lucide-react";
 import { useCreateCategory, useEditCategory } from "@/api";
 import type { Category } from "@/lib/types";
 import { useTranslation } from "react-i18next";
@@ -26,7 +25,6 @@ import {
   CardTitle,
 } from "../ui/card";
 import BackButton from "../app/back-button";
-import { Badge } from "../ui/badge";
 import {
   Table,
   TableBody,

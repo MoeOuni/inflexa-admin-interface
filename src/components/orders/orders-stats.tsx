@@ -1,8 +1,15 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
 import { Button } from '../ui/button'
 import { Progress } from '../ui/progress'
+import { useNavigate } from 'react-router-dom'
 
 const OrdersStats = () => {
+  const navigate = useNavigate()
+
+  const handleNavigate = () => {
+    navigate('/orders/save')
+  }
+
   return (
     <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
     <Card className="sm:col-span-2" x-chunk="dashboard-05-chunk-0">
@@ -14,7 +21,7 @@ const OrdersStats = () => {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button>Create New Order</Button>
+        <Button onClick={handleNavigate}>Create New Order</Button>
       </CardFooter>
     </Card>
     <Card x-chunk="dashboard-05-chunk-1">

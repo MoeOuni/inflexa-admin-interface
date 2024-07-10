@@ -25,6 +25,7 @@ const Customers = lazy(() => import('@/pages/admin/customers'));
 const Suppliers = lazy(() => import('@/pages/admin/suppliers'));
 const Purchases = lazy(() => import('@/pages/admin/purchases'));
 
+// Purchase SubRoutes
 const PurchaseDetails = lazy(
   () => import('@/components/purchases/purchase-details')
 );
@@ -33,7 +34,7 @@ const PurchasesList = lazy(
 );
 const SavePurchase = lazy(() => import('@/components/purchases/save-purchase'));
 
-// Menu SubRoutes
+// Settings Menu SubRoutes
 const GeneralSettings = lazy(
   () => import('@/components/settings/general-settings')
 );
@@ -50,6 +51,7 @@ const CategoriesSettings = lazy(
   () => import('@/components/settings/categories-settings')
 );
 
+// Suppliers SubRoutes
 const SupplierProfile = lazy(
   () => import('@/components/suppliers/supplier-profile')
 );
@@ -58,6 +60,7 @@ const SuppliersList = lazy(
 );
 const SaveSupplier = lazy(() => import('@/components/suppliers/save-supplier'));
 
+// Customers SubRoutes
 const CustomersList = lazy(
   () => import('@/components/customers/customers-list')
 );
@@ -66,11 +69,19 @@ const CustomerDetails = lazy(
 );
 const SaveCustomer = lazy(() => import('@/components/customers/save-customer'));
 
+// Products SubRoutes
 const SaveProduct = lazy(() => import('@/components/products/save-product'));
 const ListProducts = lazy(() => import('@/components/products/list-products')); // Fix the casing here
 const ProductDetails = lazy(
   () => import('@/components/products/product-details')
 );
+
+// Orders SubRoutes
+const OrdersDashboard = lazy(
+  () => import('@/components/orders/orders-dashboard')
+);
+const SaveOrder = lazy(() => import('@/components/orders/save-order'));
+const OrderDetails = lazy(() => import('@/components/orders/order-details'));
 
 // Auth Pages
 const Login = lazy(() => import('@/pages/auth/login'));
@@ -152,7 +163,12 @@ const ProtectedRoutes = React.memo(() => {
             <Route path="product/:id" element={<SaveProduct />} />
             <Route path="product/:id/details" element={<ProductDetails />} />
           </Route>
-          <Route path="orders" element={<Orders />} />
+          <Route path="orders" element={<Orders />}>
+            <Route index element={<OrdersDashboard />} />
+            <Route path="save" element={<SaveOrder />} />
+            <Route path="save/:id" element={<SaveOrder />} />
+            <Route path=":id" element={<OrderDetails />} />
+          </Route>
           <Route path="sales" element={<Sales />} />
           <Route path="purchases" element={<Purchases />}>
             <Route index element={<PurchasesList />} />
