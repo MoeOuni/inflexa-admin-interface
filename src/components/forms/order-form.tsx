@@ -36,11 +36,17 @@ import {
   CardHeader,
   CardTitle,
 } from '../ui/card';
+import { useCustomers } from '@/api';
+import { Customer } from '@/lib/interfaces/customer';
+
 
 type OrderForm = z.infer<typeof OrderFormSchema>;
 
 const OrderForm = () => {
   const navigate = useNavigate();
+
+  // API HOOKS
+  const customers = useCustomers();
 
   const [defaultValues, setDefaultValues] = React.useState<
     OrderForm | undefined
@@ -63,8 +69,12 @@ const OrderForm = () => {
     console.log(data);
   }
 
-  const handleSearchClient = (value: string) => {
-    console.log('search client: ' + value);
+  const handleNewCustomer = () => {
+    window.open('/customers/save', '_blank');
+  }
+
+  const handleSearchCustomer = (value: string) => {
+    console.log('search customer: ' + value);
   };
 
   const handleSearchProduct = (value: string) => {
@@ -112,7 +122,6 @@ const OrderForm = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-6">
-
                     <FormField
                       name="customer"
                       control={form.control}
@@ -130,12 +139,13 @@ const OrderForm = () => {
                                     !field.value && 'text-muted-foreground'
                                   )}
                                 >
-                                  {/* {field.value
-                              ? languages.find(
-                                  (language) => language.value === field.value
-                                )?.label
-                              : 'Select language'} */}
-                                  Select Customer
+                                  {field.value
+                                    ? customers?.data.data.find(
+                                        (customer: Customer) =>
+                                          customer._id === field.value
+                                      )?.name
+                                    : 'Select Customer'}
+
                                   <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                 </Button>
                               </FormControl>
@@ -143,6 +153,9 @@ const OrderForm = () => {
                             <PopoverContent className="p-0">
                               <Command>
                                 <CommandInput
+                                  onValueChange={(value) =>
+                                    handleSearchCustomer(value)
+                                  }
                                   placeholder="Search customer..."
                                   className="h-9"
                                 />
@@ -152,8 +165,38 @@ const OrderForm = () => {
                                       No customer found.
                                     </CommandEmpty>
 
-                                    <CommandGroup>
-                                      {/* {languages.map((language) => (
+                                    {customers?.isSuccess && (
+                                      <CommandGroup>
+                                        {customers?.data.data?.map(
+                                          (customer: Customer) => (
+                                            <CommandItem
+                                              className="w-full"
+                                              key={customer._id}
+                                              onSelect={() => {
+                                                form.setValue(
+                                                  'customer',
+                                                  customer?._id || ''
+                                                );
+                                              }}
+                                            >
+                                              {customer.name}
+                                              <div className="flex gap-1 ml-auto items-center">
+                                                <Badge className="text-xs font-normal">
+                                                  #{customer?.customerId}
+                                                </Badge>
+                                                <CheckIcon
+                                                  className={cn(
+                                                    'ml-auto h-4 w-4',
+                                                    customer._id === field.value
+                                                      ? 'opacity-100'
+                                                      : 'opacity-0'
+                                                  )}
+                                                />
+                                              </div>
+                                            </CommandItem>
+                                          )
+                                        )}
+                                        {/* {languages.map((language) => (
                               <CommandItem
                                 key={language.value}
                                 onSelect={() => {
@@ -171,7 +214,8 @@ const OrderForm = () => {
                                 />
                               </CommandItem>
                             ))} */}
-                                    </CommandGroup>
+                                      </CommandGroup>
+                                    )}
                                   </ScrollArea>
                                 </CommandList>
                               </Command>
@@ -200,13 +244,24 @@ const OrderForm = () => {
                   </div>
                 </CardContent>
                 <CardFooter>
-                <Button type='button' variant={'outline'} className='ml-auto'>
-                      Create New Customer
-                    </Button>
+                  <Button type="button" variant={'outline'} className="ml-auto" onClick={handleNewCustomer}>
+                    Create New Customer
+                  </Button>
                 </CardFooter>
               </Card>
             </div>
-            <div className="grid auto-rows-max items-start gap-4 lg:gap-8"></div>
+            <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    Order Status
+                  </CardTitle>
+                  <CardContent>
+
+                  </CardContent>
+                </CardHeader>
+              </Card>
+            </div>
           </div>
           {/* Bottom Side Action Buttons ON MOBILE */}
           <div className="flex items-center justify-center gap-2 md:hidden">

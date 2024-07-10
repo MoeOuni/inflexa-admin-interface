@@ -30,6 +30,7 @@ function App() {
           colorPrimary: "#3C82F6",
           colorInfo: "#3C82F6",
           colorBgContainer: theme === "dark" ? "#030712" : "#ffffff",
+          colorBgElevated: theme === "dark" ? "#0D1525" : "#FAFBFC",
           borderRadius: 5,
         },
         algorithm: theme === "light" ? [defaultAlgorithm] : [darkAlgorithm],
