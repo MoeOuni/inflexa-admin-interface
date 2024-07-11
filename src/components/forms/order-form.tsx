@@ -1,12 +1,12 @@
 import { OrderFormSchema } from '@/lib/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -36,9 +36,23 @@ import {
   CardHeader,
   CardTitle,
 } from '../ui/card';
-import { useCustomers } from '@/api';
+import { useCustomers, useProducts } from '@/api';
 import { Customer } from '@/lib/interfaces/customer';
-
+import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import { OrderStatus } from '../status-views/order';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '../ui/table';
+import { Input } from '../ui/input';
+import { PlusCircle, Trash2 } from 'lucide-react';
+import { Product } from '@/lib/interfaces';
+import { PhoneInput } from '../app/phone-input';
+import { PaymentStatus } from '../status-views/payment';
 
 type OrderForm = z.infer<typeof OrderFormSchema>;
 
@@ -47,14 +61,16 @@ const OrderForm = () => {
 
   // API HOOKS
   const customers = useCustomers();
-
-  const [defaultValues, setDefaultValues] = React.useState<
-    OrderForm | undefined
-  >(undefined);
+  const products = useProducts();
 
   const form = useForm<OrderForm>({
     resolver: zodResolver(OrderFormSchema),
-    defaultValues,
+    defaultValues: {
+      customer: '',
+      status: 'processed',
+      notes: '',
+      products: [],
+    },
     mode: 'onChange',
   });
 
@@ -64,26 +80,38 @@ const OrderForm = () => {
   });
 
   async function onSubmit(data: OrderForm) {
-    setDefaultValues(data);
-
     console.log(data);
   }
 
   const handleNewCustomer = () => {
     window.open('/customers/save', '_blank');
-  }
-
-  const handleSearchCustomer = (value: string) => {
-    console.log('search customer: ' + value);
-  };
-
-  const handleSearchProduct = (value: string) => {
-    console.log('search product: ' + value);
   };
 
   const handleReturnNavigate = () => {
     navigate('/orders');
   };
+
+  const handleSelectCustomer = (customer: Customer) => {
+    const shippingAddress = customer?.contactInfo?.shippingAddress?.[
+      customer.contactInfo?.shippingAddress?.length - 1
+    ] ?? { postalCode: '', city: '', country: '', state: '', street: '' };
+    const billingAddress = customer?.contactInfo?.billingAddress?.[
+      customer.contactInfo?.billingAddress?.length - 1
+    ] ?? { postalCode: '', city: '', country: '', state: '', street: '' };
+
+    form.setValue('customer', customer._id || '');
+
+    form.setValue(`billingAddress`, billingAddress);
+    form.setValue(`shippingAddress`, shippingAddress);
+
+    form.setValue('customerName', customer.name ?? '');
+  };
+
+  const handleSelectProduct = (product: Product, index: number) => {
+    form.setValue(`products.${index}.product`, product._id || '');
+    form.setValue(`products.${index}.productRef`, product.reference || '');
+    form.setValue(`products.${index}.price`, product.price?.listPrice || 0);
+  }
 
   return (
     <div className="pb-2">
@@ -99,7 +127,7 @@ const OrderForm = () => {
               New Order
             </h1>
             <div>
-              <Badge>Pending</Badge>
+              <Badge>New</Badge>
             </div>
             <div className="hidden items-center gap-2 md:ml-auto md:flex">
               <Button variant="outline" size="sm">
@@ -153,9 +181,6 @@ const OrderForm = () => {
                             <PopoverContent className="p-0">
                               <Command>
                                 <CommandInput
-                                  onValueChange={(value) =>
-                                    handleSearchCustomer(value)
-                                  }
                                   placeholder="Search customer..."
                                   className="h-9"
                                 />
@@ -173,21 +198,22 @@ const OrderForm = () => {
                                               className="w-full"
                                               key={customer._id}
                                               onSelect={() => {
-                                                form.setValue(
-                                                  'customer',
-                                                  customer?._id || ''
-                                                );
+                                                handleSelectCustomer(customer);
                                               }}
                                             >
                                               {customer.name}
                                               <div className="flex gap-1 ml-auto items-center">
-                                                <Badge className="text-xs font-normal">
+                                                <Badge
+                                                  className="text-xs font-normal"
+                                                  variant={'outline'}
+                                                >
                                                   #{customer?.customerId}
                                                 </Badge>
                                                 <CheckIcon
                                                   className={cn(
                                                     'ml-auto h-4 w-4',
-                                                    customer._id === field.value
+                                                    customer?._id ===
+                                                      field.value
                                                       ? 'opacity-100'
                                                       : 'opacity-0'
                                                   )}
@@ -196,24 +222,6 @@ const OrderForm = () => {
                                             </CommandItem>
                                           )
                                         )}
-                                        {/* {languages.map((language) => (
-                              <CommandItem
-                                key={language.value}
-                                onSelect={() => {
-                                  form.setValue('customer', language.value);
-                                }}
-                              >
-                                {language.label}
-                                <CheckIcon
-                                  className={cn(
-                                    'ml-auto h-4 w-4',
-                                    language.value === field.value
-                                      ? 'opacity-100'
-                                      : 'opacity-0'
-                                  )}
-                                />
-                              </CommandItem>
-                            ))} */}
                                       </CommandGroup>
                                     )}
                                   </ScrollArea>
@@ -244,22 +252,719 @@ const OrderForm = () => {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button type="button" variant={'outline'} className="ml-auto" onClick={handleNewCustomer}>
+                  <Button
+                    type="button"
+                    variant={'outline'}
+                    className="ml-auto"
+                    onClick={handleNewCustomer}
+                  >
                     Create New Customer
                   </Button>
                 </CardFooter>
               </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Products</CardTitle>
+                  <CardDescription>
+                    Add products to the order. You can search for products by
+                    name or reference.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Product</TableHead>
+                        <TableHead>Quantity</TableHead>
+                        <TableHead>Unit Price</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {fields.map((field, index) => (
+                        <TableRow>
+                          <TableCell>
+                            <FormField
+                              control={form.control}
+                              name={`products.${index}.product`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Popover>
+                                      <PopoverTrigger asChild>
+                                        <FormControl>
+                                          <Button
+                                            variant="outline"
+                                            role="combobox"
+                                            className={cn(
+                                              'w-full justify-between',
+                                              !field.value &&
+                                                'text-muted-foreground'
+                                            )}
+                                          >
+                                            {field.value
+                                              ? products?.data.data.find(
+                                                  (product: Product) =>
+                                                    product._id === field.value
+                                                )?.name
+                                              : 'Select Product'}
+
+                                            <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                          </Button>
+                                        </FormControl>
+                                      </PopoverTrigger>
+                                      <PopoverContent className="p-0">
+                                        <Command>
+                                          <CommandInput
+                                            placeholder="Search product..."
+                                            className="h-9"
+                                          />
+                                          <CommandList>
+                                            <ScrollArea className="h-72">
+                                              <CommandEmpty>
+                                                No product found.
+                                              </CommandEmpty>
+
+                                              {products?.isSuccess && (
+                                                <CommandGroup>
+                                                  {products?.data.data?.map(
+                                                    (product: Product) => (
+                                                      <CommandItem
+                                                        className="w-full"
+                                                        key={product._id}
+                                                        onSelect={() => {
+                                                          handleSelectProduct(product, index)
+                                                        }}
+                                                      >
+                                                        {product.name}
+                                                        <div className="flex gap-1 ml-auto items-center">
+                                                          <Badge
+                                                            className="text-xs font-normal"
+                                                            variant={'outline'}
+                                                          >
+                                                            #
+                                                            {product?.reference}
+                                                          </Badge>
+                                                          <CheckIcon
+                                                            className={cn(
+                                                              'ml-auto h-4 w-4',
+                                                              product?._id ===
+                                                                field.value
+                                                                ? 'opacity-100'
+                                                                : 'opacity-0'
+                                                            )}
+                                                          />
+                                                        </div>
+                                                      </CommandItem>
+                                                    )
+                                                  )}
+                                                </CommandGroup>
+                                              )}
+                                            </ScrollArea>
+                                          </CommandList>
+                                        </Command>
+                                      </PopoverContent>
+                                    </Popover>
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <FormField
+                              control={form.control}
+                              name={`products.${index}.quantity`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Input
+                                      {...field}
+                                      type="number"
+                                      step="0.01"
+                                      max={
+                                        products?.data.data.find(
+                                          (product: Product) =>
+                                            product?._id ===
+                                            form.getValues(
+                                              `products.${index}.product`
+                                            )
+                                        )?.stock?.currentStock
+                                      }
+                                      className="max-w-24"
+                                      onChange={(event) => {
+                                        const value = parseFloat(
+                                          event.target.value
+                                        );
+                                        field.onChange(
+                                          typeof value === 'number' && value
+                                        );
+                                      }}
+                                      disabled={products.isPending}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <FormField
+                              control={form.control}
+                              name={`products.${index}.price`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Input
+                                      {...field}
+                                      type="number"
+                                      step="0.01"
+                                    
+                                      className="max-w-36"
+                                      onChange={(event) => {
+                                        const value = parseFloat(
+                                          event.target.value
+                                        );
+                                        field.onChange(
+                                          typeof value === 'number' && value
+                                        );
+                                      }}
+                                      disabled={customers.isPending}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <Button
+                              variant={'ghost'}
+                              onClick={() => remove(index)}
+                              className=""
+                              size={'sm'}
+                            >
+                              <Trash2 className="h-5" />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+                <CardFooter className="justify-center border-t p-4">
+                  <Button
+                    size="sm"
+                    type="button"
+                    variant="ghost"
+                    className="gap-1"
+                    onClick={() =>
+                      append({
+                        product: '',
+                        quantity: 1,
+                        price: 0,
+                        productRef: '',
+                      })
+                    }
+                  >
+                    <PlusCircle className="h-3.5 w-3.5" />
+                    Add Product
+                  </Button>
+                </CardFooter>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Shipping Address</CardTitle>
+                  <CardContent className="grid gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="shippingAddress.street"
+                        render={({ field }) => (
+                          <FormItem className="space-y-2">
+                            <FormLabel htmlFor="street">Street</FormLabel>
+                            <FormControl>
+                              <Input
+                                id="street"
+                                placeholder="Enter street address"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="shippingAddress.city"
+                        render={({ field }) => (
+                          <FormItem className="space-y-2">
+                            <FormLabel htmlFor="city">City</FormLabel>
+                            <FormControl>
+                              <Input
+                                id="city"
+                                placeholder="Enter city"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="shippingAddress.state"
+                        render={({ field }) => (
+                          <FormItem className="space-y-2">
+                            <FormLabel htmlFor="state">State</FormLabel>
+                            <FormControl>
+                              <Input
+                                id="state"
+                                placeholder="Enter state"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="shippingAddress.postalCode"
+                        render={({ field }) => (
+                          <FormItem className="space-y-2">
+                            <FormLabel htmlFor="postalCode">
+                              Postal Code
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                id="postalCode"
+                                placeholder="Enter postal code"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="shippingAddress.country"
+                        render={({ field }) => (
+                          <FormItem className="space-y-2">
+                            <FormLabel htmlFor="country">Country</FormLabel>
+                            <FormControl>
+                              <Input
+                                id="country"
+                                placeholder="Enter country"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </CardContent>
+                </CardHeader>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Billing Address</CardTitle>
+                  <CardContent className="grid gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="billingAddress.street"
+                        render={({ field }) => (
+                          <FormItem className="space-y-2">
+                            <FormLabel htmlFor="street">Street</FormLabel>
+                            <FormControl>
+                              <Input
+                                id="street"
+                                placeholder="Enter street address"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="billingAddress.city"
+                        render={({ field }) => (
+                          <FormItem className="space-y-2">
+                            <FormLabel htmlFor="city">City</FormLabel>
+                            <FormControl>
+                              <Input
+                                id="city"
+                                placeholder="Enter city"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="billingAddress.state"
+                        render={({ field }) => (
+                          <FormItem className="space-y-2">
+                            <FormLabel htmlFor="state">State</FormLabel>
+                            <FormControl>
+                              <Input
+                                id="state"
+                                placeholder="Enter state"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="billingAddress.postalCode"
+                        render={({ field }) => (
+                          <FormItem className="space-y-2">
+                            <FormLabel htmlFor="postalCode">
+                              Postal Code
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                id="postalCode"
+                                placeholder="Enter postal code"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="billingAddress.country"
+                        render={({ field }) => (
+                          <FormItem className="space-y-2">
+                            <FormLabel htmlFor="country">Country</FormLabel>
+                            <FormControl>
+                              <Input
+                                id="country"
+                                placeholder="Enter country"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </CardContent>
+                </CardHeader>
+              </Card>
             </div>
-            <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
+            <div className="grid auto-rows-max items-start gap-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Order Status</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-6">
+                    <FormField
+                      control={form.control}
+                      name="status"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3 ">
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              className="flex flex-col space-y-1"
+                            >
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                <div>
+                                  <FormControl>
+                                    <RadioGroupItem value="pending" />
+                                  </FormControl>
+                                </div>
+                                <div className="flex flex-col">
+                                  <FormLabel>
+                                    <OrderStatus status="pending" />
+                                  </FormLabel>
+                                  <FormDescription>
+                                    The order has been placed but not yet
+                                    processed.
+                                  </FormDescription>
+                                </div>
+                              </FormItem>
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                <div>
+                                  <FormControl>
+                                    <RadioGroupItem value="processed" />
+                                  </FormControl>
+                                </div>
+                                <div className="flex flex-col">
+                                  <FormLabel>
+                                    <OrderStatus status="processed" />
+                                  </FormLabel>
+                                  <FormDescription>
+                                    The order has been reviewed and is being
+                                    prepared for shipment.
+                                  </FormDescription>
+                                </div>
+                              </FormItem>
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                <div>
+                                  <FormControl>
+                                    <RadioGroupItem value="shipped" />
+                                  </FormControl>
+                                </div>
+                                <div className="flex flex-col">
+                                  <FormLabel>
+                                    <OrderStatus status="shipped" />
+                                  </FormLabel>
+                                  <FormDescription>
+                                    The order has been dispatched and is on its
+                                    way to the delivery address.
+                                  </FormDescription>
+                                </div>
+                              </FormItem>
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                <div>
+                                  <FormControl>
+                                    <RadioGroupItem value="delivered" />
+                                  </FormControl>
+                                </div>
+                                <div className="flex flex-col">
+                                  <FormLabel>
+                                    <OrderStatus status="delivered" />
+                                  </FormLabel>
+                                  <FormDescription>
+                                    The order has been delivered to the
+                                    customer.
+                                  </FormDescription>
+                                </div>
+                              </FormItem>
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                <div>
+                                  <FormControl>
+                                    <RadioGroupItem value="cancelled" />
+                                  </FormControl>
+                                </div>
+                                <div className="flex flex-col">
+                                  <FormLabel>
+                                    <OrderStatus status="cancelled" />
+                                  </FormLabel>
+                                  <FormDescription>
+                                    The order has been cancelled and will not be
+                                    processed or delivered.
+                                  </FormDescription>
+                                </div>
+                              </FormItem>
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Delivery (Optional)</CardTitle>
+                  <CardDescription>
+                    You can leave this section empty if the order does is not
+                    ready for delivery.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-6">
+                    <FormField
+                      name="delivery.deliveryMan.name"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>
+                            Delivery Man Name
+                            <span className="text-muted-foreground">
+                              {' '}
+                              (Optional)
+                            </span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      name="delivery.deliveryMan.phone"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>Delivery Phone Number</FormLabel>
+                          <FormControl>
+                            <PhoneInput
+                              defaultCountry="TN"
+                              placeholder="Enter a phone number"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      name="delivery.deliveryMan.registrationNumber"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>Delivery Registration Number</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      name="deliveryPrice"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Delivery Price</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              type="number"
+                              step="0.01"
+                              onChange={(event) => {
+                                const value = parseFloat(event.target.value);
+                                field.onChange(
+                                  typeof value === 'number' && value
+                                );
+                              }}
+                              disabled={products.isPending}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
               <Card>
                 <CardHeader>
                   <CardTitle>
-                    Order Status
+                    Payment
                   </CardTitle>
-                  <CardContent>
-
-                  </CardContent>
                 </CardHeader>
+                <CardContent>
+                <div className="grid gap-6">
+                    <FormField
+                      control={form.control}
+                      name="payment"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel>
+                            Payment Type
+                          </FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              className="flex flex-col space-y-1"
+                            >
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                <div>
+                                  <FormControl>
+                                    <RadioGroupItem value="cash" />
+                                  </FormControl>
+                                </div>
+                                <div className="flex flex-col">
+                                  <FormLabel>
+                                    <PaymentStatus status="cash" />
+                                  </FormLabel>
+                                </div>
+                              </FormItem>
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                <div>
+                                  <FormControl>
+                                    <RadioGroupItem value="credit" />
+                                  </FormControl>
+                                </div>
+                                <div className="flex flex-col">
+                                  <FormLabel>
+                                    <PaymentStatus status="credit" />
+                                  </FormLabel>
+                                </div>
+                              </FormItem>
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                <div>
+                                  <FormControl>
+                                    <RadioGroupItem value="debit" />
+                                  </FormControl>
+                                </div>
+                                <div className="flex flex-col">
+                                  <FormLabel>
+                                    <PaymentStatus status="debit" />
+                                  </FormLabel>
+                                </div>
+                              </FormItem>
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                <div>
+                                  <FormControl>
+                                    <RadioGroupItem value="check" />
+                                  </FormControl>
+                                </div>
+                                <div className="flex flex-col">
+                                  <FormLabel>
+                                    <PaymentStatus status="check" />
+                                  </FormLabel>
+                                </div>
+                              </FormItem>
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                <div>
+                                  <FormControl>
+                                    <RadioGroupItem value="payment_on_delivery" />
+                                  </FormControl>
+                                </div>
+                                <div className="flex flex-col">
+                                  <FormLabel>
+                                    <PaymentStatus status="payment_on_delivery" />
+                                  </FormLabel>
+                                </div>
+                              </FormItem>
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                <div>
+                                  <FormControl>
+                                    <RadioGroupItem value="other" />
+                                  </FormControl>
+                                </div>
+                                <div className="flex flex-col">
+                                  <FormLabel>
+                                    <PaymentStatus status="other" />
+                                  </FormLabel>
+                                </div>
+                              </FormItem>
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
               </Card>
             </div>
           </div>

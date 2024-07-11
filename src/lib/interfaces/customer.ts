@@ -1,9 +1,9 @@
 export interface Address {
-    street?: string;
-    city?: string;
-    state?: string;
-    postalCode?: string;
-    country?: string;
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
 }
 
 export interface SalesHistory {
@@ -60,6 +60,7 @@ export interface UserAccess {
 }
 
 export interface Customer {
+    _id?: string;
     customerId?: string;
     name?: string;
     contactInfo?: {

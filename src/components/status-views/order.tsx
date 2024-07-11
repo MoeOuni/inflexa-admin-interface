@@ -7,25 +7,25 @@ const StatusToText = ({status}:{status?: string}) => {
     element = (<Tag color="orange">Pending</Tag>);
   }
   if (status === 'processed') {
-    element = (<Tag color="cyan">Processed</Tag>);
+    element = (<Tag color="lime">Processed</Tag>);
   }
   if (status === 'shipped') {
-    element = (<Tag color="gold">Shipped</Tag>);
+    element = (<Tag color="green">Shipped</Tag>);
   }
   // if (status?.featureId) {
   //   element = (<Tag color="purple">Feature ID: {status?.featureId}</Tag>);
   // }
   if (status === 'delivered') {
-    element = (<Tag color="green">Needs Review</Tag>);
+    element = (<Tag color="geekblue">Delivered</Tag>);
   } 
-  if (status === 'canceled') {
-    element = (<Tag>Needs Review</Tag>);
+  if (status === 'cancelled') {
+    element = (<Tag>Cancelled</Tag>);
   } 
 
   return element;
 };
 
-export const ProductStatus = ({ status }: { status?: string }) => {
+export const OrderStatus = ({ status }: { status?: string }) => {
   return (
     <>
         <React.Fragment>

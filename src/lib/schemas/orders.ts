@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const OrderFormSchema = z.object({
+    customerName: z.string().min(1, {message: "Customer Name is required"}),
     customer: z.string().min(1, { message: "Customer is required" }),
     totalTax: z.number().default(0),
     totaltotalAmount: z.number().default(0),
@@ -17,14 +18,14 @@ export const OrderFormSchema = z.object({
     }).optional(),
     products: z.array(
         z.object({
-            product: z.string().min(1, { message: "Product is required" }),
-            productRef: z.string().min(1, { message: "Product Reference is required" }),
-            quantity: z.number().min(1, { message: "Quantity is required" }),
-            price: z.number().min(1, { message: "Price is required" }),
+            product: z.string(),
+            productRef: z.string(),
+            quantity: z.number(),
+            price: z.number(),
         })
     ),
-    payment: z.enum(['cash', 'credit', 'debit', 'paypal', 'other', 'payment_on_delivery']),
-    paymentStatus: z.enum(['pending', 'paid', 'partial']),
+    payment: z.enum(['cash', 'credit', 'debit', 'check', 'other', 'payment_on_delivery']),
+    paymentStatus: z.enum(['unpaid', 'paid', 'partial']),
     status: z.enum(['pending', 'processed', 'shipped', 'delivered', 'cancelled']),
     shippingAddress: z.object({
         street: z.string().min(1, { message: "Street is required" }),
