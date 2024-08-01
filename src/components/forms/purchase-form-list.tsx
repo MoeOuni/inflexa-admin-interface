@@ -93,7 +93,6 @@ export default function PurchaseFormList({
 
       const payload: APICreateInventory = {
         ...data,
-        supplier: purchase?.supplierId,
         purchaseId: purchase?._id,
         purchaseReference: purchase?.reference,
       };

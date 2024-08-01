@@ -53,6 +53,8 @@ import { PlusCircle, Trash2 } from 'lucide-react';
 import { Product } from '@/lib/interfaces';
 import { PhoneInput } from '../app/phone-input';
 import { PaymentStatus } from '../status-views/payment';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 type OrderForm = z.infer<typeof OrderFormSchema>;
 
@@ -111,12 +113,26 @@ const OrderForm = () => {
     form.setValue(`products.${index}.product`, product._id || '');
     form.setValue(`products.${index}.productRef`, product.reference || '');
     form.setValue(`products.${index}.price`, product.price?.listPrice || 0);
-  }
+  };
+
+  useEffect(() => {
+    if (
+      form.formState.isSubmitted &&
+      Object.keys(form.formState.errors).length > 0
+    ) {
+      if (form.formState.errors.products?.message) {
+        toast.error(form.formState.errors.products.message);
+      } else {
+        toast.error('Please validate all the fields before submitting');
+      }
+    }
+  }, [form.formState.isSubmitted, form.formState.errors]);
 
   return (
     <div className="pb-2">
       <Form {...form}>
         <form
+          onInvalid={(e) => console.log(e)}
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid flex-1 auto-rows-max gap-4"
         >
@@ -283,7 +299,7 @@ const OrderForm = () => {
                     <TableBody>
                       {fields.map((field, index) => (
                         <TableRow>
-                          <TableCell>
+                          <TableCell className="align-top">
                             <FormField
                               control={form.control}
                               name={`products.${index}.product`}
@@ -333,7 +349,10 @@ const OrderForm = () => {
                                                         className="w-full"
                                                         key={product._id}
                                                         onSelect={() => {
-                                                          handleSelectProduct(product, index)
+                                                          handleSelectProduct(
+                                                            product,
+                                                            index
+                                                          );
                                                         }}
                                                       >
                                                         {product.name}
@@ -371,7 +390,7 @@ const OrderForm = () => {
                               )}
                             />
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="align-top">
                             <FormField
                               control={form.control}
                               name={`products.${index}.quantity`}
@@ -408,7 +427,7 @@ const OrderForm = () => {
                               )}
                             />
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="align-top">
                             <FormField
                               control={form.control}
                               name={`products.${index}.price`}
@@ -419,7 +438,6 @@ const OrderForm = () => {
                                       {...field}
                                       type="number"
                                       step="0.01"
-                                    
                                       className="max-w-36"
                                       onChange={(event) => {
                                         const value = parseFloat(
@@ -437,7 +455,7 @@ const OrderForm = () => {
                               )}
                             />
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="align-top">
                             <Button
                               variant={'ghost'}
                               onClick={() => remove(index)}
@@ -476,198 +494,198 @@ const OrderForm = () => {
               <Card>
                 <CardHeader>
                   <CardTitle>Shipping Address</CardTitle>
-                  <CardContent className="grid gap-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="shippingAddress.street"
-                        render={({ field }) => (
-                          <FormItem className="space-y-2">
-                            <FormLabel htmlFor="street">Street</FormLabel>
-                            <FormControl>
-                              <Input
-                                id="street"
-                                placeholder="Enter street address"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="shippingAddress.city"
-                        render={({ field }) => (
-                          <FormItem className="space-y-2">
-                            <FormLabel htmlFor="city">City</FormLabel>
-                            <FormControl>
-                              <Input
-                                id="city"
-                                placeholder="Enter city"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="shippingAddress.state"
-                        render={({ field }) => (
-                          <FormItem className="space-y-2">
-                            <FormLabel htmlFor="state">State</FormLabel>
-                            <FormControl>
-                              <Input
-                                id="state"
-                                placeholder="Enter state"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="shippingAddress.postalCode"
-                        render={({ field }) => (
-                          <FormItem className="space-y-2">
-                            <FormLabel htmlFor="postalCode">
-                              Postal Code
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                id="postalCode"
-                                placeholder="Enter postal code"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="shippingAddress.country"
-                        render={({ field }) => (
-                          <FormItem className="space-y-2">
-                            <FormLabel htmlFor="country">Country</FormLabel>
-                            <FormControl>
-                              <Input
-                                id="country"
-                                placeholder="Enter country"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </CardContent>
                 </CardHeader>
+                <CardContent className="grid gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="shippingAddress.street"
+                      render={({ field }) => (
+                        <FormItem className="space-y-2">
+                          <FormLabel htmlFor="street">Street</FormLabel>
+                          <FormControl>
+                            <Input
+                              id="street"
+                              placeholder="Enter street address"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="shippingAddress.city"
+                      render={({ field }) => (
+                        <FormItem className="space-y-2">
+                          <FormLabel htmlFor="city">City</FormLabel>
+                          <FormControl>
+                            <Input
+                              id="city"
+                              placeholder="Enter city"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="shippingAddress.state"
+                      render={({ field }) => (
+                        <FormItem className="space-y-2">
+                          <FormLabel htmlFor="state">State</FormLabel>
+                          <FormControl>
+                            <Input
+                              id="state"
+                              placeholder="Enter state"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="shippingAddress.postalCode"
+                      render={({ field }) => (
+                        <FormItem className="space-y-2">
+                          <FormLabel htmlFor="postalCode">
+                            Postal Code
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              id="postalCode"
+                              placeholder="Enter postal code"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="shippingAddress.country"
+                      render={({ field }) => (
+                        <FormItem className="space-y-2">
+                          <FormLabel htmlFor="country">Country</FormLabel>
+                          <FormControl>
+                            <Input
+                              id="country"
+                              placeholder="Enter country"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
               </Card>
               <Card>
                 <CardHeader>
                   <CardTitle>Billing Address</CardTitle>
-                  <CardContent className="grid gap-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="billingAddress.street"
-                        render={({ field }) => (
-                          <FormItem className="space-y-2">
-                            <FormLabel htmlFor="street">Street</FormLabel>
-                            <FormControl>
-                              <Input
-                                id="street"
-                                placeholder="Enter street address"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="billingAddress.city"
-                        render={({ field }) => (
-                          <FormItem className="space-y-2">
-                            <FormLabel htmlFor="city">City</FormLabel>
-                            <FormControl>
-                              <Input
-                                id="city"
-                                placeholder="Enter city"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="billingAddress.state"
-                        render={({ field }) => (
-                          <FormItem className="space-y-2">
-                            <FormLabel htmlFor="state">State</FormLabel>
-                            <FormControl>
-                              <Input
-                                id="state"
-                                placeholder="Enter state"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="billingAddress.postalCode"
-                        render={({ field }) => (
-                          <FormItem className="space-y-2">
-                            <FormLabel htmlFor="postalCode">
-                              Postal Code
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                id="postalCode"
-                                placeholder="Enter postal code"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="billingAddress.country"
-                        render={({ field }) => (
-                          <FormItem className="space-y-2">
-                            <FormLabel htmlFor="country">Country</FormLabel>
-                            <FormControl>
-                              <Input
-                                id="country"
-                                placeholder="Enter country"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </CardContent>
                 </CardHeader>
+                <CardContent className="grid gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="billingAddress.street"
+                      render={({ field }) => (
+                        <FormItem className="space-y-2">
+                          <FormLabel htmlFor="street">Street</FormLabel>
+                          <FormControl>
+                            <Input
+                              id="street"
+                              placeholder="Enter street address"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="billingAddress.city"
+                      render={({ field }) => (
+                        <FormItem className="space-y-2">
+                          <FormLabel htmlFor="city">City</FormLabel>
+                          <FormControl>
+                            <Input
+                              id="city"
+                              placeholder="Enter city"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="billingAddress.state"
+                      render={({ field }) => (
+                        <FormItem className="space-y-2">
+                          <FormLabel htmlFor="state">State</FormLabel>
+                          <FormControl>
+                            <Input
+                              id="state"
+                              placeholder="Enter state"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="billingAddress.postalCode"
+                      render={({ field }) => (
+                        <FormItem className="space-y-2">
+                          <FormLabel htmlFor="postalCode">
+                            Postal Code
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              id="postalCode"
+                              placeholder="Enter postal code"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="billingAddress.country"
+                      render={({ field }) => (
+                        <FormItem className="space-y-2">
+                          <FormLabel htmlFor="country">Country</FormLabel>
+                          <FormControl>
+                            <Input
+                              id="country"
+                              placeholder="Enter country"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
               </Card>
             </div>
             <div className="grid auto-rows-max items-start gap-4">
@@ -865,20 +883,16 @@ const OrderForm = () => {
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>
-                    Payment
-                  </CardTitle>
+                  <CardTitle>Payment</CardTitle>
                 </CardHeader>
                 <CardContent>
-                <div className="grid gap-6">
+                  <div className="grid gap-6">
                     <FormField
                       control={form.control}
                       name="payment"
                       render={({ field }) => (
                         <FormItem className="space-y-3">
-                          <FormLabel>
-                            Payment Type
-                          </FormLabel>
+                          <FormLabel>Payment Type</FormLabel>
                           <FormControl>
                             <RadioGroup
                               onValueChange={field.onChange}

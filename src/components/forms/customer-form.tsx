@@ -8,7 +8,7 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import {  useState } from "react";
 import {
   Form,
   FormControl,
@@ -42,6 +42,7 @@ function CustomerForm() {
     mode: "onChange",
   });
 
+
   const onSubmit = async (data: CustomerFormType) => {
     let status = "";
 
@@ -54,6 +55,7 @@ function CustomerForm() {
       form.reset(CustomerFormSchemaDefaultValues);
     }
   };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -98,7 +100,8 @@ function CustomerForm() {
         <Card>
           <CardHeader>
             <CardTitle>Customer Information</CardTitle>
-            <CardContent>
+          </CardHeader>
+          <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -219,13 +222,13 @@ function CustomerForm() {
                 />
               </div>
             </CardContent>
-          </CardHeader>
         </Card>
 
         <Card>
           <CardHeader>
             <CardTitle>Shipping Address</CardTitle>
-            <CardContent className="grid gap-6">
+          </CardHeader>
+          <CardContent className="grid gap-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -336,7 +339,6 @@ function CustomerForm() {
                 )}
               />
             </CardContent>
-          </CardHeader>
         </Card>
       </form>
     </Form>

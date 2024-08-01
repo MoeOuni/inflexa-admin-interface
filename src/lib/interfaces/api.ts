@@ -1,6 +1,5 @@
 export interface APICreateInventory {
     reference: string;
-    supplier: string;
     purchaseId: string;
     purchaseReference: string;
     tax: number;
