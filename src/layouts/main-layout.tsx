@@ -16,13 +16,22 @@ import { Input } from '@/components/ui/input';
 import { Sidebar, SidebarMobile } from '@/components/app/side-bar';
 import { ModeToggle } from '@/components/app/mode-toggle';
 import { LangToggle } from '@/components/app/lang-toggle';
-import { Suspense } from 'react';
+import {
+  Suspense,
+  // useEffect
+} from 'react';
+
+// import runOneSignal from '@/lib/one-signal';
 
 const Spin = () => {
   return <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />;
 };
 
 function MainLayout() {
+  // useEffect(() => {
+  //   // Run OneSignal for push notifications once logged in.
+  //   runOneSignal();
+  // }, []);
   return (
     <div className="lg:grid md:grid min-h-screen w-full lg:grid-cols-[235px_1fr]">
       <div className="hidden border-r bg-muted/40 lg:block">
