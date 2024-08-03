@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+import { useLogin } from '@/api/auth/use-login';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -6,40 +7,125 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+
+import { Input } from '@/components/ui/input';
+import { Loader2 } from 'lucide-react';
+import { useContext } from 'react';
+import { AuthContext } from '@/contexts/auth-context';
+import { useNavigate } from 'react-router-dom';
+
+const LoginFormSchema = z.object({
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(8, { message: 'Password must be at least 8 characters long' })
+    .max(32, { message: 'Password must be at most 32 characters long' }),
+});
+
+type ILogin = z.infer<typeof LoginFormSchema>;
 
 const Login = () => {
+  const Navigate = useNavigate();
+
+  const { setToken } = useContext(AuthContext);
+  const loginFn = useLogin();
+
+  const form = useForm<ILogin>({
+    resolver: zodResolver(LoginFormSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    mode: 'onChange',
+  });
+
+  async function onSubmit(data: ILogin) {
+    const response = await loginFn.mutateAsync(data);
+
+    if (loginFn.isSuccess) {
+      setToken(response.data.data);
+
+      Navigate('/');
+    }
+  }
+
   return (
-    <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-2xl flex items-center gap-2">
-          Login to{" "}
-          <div className="flex items-center gap-1">
-            <img src="./icon-logo.svg" className="h-8" />{" "}
-            <span style={{ color: "#0074D9" }}>Inflexa admin</span>
-          </div>
-        </CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4">
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" required />
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button className="w-full">Sign in</Button>
-      </CardFooter>
-    </Card>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Card className="w-full max-w-sm">
+          <CardHeader>
+            <CardTitle className="text-2xl flex items-center gap-2">
+              Login to{' '}
+              <div className="flex items-center gap-1">
+                <img src="./icon-logo.svg" className="h-8" />{' '}
+                <span style={{ color: '#0074D9' }}>Inflexa admin</span>
+              </div>
+            </CardTitle>
+            <CardDescription>
+              Enter your email below to login to your account.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled={loginFn.isPending} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={loginFn.isPending}
+                      type="password"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="w-full"
+              type="submit"
+              disabled={loginFn.isPending}
+            >
+              {loginFn.isPending && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}{' '}
+              Sign in
+            </Button>
+          </CardFooter>
+        </Card>
+      </form>
+    </Form>
   );
 };
 

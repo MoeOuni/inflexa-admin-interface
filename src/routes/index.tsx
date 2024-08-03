@@ -1,14 +1,7 @@
 import React, { lazy } from 'react';
-import { Key, LoaderCircle, LogOut } from 'lucide-react';
-import {
-  Route,
-  Routes,
-  Navigate,
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
-import { AuthContext } from '@/contexts/auth-context';
-import { FloatButton, Tooltip } from 'antd';
+import { LoaderCircle } from 'lucide-react';
+import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
+
 import MainLayout from '@/layouts/main-layout';
 // Error Pages
 const NotFound = lazy(() => import('@/pages/not-found'));
@@ -95,14 +88,7 @@ const Spin = () => {
 };
 
 const PublicRoutes = React.memo(() => {
-  const { setDummyAuth } = React.useContext(AuthContext);
   const { pathname } = useLocation();
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    setDummyAuth();
-    navigate('/');
-  };
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -125,22 +111,12 @@ const PublicRoutes = React.memo(() => {
           <Route path="*" element={<Navigate to={'/login'} />} />
         </Route>
       </Routes>
-      <Tooltip title="Preview Login">
-        <FloatButton icon={<Key size={18} />} onClick={handleClick} />
-      </Tooltip>
     </React.Suspense>
   );
 });
 
 const ProtectedRoutes = React.memo(() => {
-  const { clearDummyAuth } = React.useContext(AuthContext);
   const { pathname } = useLocation();
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    clearDummyAuth();
-    navigate('/login');
-  };
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -193,9 +169,6 @@ const ProtectedRoutes = React.memo(() => {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-      <Tooltip title="Logout">
-        <FloatButton icon={<LogOut size={18} />} onClick={handleClick} />
-      </Tooltip>
     </>
   );
 });

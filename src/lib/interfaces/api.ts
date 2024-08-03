@@ -75,3 +75,8 @@ export interface APIUpdateProduct {
       altText: string;
     }>;
 }
+
+export interface APILogin {
+    email: string;
+    password: string;
+}

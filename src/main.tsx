@@ -21,16 +21,16 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </div>
     }
   >
-    <AuthContextProvider>
-      <PermissionsContextProvider>
-        <StoreContextProvider>
-            <ReactQueryProvider>
-              <ThemeProvider defaultTheme="system" storageKey="x-angle-theme">
-                <App />
-              </ThemeProvider>
-            </ReactQueryProvider>
-        </StoreContextProvider>
-      </PermissionsContextProvider>
-    </AuthContextProvider>
+    <ReactQueryProvider>
+      <AuthContextProvider>
+        <PermissionsContextProvider>
+          <StoreContextProvider>
+            <ThemeProvider defaultTheme="system" storageKey="x-angle-theme">
+              <App />
+            </ThemeProvider>
+          </StoreContextProvider>
+        </PermissionsContextProvider>
+      </AuthContextProvider>
+    </ReactQueryProvider>
   </Suspense>
 );

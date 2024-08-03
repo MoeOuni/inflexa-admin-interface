@@ -7,8 +7,6 @@ export type AuthContextType = {
   user: UserState | undefined;
   setToken: (token: string | undefined) => void;
   setUser: (user: UserState | undefined) => void;
-  setDummyAuth: () => void;
-  clearDummyAuth: () => void;
 };
 
 
@@ -99,8 +97,6 @@ export interface Purchase {
   updatedAt?: string;
   total: number;
 }
-
-
 
 export interface Product {
   _id?: string;

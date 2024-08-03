@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import { useLocalStorageState } from "ahooks";
 import { AuthContextType, UserState } from "@/lib/types";
 
@@ -9,8 +9,6 @@ const AuthContext = createContext<AuthContextType>({
   user: undefined,
   setToken: () => {},
   setUser: () => {},
-  setDummyAuth: () => {},
-  clearDummyAuth: () => {},
 });
 
 // Create a provider component to wrap your app with
@@ -31,21 +29,13 @@ const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   );
 
-  const setDummyAuth = () => {
-    setToken("dummy-token");
-    setUser({
-      id: "1",
-      firstName: "John",
-      lastName: "Doe",
-      email: "jhon.doe@email.com",
-      image: "https://github.com/shadcn.png",
-    });
-  };
+  // useEffect(() => {
+  //   if (token) {
 
-  const clearDummyAuth = () => {
-    setToken(undefined);
-    setUser(undefined);
-  };
+  //   }
+  // }, [token])
+
+
 
   // Create a value object to pass to the context provider
   const contextValue: AuthContextType = {
@@ -53,8 +43,6 @@ const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
     user,
     setToken,
     setUser,
-    setDummyAuth,
-    clearDummyAuth,
   };
 
   return (
