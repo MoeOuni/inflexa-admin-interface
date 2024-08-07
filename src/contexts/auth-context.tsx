@@ -1,11 +1,12 @@
-import React, { createContext, useEffect } from "react";
-import { useLocalStorageState } from "ahooks";
-import { AuthContextType, UserState } from "@/lib/types";
+import React, { createContext, useEffect } from 'react';
+import { useLocalStorageState } from 'ahooks';
+import { AuthContextType, UserState } from '@/lib/types';
+import { useGetMe } from '@/api';
 
 // Create the context
 
 const AuthContext = createContext<AuthContextType>({
-  token: "",
+  token: '',
   user: undefined,
   setToken: () => {},
   setUser: () => {},
@@ -15,27 +16,32 @@ const AuthContext = createContext<AuthContextType>({
 const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const getMeFn = useGetMe();
+
   // Define the state for the tokens and user using localStorageState for persistence
   const [token, setToken] = useLocalStorageState<string | undefined>(
-    "x-auth-token",
+    'x-auth-token',
     {
-      defaultValue: "",
+      defaultValue: '',
     }
   );
+
   const [user, setUser] = useLocalStorageState<UserState | undefined>(
-    "x-auth-user",
+    'x-auth-user',
     {
       defaultValue: undefined,
     }
   );
 
-  // useEffect(() => {
-  //   if (token) {
-
-  //   }
-  // }, [token])
-
-
+  useEffect(() => {
+    const getMeCall = async () => {
+      const response = await getMeFn.mutateAsync();
+      setUser(response.data);
+    };
+    if (token) {
+      getMeCall();
+    }
+  }, [token]);
 
   // Create a value object to pass to the context provider
   const contextValue: AuthContextType = {

@@ -1,4 +1,4 @@
-import { useLogin } from '@/api/auth/use-login';
+import { useLogin } from '@/api';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -26,7 +26,7 @@ import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { useContext } from 'react';
 import { AuthContext } from '@/contexts/auth-context';
-import { useNavigate } from 'react-router-dom';
+
 
 const LoginFormSchema = z.object({
   email: z.string().email(),
@@ -39,7 +39,6 @@ const LoginFormSchema = z.object({
 type ILogin = z.infer<typeof LoginFormSchema>;
 
 const Login = () => {
-  const Navigate = useNavigate();
 
   const { setToken } = useContext(AuthContext);
   const loginFn = useLogin();
@@ -56,10 +55,8 @@ const Login = () => {
   async function onSubmit(data: ILogin) {
     const response = await loginFn.mutateAsync(data);
 
-    if (loginFn.isSuccess) {
+    if (response.status === 200) {
       setToken(response.data.data);
-
-      Navigate('/');
     }
   }
 

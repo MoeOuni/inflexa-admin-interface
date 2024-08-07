@@ -18,8 +18,11 @@ import { ModeToggle } from '@/components/app/mode-toggle';
 import { LangToggle } from '@/components/app/lang-toggle';
 import {
   Suspense,
+  useContext,
   // useEffect
 } from 'react';
+import { AuthContext } from '@/contexts/auth-context';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 // import runOneSignal from '@/lib/one-signal';
 
@@ -28,10 +31,13 @@ const Spin = () => {
 };
 
 function MainLayout() {
+  const { user } = useContext(AuthContext);
+
   // useEffect(() => {
   //   // Run OneSignal for push notifications once logged in.
   //   runOneSignal();
   // }, []);
+
   return (
     <div className="lg:grid md:grid min-h-screen w-full lg:grid-cols-[235px_1fr]">
       <div className="hidden border-r bg-muted/40 lg:block">
@@ -69,7 +75,17 @@ function MainLayout() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
+                {user?.profile?.avatarUrl ? (
+                  <Avatar>
+                    <AvatarImage
+                      src={user?.profile?.avatarUrl as string}
+                      alt="me"
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                ) : (
+                  <CircleUser className="h-5 w-5" />
+                )}
                 <span className="sr-only">Toggle user menu</span>
               </Button>
             </DropdownMenuTrigger>

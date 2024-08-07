@@ -18,11 +18,34 @@ export type PermissionContextType = {
 
 // Define the type for the user state
 export type UserState = {
-  id: string;
-  image?: string;
-  firstName: string;
-  lastName: string;
+  _id?: string;
   email: string;
+  profile?: {
+    firstName?: string;
+    lastName?: string;
+    dateOfBirth?: Date;
+    bio?: string;
+    avatarUrl?: string;
+  };
+  settings?: {
+    notifications?: {
+      push?: boolean;
+      sms?: boolean;
+      email?: boolean;
+    };
+    privacy?: {
+      profileVisibility?: string;
+    };
+  };
+  role?: string;
+  notifications?: {
+    playerId?: string;
+    segmentedId?: string;
+  };
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
+  archviedAt?: Date;
 };
 
 export interface SubCategory {
