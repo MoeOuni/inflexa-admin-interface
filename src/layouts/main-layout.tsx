@@ -31,7 +31,7 @@ const Spin = () => {
 };
 
 function MainLayout() {
-  const { user } = useContext(AuthContext);
+  const { user, setToken, setUser } = useContext(AuthContext);
 
   // useEffect(() => {
   //   // Run OneSignal for push notifications once logged in.
@@ -95,7 +95,11 @@ function MainLayout() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => {
+                setToken('');
+                setUser(undefined);
+                window.location.reload();
+              }}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <ModeToggle />

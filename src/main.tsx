@@ -12,6 +12,11 @@ import './lib/i18n';
 import { StoreContextProvider } from './contexts/store-context.tsx';
 import { Suspense } from 'react';
 import { LoaderCircle } from 'lucide-react';
+import dayjs from 'dayjs';
+
+import relativeTime from 'dayjs/plugin/relativeTime' // ES 2015
+
+dayjs.extend(relativeTime);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <Suspense

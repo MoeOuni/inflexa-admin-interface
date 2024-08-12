@@ -26,6 +26,7 @@ import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { useContext } from 'react';
 import { AuthContext } from '@/contexts/auth-context';
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginFormSchema = z.object({
@@ -42,7 +43,8 @@ const Login = () => {
 
   const { setToken } = useContext(AuthContext);
   const loginFn = useLogin();
-
+  const navigate = useNavigate();
+  
   const form = useForm<ILogin>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
@@ -57,6 +59,7 @@ const Login = () => {
 
     if (response.status === 200) {
       setToken(response.data.data);
+      navigate("/");
     }
   }
 

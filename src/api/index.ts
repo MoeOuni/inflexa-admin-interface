@@ -8,3 +8,4 @@ export * from "./permissions";
 export * from "./products";
 // export * from "./users";
 export * from "./auth";
+export * from "./logs";
