@@ -36,10 +36,20 @@ import { Input } from '../ui/input';
 
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from 'antd';
+import dayjs from 'dayjs';
+import { Order } from '@/lib/interfaces';
+import { OrderStatus } from '../status-views/order';
+import { OrderActionMenu } from '../action-menus/order-action-menu';
+import { useStore } from '@/contexts/store-context';
 
-export function OrdersTable() {
-  const data = [];
+type Props = {
+  setOrderId: React.Dispatch<React.SetStateAction<string>>;
+  data: Order[]
+}
+
+export function OrdersTable({ data, setOrderId }: Props) {
   const { t } = useTranslation();
+  const {currency} = useStore();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -50,44 +60,38 @@ export function OrdersTable() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const columns: ColumnDef<any>[] = [
+  const columns: ColumnDef<Order>[] = [
     {
-      accessorKey: 'customerName',
-      header: 'Customer',
-      cell: ({ row }) => (
-        <div>
-          Name <br /> name@inflexa.com
-        </div>
-      ),
-    },
-    {
-      accessorKey: 'reference',
+      accessorKey: 'orderNumber',
       header: 'Reference',
-      cell: ({ row }) => <div className="capitalize">Oe31b70H</div>,
+      cell: ({ row }) => row.original.orderNumber,
     },
     {
       accessorKey: 'status',
       header: 'Status',
-      cell: ({ row }) => <div>Status</div>,
+      cell: ({ row }) => (
+        <div>
+          <OrderStatus status={row.original.status} />
+        </div>
+      ),
     },
     {
-      accessorKey: 'date',
+      accessorKey: 'createdAt',
       header: 'Date',
-      cell: ({ row }) => <div className="capitalize">Date</div>,
+      cell: ({ row }) =>
+        dayjs(row.original.createdAt).format('YYYY-MM-DD HH:mm'),
     },
     {
-      accessorKey: 'amount',
+      accessorKey: 'totalAmount',
       header: 'Amount',
-      cell: ({ row }) => {
-        <div className="capitalize">Date</div>;
-      },
+      cell: ({ row }) => row.original.totalAmount.toFixed(2) + ' ' + currency?.symbol,
     },
     {
       id: 'actions',
-      header: "Actions",
+      header: 'Actions',
       enableHiding: false,
       cell: ({ row }) => {
-        return <div>...</div>;
+        return <OrderActionMenu order={row.original} />;
       },
     },
   ];
@@ -121,10 +125,12 @@ export function OrdersTable() {
     <div className="max-w-full">
       <div className="flex items-center gap-2 pb-4">
         <Input
-          placeholder={t('search_customer')}
-          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+          placeholder={'Search by reference'}
+          value={
+            (table.getColumn('orderNumber')?.getFilterValue() as string) ?? ''
+          }
           onChange={(event) =>
-            table.getColumn('name')?.setFilterValue(event.target.value)
+            table.getColumn('orderNumber')?.setFilterValue(event.target.value)
           }
           className="max-w-xs"
         />
@@ -211,6 +217,7 @@ export function OrdersTable() {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  onClick={() => setOrderId(row.original?._id)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

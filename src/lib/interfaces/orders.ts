@@ -2,6 +2,7 @@ export interface Order {
   _id: string;
   orderNumber: string;
   customer: string;
+  customerName: string;
   products: {
     product: string;
     productRef: string;
@@ -46,4 +47,6 @@ export interface Order {
     country: string;
   };
   notes?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

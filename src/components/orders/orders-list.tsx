@@ -17,8 +17,22 @@ import {
   CardTitle,
 } from '../ui/card';
 import { OrdersTable } from '../data-tables/orders-table';
+import { useOrders } from '@/api';
+import { useEffect } from 'react';
 
-const OrdersList = () => {
+type Props = {
+  setOrderId: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const OrdersList = ({ setOrderId }: Props) => {
+  const orders = useOrders();
+
+  useEffect(() => {
+    if (orders?.data?.data?.length > 0) {
+      setOrderId(orders.data.data[0]._id)
+    }
+  }, [orders.status])
+
   return (
     <div>
       <Tabs defaultValue="week">
@@ -62,8 +76,8 @@ const OrdersList = () => {
               <CardTitle>Orders</CardTitle>
               <CardDescription>Recent orders from your store.</CardDescription>
             </CardHeader>
-            <CardContent className='max-w-full'>
-              <OrdersTable />
+            <CardContent className="max-w-full">
+              <OrdersTable data={orders?.data?.data || []} setOrderId={setOrderId} />
             </CardContent>
           </Card>
         </TabsContent>

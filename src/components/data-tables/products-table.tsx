@@ -114,7 +114,8 @@ export function ProductsTable({ data, loading }: Props) {
       cell: ({ row }) =>
         row.original.price?.listPrice && (
           <div>
-            {row.original.price?.listPrice}
+            {row.original.price?.listPrice.toFixed(2)}
+            {" "}
             {currency?.symbol}
           </div>
         ),
@@ -125,7 +126,8 @@ export function ProductsTable({ data, loading }: Props) {
       cell: ({ row }) =>
         row.original.price?.discountPrice && (
           <div>
-            {row.original.price?.discountPrice}
+            {row.original.price?.discountPrice.toFixed(2)}
+            {" "}
             {currency?.symbol}
           </div>
         ),

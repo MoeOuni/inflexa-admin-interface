@@ -7,16 +7,6 @@ export const OrderFormSchema = z.object({
   customer: z
     .string()
     .min(1, { message: 'Customer is required and cannot be empty' }),
-  totalTax: z
-    .number({
-      message: 'Total Tax is required',
-    })
-    .min(0, { message: 'Total Tax must be a non-negative number' })
-    .default(0),
-  totalAmount: z
-    .number({ message: 'Total Amount is required' })
-    .min(0, { message: 'Total Amount must be a non-negative number' })
-    .default(0),
   deliveryPrice: z
     .number({ message: 'Delivery Price is required' })
     .min(0, { message: 'Delivery Price must be a non-negative number' })

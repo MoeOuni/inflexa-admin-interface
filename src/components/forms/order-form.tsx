@@ -36,7 +36,7 @@ import {
   CardHeader,
   CardTitle,
 } from '../ui/card';
-import { useCustomers, useProducts } from '@/api';
+import { useCreateOrder, useCustomers, useProducts } from '@/api';
 import { Customer } from '@/lib/interfaces/customer';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { OrderStatus } from '../status-views/order';
@@ -49,7 +49,7 @@ import {
   TableRow,
 } from '../ui/table';
 import { Input } from '../ui/input';
-import { PlusCircle, Trash2 } from 'lucide-react';
+import { Loader2, PlusCircle, Trash2 } from 'lucide-react';
 import { Product } from '@/lib/interfaces';
 import { PhoneInput } from '../app/phone-input';
 import { PaymentStatus } from '../status-views/payment';
@@ -64,6 +64,7 @@ const OrderForm = () => {
   // API HOOKS
   const customers = useCustomers();
   const products = useProducts();
+  const order = useCreateOrder();
 
   const form = useForm<OrderForm>({
     resolver: zodResolver(OrderFormSchema),
@@ -82,7 +83,17 @@ const OrderForm = () => {
   });
 
   async function onSubmit(data: OrderForm) {
-    console.log(data);
+    await order.mutateAsync(data);
+
+    if (order.isSuccess) {
+      form.reset({
+        customer: '',
+        status: 'processed',
+        notes: '',
+        products: [],
+      });
+      navigate('/orders');
+    }
   }
 
   const handleNewCustomer = () => {
@@ -146,11 +157,16 @@ const OrderForm = () => {
               <Badge>New</Badge>
             </div>
             <div className="hidden items-center gap-2 md:ml-auto md:flex">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" disabled={order.isPending}>
                 Discard
               </Button>
-              <Button type="submit" size="sm" className="h-8 gap-1">
-                Save Order
+              <Button
+                type="submit"
+                size="sm"
+                className="h-8 gap-1"
+                disabled={order.isPending}
+              >
+              {order.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Save Order
               </Button>
             </div>
           </div>
@@ -176,6 +192,7 @@ const OrderForm = () => {
                             <PopoverTrigger asChild>
                               <FormControl>
                                 <Button
+                                  disabled={order.isPending}
                                   variant="outline"
                                   role="combobox"
                                   className={cn(
@@ -257,6 +274,7 @@ const OrderForm = () => {
                           <FormLabel>Notes</FormLabel>
                           <FormControl>
                             <Textarea
+                              disabled={order.isPending}
                               {...field}
                               className="h-32 p-2 border rounded-md w-full"
                             />
@@ -270,6 +288,7 @@ const OrderForm = () => {
                 <CardFooter>
                   <Button
                     type="button"
+                    disabled={order.isPending}
                     variant={'outline'}
                     className="ml-auto"
                     onClick={handleNewCustomer}
@@ -310,6 +329,7 @@ const OrderForm = () => {
                                       <PopoverTrigger asChild>
                                         <FormControl>
                                           <Button
+                                            disabled={order.isPending}
                                             variant="outline"
                                             role="combobox"
                                             className={cn(
@@ -398,6 +418,7 @@ const OrderForm = () => {
                                 <FormItem>
                                   <FormControl>
                                     <Input
+                                      disabled={order.isPending}
                                       {...field}
                                       type="number"
                                       step="0.01"
@@ -419,7 +440,6 @@ const OrderForm = () => {
                                           typeof value === 'number' && value
                                         );
                                       }}
-                                      disabled={products.isPending}
                                     />
                                   </FormControl>
                                   <FormMessage />
@@ -435,6 +455,7 @@ const OrderForm = () => {
                                 <FormItem>
                                   <FormControl>
                                     <Input
+                                      disabled={order.isPending}
                                       {...field}
                                       type="number"
                                       step="0.01"
@@ -447,7 +468,6 @@ const OrderForm = () => {
                                           typeof value === 'number' && value
                                         );
                                       }}
-                                      disabled={customers.isPending}
                                     />
                                   </FormControl>
                                   <FormMessage />
@@ -457,6 +477,7 @@ const OrderForm = () => {
                           </TableCell>
                           <TableCell className="align-top">
                             <Button
+                              disabled={order.isPending}
                               variant={'ghost'}
                               onClick={() => remove(index)}
                               className=""
@@ -470,10 +491,11 @@ const OrderForm = () => {
                     </TableBody>
                   </Table>
                 </CardContent>
-                <CardFooter className="justify-center border-t p-4">
+                <CardFooter className="justify-center border-t">
                   <Button
                     size="sm"
                     type="button"
+                    disabled={order.isPending}
                     variant="ghost"
                     className="gap-1"
                     onClick={() =>
@@ -505,6 +527,7 @@ const OrderForm = () => {
                           <FormLabel htmlFor="street">Street</FormLabel>
                           <FormControl>
                             <Input
+                              disabled={order.isPending}
                               id="street"
                               placeholder="Enter street address"
                               {...field}
@@ -522,6 +545,7 @@ const OrderForm = () => {
                           <FormLabel htmlFor="city">City</FormLabel>
                           <FormControl>
                             <Input
+                              disabled={order.isPending}
                               id="city"
                               placeholder="Enter city"
                               {...field}
@@ -541,6 +565,7 @@ const OrderForm = () => {
                           <FormLabel htmlFor="state">State</FormLabel>
                           <FormControl>
                             <Input
+                              disabled={order.isPending}
                               id="state"
                               placeholder="Enter state"
                               {...field}
@@ -560,6 +585,7 @@ const OrderForm = () => {
                           </FormLabel>
                           <FormControl>
                             <Input
+                              disabled={order.isPending}
                               id="postalCode"
                               placeholder="Enter postal code"
                               {...field}
@@ -577,6 +603,7 @@ const OrderForm = () => {
                           <FormLabel htmlFor="country">Country</FormLabel>
                           <FormControl>
                             <Input
+                              disabled={order.isPending}
                               id="country"
                               placeholder="Enter country"
                               {...field}
@@ -603,6 +630,7 @@ const OrderForm = () => {
                           <FormLabel htmlFor="street">Street</FormLabel>
                           <FormControl>
                             <Input
+                              disabled={order.isPending}
                               id="street"
                               placeholder="Enter street address"
                               {...field}
@@ -621,6 +649,7 @@ const OrderForm = () => {
                           <FormControl>
                             <Input
                               id="city"
+                              disabled={order.isPending}
                               placeholder="Enter city"
                               {...field}
                             />
@@ -639,6 +668,7 @@ const OrderForm = () => {
                           <FormLabel htmlFor="state">State</FormLabel>
                           <FormControl>
                             <Input
+                              disabled={order.isPending}
                               id="state"
                               placeholder="Enter state"
                               {...field}
@@ -658,6 +688,7 @@ const OrderForm = () => {
                           </FormLabel>
                           <FormControl>
                             <Input
+                              disabled={order.isPending}
                               id="postalCode"
                               placeholder="Enter postal code"
                               {...field}
@@ -675,6 +706,7 @@ const OrderForm = () => {
                           <FormLabel htmlFor="country">Country</FormLabel>
                           <FormControl>
                             <Input
+                              disabled={order.isPending}
                               id="country"
                               placeholder="Enter country"
                               {...field}
@@ -702,6 +734,7 @@ const OrderForm = () => {
                         <FormItem className="space-y-3 ">
                           <FormControl>
                             <RadioGroup
+                              disabled={order.isPending}
                               onValueChange={field.onChange}
                               defaultValue={field.value}
                               className="flex flex-col space-y-1"
@@ -818,7 +851,7 @@ const OrderForm = () => {
                             </span>
                           </FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input disabled={order.isPending} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -895,6 +928,7 @@ const OrderForm = () => {
                           <FormLabel>Payment Type</FormLabel>
                           <FormControl>
                             <RadioGroup
+                              disabled={order.isPending}
                               onValueChange={field.onChange}
                               defaultValue={field.value}
                               className="flex flex-col space-y-1"
@@ -984,11 +1018,11 @@ const OrderForm = () => {
           </div>
           {/* Bottom Side Action Buttons ON MOBILE */}
           <div className="flex items-center justify-center gap-2 md:hidden">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" disabled={order.isPending}>
               Discard
             </Button>
-            <Button size="sm" type="submit" className="h-8 gap-1">
-              Save Order
+            <Button size="sm" type="submit" className="h-8 gap-1" disabled={order.isPending}>
+            {order.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Save Order
             </Button>
           </div>
         </form>

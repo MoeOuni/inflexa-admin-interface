@@ -86,8 +86,6 @@ export interface APILogin {
 export interface APISaveOrder {
   customerName: string;
   customer: string;
-  totalTax: number;
-  totalAmount: number;
   deliveryPrice: number;
   delivery?: {
     deliveryMan?: {
