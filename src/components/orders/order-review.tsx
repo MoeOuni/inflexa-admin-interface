@@ -7,13 +7,18 @@ import {
   CardTitle,
 } from '../ui/card';
 import { Button } from '../ui/button';
-import { ChevronLeft, ChevronRight, Copy, Truck } from 'lucide-react';
+import { 
+  // ChevronLeft,
+  // ChevronRight,
+  Copy,
+  // Truck 
+} from 'lucide-react';
 import { Separator } from '../ui/separator';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-} from '../ui/pagination';
+// import {
+//   Pagination,
+//   PaginationContent,
+//   PaginationItem,
+// } from '../ui/pagination';
 import { useOrderDetails } from '@/api';
 import dayjs from 'dayjs';
 import { OrderStatus } from '../status-views/order';
