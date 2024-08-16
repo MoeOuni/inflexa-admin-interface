@@ -15,7 +15,6 @@ export function useGetConfigDetails() {
   return useMutation({
     mutationFn: getCurrentConfig,
     onSuccess: (response) => {
-      console.log(response);
       queryClient.invalidateQueries({
         queryKey: configQueryKeys.detail(response.data._id),
       });
