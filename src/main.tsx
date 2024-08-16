@@ -14,6 +14,9 @@ import { Suspense } from 'react';
 import { LoaderCircle } from 'lucide-react';
 import dayjs from 'dayjs';
 
+import "dayjs/locale/en";
+import "dayjs/locale/fr";
+
 import relativeTime from 'dayjs/plugin/relativeTime' // ES 2015
 
 dayjs.extend(relativeTime);

@@ -19,14 +19,14 @@ interface ILogWithAction extends ILog {
 const LogTimelineItem = ({ log }: { log: ILogWithAction }) => {
   const { i18n } = useTranslation();
   return (
-    <div className="grid gap-1 text-sm relative">
+    <div className="grid gap-1 text-sm relative border-b pb-2">
       <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29.5px] z-10 top-1 dark:bg-gray-50" />
       <div className="text-md font-bold">
         {log.action[i18n.language] || log.action.en}
       </div>
       <div className="text-gray-500 dark:text-gray-400 flex justify-between">
         <div className="flex items-center gap-2">
-          <Avatar className="w-[32px] h-[32px]">
+          <Avatar className="w-[28px] h-[28px]">
             <AvatarImage src={log?.userAvatar as string} alt="me" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>{' '}
@@ -43,7 +43,7 @@ const LogTimelineItem = ({ log }: { log: ILogWithAction }) => {
 export default function LogsTimeline({ logs }: LogsTimelineProps) {
   return (
     <div className="p-2">
-      <div className="after:absolute after:inset-y-0 after:w-px after:bg-gray-500/20 relative pl-6 after:left-0 grid gap-10 dark:after:bg-gray-400/20">
+      <div className="after:absolute after:inset-y-0 after:w-px after:bg-gray-500/20 relative pl-6 after:left-0 grid gap-4 dark:after:bg-gray-400/20">
         {logs.map((log) => (
           <LogTimelineItem key={log._id} log={log} />
         ))}

@@ -1,5 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ConfigProvider, theme as antdTheme } from "antd";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -14,6 +14,7 @@ import enGB from "antd/locale/en_GB";
 
 import "./App.css";
 import { useTranslation } from "react-i18next";
+import dayjs from "dayjs";
 
 const { darkAlgorithm, defaultAlgorithm } = antdTheme;
 
@@ -21,6 +22,10 @@ function App() {
   const { token } = useContext(AuthContext);
   const { theme } = useTheme();
   const { i18n } = useTranslation();
+
+  useEffect(() => {
+    dayjs.locale(i18n.language);
+  }, [i18n.language]);
 
   return (
     <ConfigProvider

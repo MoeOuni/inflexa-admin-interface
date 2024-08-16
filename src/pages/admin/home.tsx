@@ -7,11 +7,11 @@ const Home = () => {
 
   return (
     <div>
-      <div className="grid gap-4 grid-cols-3">
+      <div className="grid gap-4 grid-cols-2">
         <div className="col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle>Recent Logs 📃</CardTitle>
+              <CardTitle>Recent Activities 📃</CardTitle>
             </CardHeader>
             <CardContent>
               <LogsTimeline logs={logs?.data?.data || []} />
