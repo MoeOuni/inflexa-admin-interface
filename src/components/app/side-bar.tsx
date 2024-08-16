@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import {
+  Banknote,
   BarChart,
   ChevronDown,
   ChevronUp,
@@ -117,6 +118,12 @@ const sidebarItems = [
         path: '/settings/advanced',
         icon: <MoveHorizontal className="h-4 w-4" />,
       },
+      {
+        id: 106,
+        title: 'Payments',
+        path: '/settings/payments',
+        icon:  <Banknote className="h-4 w-4" />
+      }
     ],
   },
 ];
@@ -209,7 +216,7 @@ const MenuItem = ({
               to={child?.path || '#'}
               className={`${
                 child?.path === pathname && 'bg-muted text-primary'
-              } ml-5 flex items-center text-xs gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary`}
+              } ml-5 flex items-center text-sm gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary`}
             >
               {child?.icon}
               {child.title}
