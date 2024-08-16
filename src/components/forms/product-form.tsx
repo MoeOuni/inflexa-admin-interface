@@ -455,7 +455,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                     <Tag color="red" className="font-semibold">
                       {product?.purchaseInvoice?.[
                         product?.purchaseInvoice?.length - 1
-                      ]?.taxes?.taxAmount.toFixed(2) || 0}{' '}
+                      ]?.taxes?.taxAmount?.toFixed(2) || 0}{' '}
                       {currency.symbol}
                     </Tag>
                   </Label>
@@ -497,7 +497,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                                   product?.purchaseInvoice?.length - 1
                                 ]?.taxes?.taxAmount
                               )
-                            ).toFixed(2)}{' '}
+                            )?.toFixed(2)}{' '}
                             {currency?.symbol}
                           </Tag>
                         </FormDescription>

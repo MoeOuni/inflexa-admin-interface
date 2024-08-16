@@ -34,28 +34,73 @@ import LinkedIn from '@/icons/linked-in';
 import TikTok from '@/icons/tiktok';
 import YouTube from '@/icons/youtube';
 
-import {
-  GeneralStoreFormDefaultValues,
-  GeneralStoreFormSchema,
-} from '@/lib/schemas';
+import { GeneralStoreFormSchema } from '@/lib/schemas';
 import { Button } from '../ui/button';
 import { ClipboardX, Save } from 'lucide-react';
+import { useStore } from '@/contexts/store-context';
+import { parseFilePath } from '@/lib/utils';
+import { useSaveGeneralConfig } from '@/api';
 
 type IStore = z.infer<typeof GeneralStoreFormSchema>;
 
 const GeneralSettings = () => {
-  const [fileList, setFileList] = useState<FileFromApi[]>([]);
+  const { storeConfiguration } = useStore();
+
+  const config = useSaveGeneralConfig();
+
+  const [fileList, setFileList] = useState<FileFromApi[]>(
+    parseFilePath(storeConfiguration?.storeLogo || '')
+      ? [parseFilePath(storeConfiguration?.storeLogo || '')]
+      : []
+  );
 
   const form = useForm<IStore>({
     resolver: zodResolver(GeneralStoreFormSchema),
-    defaultValues: GeneralStoreFormDefaultValues,
+    defaultValues: {
+      taxNumber: storeConfiguration?.taxNumber || '',
+      taxValue: storeConfiguration?.taxValue || 0,
+      storeName: storeConfiguration?.storeName || '',
+      storeLogo: storeConfiguration?.storeLogo || '',
+      storeDescription: storeConfiguration?.storeDescription || '',
+      contactEmail: storeConfiguration?.contactEmail || '',
+      phoneNumber: storeConfiguration?.phoneNumber || '',
+      extraPhoneNumber: storeConfiguration?.extraPhoneNumber || '',
+      socialMediaLinks: storeConfiguration?.socialMediaLinks || {
+        facebook: '',
+        x: '',
+        instagram: '',
+        linkedin: '',
+        tiktok: '',
+        youtube: '',
+      },
+      currency: storeConfiguration?.currency || '',
+      bankAccount: storeConfiguration?.bankAccount || {
+        rib: '',
+        bankName: '',
+        accountNumber: '',
+      },
+      address: storeConfiguration?.address || {
+        country: '',
+        state: '',
+        city: '',
+        postalCode: '',
+        street: '',
+      },
+    },
     mode: 'onChange',
   });
 
   async function onSubmit(data: IStore) {
-    console.log(data);
-  }
+    const configRequest = {
+      id: storeConfiguration?._id || "",
+      payload: {
+        ...data,
+        storeLogo: fileList[0]?.baseDir,
+      },
+    };
 
+    await config.mutateAsync(configRequest);
+  }
   return (
     <Form {...form}>
       <form
@@ -186,24 +231,19 @@ const GeneralSettings = () => {
                     )}
                   />
                 </div>
-                <FormField
-                  name="storeLogo"
-                  control={form.control}
-                  render={() => (
-                    <FormItem className="grid gap-1">
-                      <FormLabel>Store Logo</FormLabel>
-                      <FormControl>
-                        <MultiUpload
-                          fileList={fileList}
-                          maxCount={1}
-                          setFileList={setFileList}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Store Logo</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <MultiUpload
+                fileList={fileList}
+                maxCount={1}
+                setFileList={setFileList}
+              />
             </CardContent>
           </Card>
           {/* Social Media Links */}

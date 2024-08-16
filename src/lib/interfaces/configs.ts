@@ -54,6 +54,7 @@ export interface IAlertsConfig {
 }
 
 export interface IStoreConfig extends IGeneralStore {
+  _id: string;
   reports: IRepportsConfig;
   alerts: IAlertsConfig;
   meta?: any;

@@ -76,7 +76,7 @@ const OrderReview = ({ orderId }: Props) => {
                 <span className="text-muted-foreground">
                   {product?.product?.name} x <span>{product.quantity}</span>
                 </span>
-                <span>{(product.price * product.quantity).toFixed(2)}</span>
+                <span>{(product.price * product.quantity)?.toFixed(2)}</span>
               </li>
             ))}
           </ul>
@@ -84,15 +84,15 @@ const OrderReview = ({ orderId }: Props) => {
           <ul className="grid gap-3">
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">Subtotal</span>
-              <span>{orderDetails?.data?.data?.totalAmount.toFixed(2)}</span>
+              <span>{orderDetails?.data?.data?.totalAmount?.toFixed(2)}</span>
             </li>
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">Shipping</span>
-              <span>{orderDetails?.data?.data?.deliveryPrice.toFixed(2)}</span>
+              <span>{orderDetails?.data?.data?.deliveryPrice?.toFixed(2)}</span>
             </li>
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">Tax</span>
-              <span>{orderDetails?.data?.data?.totalTax.toFixed(2)}</span>
+              <span>{orderDetails?.data?.data?.totalTax?.toFixed(2)}</span>
             </li>
             <li className="flex items-center justify-between font-semibold">
               <span className="text-muted-foreground">Total</span>
@@ -101,7 +101,7 @@ const OrderReview = ({ orderId }: Props) => {
                   orderDetails?.data?.data?.totalTax +
                   orderDetails?.data?.data?.deliveryPrice +
                   orderDetails?.data?.data?.totalAmount
-                ).toFixed(2)}
+                )?.toFixed(2)}
               </span>
             </li>
           </ul>

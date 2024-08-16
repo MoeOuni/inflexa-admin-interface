@@ -84,7 +84,7 @@ export function OrdersTable({ data, setOrderId }: Props) {
     {
       accessorKey: 'totalAmount',
       header: 'Amount',
-      cell: ({ row }) => row.original.totalAmount.toFixed(2) + ' ' + currency?.symbol,
+      cell: ({ row }) => row.original.totalAmount?.toFixed(2) + ' ' + currency?.symbol,
     },
     {
       id: 'actions',

@@ -11,6 +11,7 @@ interface StoreContextType {
   currency: Currency;
   setTax?: React.Dispatch<React.SetStateAction<number>>;
   setCurrency?: React.Dispatch<React.SetStateAction<Currency>>;
+  storeConfiguration?: IStoreConfig | null;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -54,7 +55,9 @@ const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [user]);
 
   return (
-    <StoreContext.Provider value={{ tax, setTax, currency, setCurrency }}>
+    <StoreContext.Provider
+      value={{ tax, setTax, currency, setCurrency, storeConfiguration }}
+    >
       {children}
     </StoreContext.Provider>
   );
