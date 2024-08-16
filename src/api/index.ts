@@ -10,3 +10,4 @@ export * from "./products";
 export * from "./auth";
 export * from "./logs";
 export * from "./orders";
+export * from "./configs";

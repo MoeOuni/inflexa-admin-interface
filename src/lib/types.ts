@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { ProductFomSchema } from "./schemas";
+import { z } from 'zod';
+import { ProductFomSchema } from './schemas';
 
 // Define the type for the context
 export type AuthContextType = {
@@ -9,12 +9,10 @@ export type AuthContextType = {
   setUser: (user: UserState | undefined) => void;
 };
 
-
 export type PermissionContextType = {
   permissions: Permission[] | undefined;
   setPermissions: (permissions: Permission[] | undefined) => void;
-}
-
+};
 
 // Define the type for the user state
 export type UserState = {
@@ -41,6 +39,13 @@ export type UserState = {
   notifications?: {
     playerId?: string;
     segmentedId?: string;
+  };
+  associatedWith: {
+    _id: string;
+    contactEmail?: string;
+    phoneNumber?: string;
+    storeName?: string;
+    storeLogo?: string;
   };
   createdAt?: Date;
   updatedAt?: Date;
@@ -114,7 +119,7 @@ export interface Purchase {
   reference: string;
   supplierId: string;
   supplierLabel?: string;
-  purchaseDetails?: ProductForm[]
+  purchaseDetails?: ProductForm[];
   createdBy?: string;
   createdAt?: string;
   updatedAt?: string;

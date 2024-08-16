@@ -1,1 +1,0 @@
-import{j as s}from"./index-3nPIAQnH.js";import{C as a,a as r,b as d,c as e,d as n}from"./card-BJonHnI2.js";const i=()=>s.jsxs(a,{"x-chunk":"dashboard-04-chunk-1",children:[s.jsxs(r,{children:[s.jsx(d,{children:"Advanced"}),s.jsx(e,{children:"Other advanced settings."})]}),s.jsx(n,{})]});export{i as default};

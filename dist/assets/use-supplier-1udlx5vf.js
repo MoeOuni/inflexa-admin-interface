@@ -1,1 +1,0 @@
-import{u,a as t}from"./api-clients-BUUlQTs0.js";import"./index-3nPIAQnH.js";import{s as p}from"./supplier-query-keys-DIv9u3_S.js";function o({status:e}){const r=async()=>{const{data:s}=await t.get(`/suppliers/?status=${e}`);return s};return u({queryKey:[p.all,e],queryFn:r})}export{o as u};
