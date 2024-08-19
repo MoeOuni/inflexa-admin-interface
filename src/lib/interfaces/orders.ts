@@ -1,6 +1,7 @@
 export interface Order {
   _id: string;
   orderNumber: string;
+  orderPdf?: string;
   customer: string;
   customerName: string;
   products: {

@@ -83,17 +83,18 @@ const OrderForm = () => {
   });
 
   async function onSubmit(data: OrderForm) {
-    await order.mutateAsync(data);
-
-    if (order.isSuccess) {
-      form.reset({
-        customer: '',
-        status: 'processed',
-        notes: '',
-        products: [],
+    order
+      .mutateAsync(data)
+      .then(() => {
+        navigate('/orders');
+      })
+      .catch((error) => {
+        toast.error(
+          error?.response?.data?.message ||
+            error?.message ||
+            'An error occurred while saving the product.'
+        );
       });
-      navigate('/orders');
-    }
   }
 
   const handleNewCustomer = () => {
@@ -166,7 +167,10 @@ const OrderForm = () => {
                 className="h-8 gap-1"
                 disabled={order.isPending}
               >
-              {order.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Save Order
+                {order.isPending && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}{' '}
+                Save Order
               </Button>
             </div>
           </div>
@@ -1021,8 +1025,16 @@ const OrderForm = () => {
             <Button variant="outline" size="sm" disabled={order.isPending}>
               Discard
             </Button>
-            <Button size="sm" type="submit" className="h-8 gap-1" disabled={order.isPending}>
-            {order.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Save Order
+            <Button
+              size="sm"
+              type="submit"
+              className="h-8 gap-1"
+              disabled={order.isPending}
+            >
+              {order.isPending && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}{' '}
+              Save Order
             </Button>
           </div>
         </form>

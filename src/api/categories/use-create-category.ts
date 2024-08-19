@@ -5,24 +5,23 @@ import { toast } from 'sonner';
 import type { Category, TSFixMe } from '@/lib/types';
 
 const createCategoryFn = async (category: Category) => {
-    const response = await apiClient.post('/categories', category);
-    return response;
-}
+  const response = await apiClient.post('/categories', category);
+  return response;
+};
 
 export function useCreateCategory() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation(
-        {
-            mutationFn: createCategoryFn,
-            onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: categoryQueryKeys.all });
-                toast.success('Category created successfully');
-            },
-            onError: (error: TSFixMe) => {
-                toast.error(error?.response?.data?.message || 'An error occurred. Please try again.');
-            }
-        }
-    )
+  return useMutation({
+    mutationFn: createCategoryFn,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: categoryQueryKeys.all });
+      toast.success('Category created successfully');
+    },
+    onError: (error: TSFixMe) => {
+      toast.error(
+        error?.response?.data?.message || 'An error occurred. Please try again.'
+      );
+    },
+  });
 }
-
