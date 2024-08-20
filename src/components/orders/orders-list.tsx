@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
-import { File, ListFilter } from 'lucide-react';
+import { File, ListFilter, SquarePlus } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -18,12 +18,14 @@ import {
 import { OrdersTable } from '../data-tables/orders-table';
 import { useOrders } from '@/api';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   setOrderId: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const OrdersList = ({ setOrderId }: Props) => {
+  const navigate = useNavigate();
   const orders = useOrders();
 
   useEffect(() => {
@@ -32,10 +34,20 @@ const OrdersList = ({ setOrderId }: Props) => {
     }
   }, [orders.status]);
 
+  const handleNavigate = () => {
+    navigate('/orders/save');
+  };
+
   return (
     <div>
-      <div className="flex items-center gap-2 flex-col md:flex-row">
-        <div className="md:ml-auto flex items-center gap-2 pb-3">
+      <div className="flex items-center gap-2 pb-3 flex-col md:flex-row">
+        <Button className="h-8 gap-1" size={'sm'} onClick={handleNavigate}>
+          <SquarePlus className="h-3.5 w-3.5" />
+          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+            Create New Order
+          </span>
+        </Button>
+        <div className="md:ml-auto flex items-center gap-2 ">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="h-7 gap-1 text-sm">
@@ -46,11 +58,21 @@ const OrdersList = ({ setOrderId }: Props) => {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Filter by</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuCheckboxItem checked>Pending</DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem checked>Processed</DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem checked>Shipped</DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem checked>Delivered</DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem checked>Cancelled</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem checked>
+                Pending
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem checked>
+                Processed
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem checked>
+                Shipped
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem checked>
+                Delivered
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem checked>
+                Cancelled
+              </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <Button size="sm" variant="outline" className="h-7 gap-1 text-sm">
@@ -62,7 +84,10 @@ const OrdersList = ({ setOrderId }: Props) => {
       <Card x-chunk="dashboard-05-chunk-3">
         <CardHeader className="px-7">
           <CardTitle>Orders</CardTitle>
-          <CardDescription>Recent orders from your store. The orders are sorted by date, with the most recent orders displayed at the top of the table.</CardDescription>
+          <CardDescription>
+            Recent orders from your store. The orders are sorted by date, with
+            the most recent orders displayed at the top of the table.
+          </CardDescription>
         </CardHeader>
         <CardContent className="max-w-full">
           <OrdersTable

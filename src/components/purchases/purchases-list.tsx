@@ -1,13 +1,13 @@
-import { usePurchases } from "@/api";
-import PurchasesTable from "../data-tables/purchases-table";
+import { usePurchases } from '@/api';
+import PurchasesTable from '../data-tables/purchases-table';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import { useTranslation } from "react-i18next";
+} from '../ui/card';
+import { useTranslation } from 'react-i18next';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -15,14 +15,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import { ListFilter, File, SquarePlus } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+} from '../ui/dropdown-menu';
+import { Button } from '../ui/button';
+import { ListFilter, File, SquarePlus } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PurchasesList = () => {
-  const [status, setStatus] = useState("ACTIVE");
+  const [status, setStatus] = useState('ACTIVE');
   const { data, isLoading } = usePurchases();
 
   const { t } = useTranslation();
@@ -30,6 +30,16 @@ const PurchasesList = () => {
   return (
     <div>
       <div className="flex items-center pb-3">
+        <Button
+          size="sm"
+          className="h-8 gap-1"
+          onClick={() => navigate('/purchases/save')}
+        >
+          <SquarePlus className="h-3.5 w-3.5" />
+          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+            {t('purchase_add_button')}
+          </span>
+        </Button>
         <div className="ml-auto flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -45,25 +55,25 @@ const PurchasesList = () => {
               <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem
                 onClick={() => {
-                  setStatus("ACTIVE");
+                  setStatus('ACTIVE');
                 }}
-                checked={status === "ACTIVE"}
+                checked={status === 'ACTIVE'}
               >
                 Active
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 onClick={() => {
-                  setStatus("DELETED");
+                  setStatus('DELETED');
                 }}
-                checked={status === "DELETED"}
+                checked={status === 'DELETED'}
               >
                 Deleted
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 onClick={() => {
-                  setStatus("ARCHIVED");
+                  setStatus('ARCHIVED');
                 }}
-                checked={status === "ARCHIVED"}
+                checked={status === 'ARCHIVED'}
               >
                 Archived
               </DropdownMenuCheckboxItem>
@@ -75,22 +85,12 @@ const PurchasesList = () => {
               Export
             </span>
           </Button>
-          <Button
-            size="sm"
-            className="h-8 gap-1"
-            onClick={() => navigate("/purchases/save")}
-          >
-            <SquarePlus className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              {t("purchase_add_button")}
-            </span>
-          </Button>
         </div>
       </div>
       <Card x-chunk="dashboard-06-chunk-0">
         <CardHeader>
-          <CardTitle>{t("purchases")}</CardTitle>
-          <CardDescription>{t("purchases_table_description")}</CardDescription>
+          <CardTitle>{t('purchases')}</CardTitle>
+          <CardDescription>{t('purchases_table_description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <PurchasesTable data={data ? data?.data : []} loading={isLoading} />

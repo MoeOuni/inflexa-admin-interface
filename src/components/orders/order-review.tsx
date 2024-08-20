@@ -7,11 +7,11 @@ import {
   CardTitle,
 } from '../ui/card';
 import { Button } from '../ui/button';
-import { 
+import {
   // ChevronLeft,
   // ChevronRight,
   Copy,
-  // Truck 
+  // Truck
 } from 'lucide-react';
 import { Separator } from '../ui/separator';
 // import {
@@ -22,6 +22,7 @@ import { Separator } from '../ui/separator';
 import { useOrderDetails } from '@/api';
 import dayjs from 'dayjs';
 import { OrderStatus } from '../status-views/order';
+import { useStore } from '@/contexts/store-context';
 
 type Props = {
   orderId: string;
@@ -29,8 +30,7 @@ type Props = {
 
 const OrderReview = ({ orderId }: Props) => {
   const orderDetails = useOrderDetails(orderId);
-
-  console.log(orderDetails?.data?.data);
+  const { storeConfiguration } = useStore();
 
   return (
     <Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
@@ -76,7 +76,10 @@ const OrderReview = ({ orderId }: Props) => {
                 <span className="text-muted-foreground">
                   {product?.product?.name} x <span>{product.quantity}</span>
                 </span>
-                <span>{(product.price * product.quantity)?.toFixed(2)}</span>
+                <span>
+                  {(product.price * product.quantity)?.toFixed(2)}{' '}
+                  {storeConfiguration?.currency}
+                </span>
               </li>
             ))}
           </ul>
@@ -84,15 +87,24 @@ const OrderReview = ({ orderId }: Props) => {
           <ul className="grid gap-3">
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">Subtotal</span>
-              <span>{orderDetails?.data?.data?.totalAmount?.toFixed(2)}</span>
+              <span>
+                {orderDetails?.data?.data?.totalAmount?.toFixed(2)}{' '}
+                {storeConfiguration?.currency}
+              </span>
             </li>
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">Shipping</span>
-              <span>{orderDetails?.data?.data?.deliveryPrice?.toFixed(2)}</span>
+              <span>
+                {orderDetails?.data?.data?.deliveryPrice?.toFixed(2)}{' '}
+                {storeConfiguration?.currency}
+              </span>
             </li>
             <li className="flex items-center justify-between">
               <span className="text-muted-foreground">Tax</span>
-              <span>{orderDetails?.data?.data?.totalTax?.toFixed(2)}</span>
+              <span>
+                {orderDetails?.data?.data?.totalTax?.toFixed(2)}{' '}
+                {storeConfiguration?.currency}
+              </span>
             </li>
             <li className="flex items-center justify-between font-semibold">
               <span className="text-muted-foreground">Total</span>
@@ -101,7 +113,8 @@ const OrderReview = ({ orderId }: Props) => {
                   orderDetails?.data?.data?.totalTax +
                   orderDetails?.data?.data?.deliveryPrice +
                   orderDetails?.data?.data?.totalAmount
-                )?.toFixed(2)}
+                )?.toFixed(2)}{' '}
+                {storeConfiguration?.currency}
               </span>
             </li>
           </ul>

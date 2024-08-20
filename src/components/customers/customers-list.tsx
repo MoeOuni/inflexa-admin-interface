@@ -1,16 +1,16 @@
-import { useCustomers } from "@/api";
-import { CustomersTable } from "../data-tables/customers-table";
+import { useCustomers } from '@/api';
+import { CustomersTable } from '../data-tables/customers-table';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import { useTranslation } from "react-i18next";
-import { Button } from "../ui/button";
-import { File, ListFilter, SquarePlus } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+} from '../ui/card';
+import { useTranslation } from 'react-i18next';
+import { Button } from '../ui/button';
+import { File, ListFilter, SquarePlus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -18,7 +18,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from '../ui/dropdown-menu';
 
 const CustomersList = () => {
   const { t } = useTranslation();
@@ -28,6 +28,16 @@ const CustomersList = () => {
   return (
     <div>
       <div className="flex items-center pb-3">
+        <Button
+          size="sm"
+          className="h-8 gap-1"
+          onClick={() => navigate('/customers/save')}
+        >
+          <SquarePlus className="h-3.5 w-3.5" />
+          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+            {t('customer_add_button')}
+          </span>
+        </Button>
         <div className="ml-auto flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -53,22 +63,12 @@ const CustomersList = () => {
               Export
             </span>
           </Button>
-          <Button
-            size="sm"
-            className="h-8 gap-1"
-            onClick={() => navigate("/customers/save")}
-          >
-            <SquarePlus className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              {t("customer_add_button")}
-            </span>
-          </Button>
         </div>
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>{t("customers")}</CardTitle>
-          <CardDescription>{t("customers_table_description")}</CardDescription>
+          <CardTitle>{t('customers')}</CardTitle>
+          <CardDescription>{t('customers_table_description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <CustomersTable
