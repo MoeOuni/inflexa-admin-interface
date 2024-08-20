@@ -92,7 +92,7 @@ const GeneralSettings = () => {
 
   async function onSubmit(data: IStore) {
     const configRequest = {
-      id: storeConfiguration?._id || "",
+      id: storeConfiguration?._id || '',
       payload: {
         ...data,
         storeLogo: fileList[0]?.baseDir,
@@ -101,6 +101,7 @@ const GeneralSettings = () => {
 
     await config.mutateAsync(configRequest);
   }
+
   return (
     <Form {...form}>
       <form
