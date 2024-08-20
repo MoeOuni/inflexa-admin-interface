@@ -1,17 +1,27 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useTranslation } from "react-i18next";
+import { useLogs } from '@/api';
+import LogsTimeline from '@/components/app/logs-timeline';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslation } from 'react-i18next';
 
 const Logs = () => {
-  const { t } = useTranslation();
+  const logs = useLogs();
+  const {t} = useTranslation();
 
   return (
-    <Card x-chunk="dashboard-06-chunk-0">
-      <CardHeader>
-        <CardTitle>{t("logs")}</CardTitle>
-        {/* <CardDescription>{t("customers_table_description")}</CardDescription> */}
-      </CardHeader>
-      <CardContent className="p-2 md:p-4 lg:p-6"></CardContent>
-    </Card>
+    <div>
+      <div className="grid gap-4 grid-cols-2">
+        <div className="col-span-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t('logs')}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <LogsTimeline logs={logs?.data?.data || []} />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
   );
 };
 

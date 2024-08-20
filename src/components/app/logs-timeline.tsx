@@ -20,7 +20,7 @@ const LogTimelineItem = ({ log }: { log: ILogWithAction }) => {
   const { i18n } = useTranslation();
   return (
     <div className="grid gap-1 text-sm relative border-b pb-2">
-      <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29.5px] z-10 top-1 dark:bg-gray-50" />
+      <div className="aspect-square w-3 bg-primary rounded-full absolute left-0 translate-x-[-29.5px] z-10 top-1 " />
       <div className="text-md font-bold">
         {log.action[i18n.language] || log.action.en}
       </div>
