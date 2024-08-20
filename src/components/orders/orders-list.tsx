@@ -1,4 +1,3 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -29,59 +28,49 @@ const OrdersList = ({ setOrderId }: Props) => {
 
   useEffect(() => {
     if (orders?.data?.data?.length > 0) {
-      setOrderId(orders.data.data[0]._id)
+      setOrderId(orders.data.data[0]._id);
     }
-  }, [orders.status])
+  }, [orders.status]);
 
   return (
     <div>
-      <Tabs defaultValue="week">
-        <div className="flex items-center gap-2 flex-col md:flex-row">
-          <TabsList>
-            <TabsTrigger value="week">Week</TabsTrigger>
-            <TabsTrigger value="month">Month</TabsTrigger>
-            <TabsTrigger value="year">Year</TabsTrigger>
-          </TabsList>
-          <div className="md:ml-auto flex items-center gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="h-7 gap-1 text-sm"
-                >
-                  <ListFilter className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only">Filter</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuCheckboxItem checked>
-                  Fulfilled
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>Declined</DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>Refunded</DropdownMenuCheckboxItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Button size="sm" variant="outline" className="h-7 gap-1 text-sm">
-              <File className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only">Export</span>
-            </Button>
-          </div>
+      <div className="flex items-center gap-2 flex-col md:flex-row">
+        <div className="md:ml-auto flex items-center gap-2 pb-3">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="h-7 gap-1 text-sm">
+                <ListFilter className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only">Filter</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuCheckboxItem checked>Pending</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem checked>Processed</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem checked>Shipped</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem checked>Delivered</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem checked>Cancelled</DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button size="sm" variant="outline" className="h-7 gap-1 text-sm">
+            <File className="h-3.5 w-3.5" />
+            <span className="sr-only sm:not-sr-only">Export</span>
+          </Button>
         </div>
-        <TabsContent value="week">
-          <Card x-chunk="dashboard-05-chunk-3">
-            <CardHeader className="px-7">
-              <CardTitle>Orders</CardTitle>
-              <CardDescription>Recent orders from your store.</CardDescription>
-            </CardHeader>
-            <CardContent className="max-w-full">
-              <OrdersTable data={orders?.data?.data || []} setOrderId={setOrderId} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+      </div>
+      <Card x-chunk="dashboard-05-chunk-3">
+        <CardHeader className="px-7">
+          <CardTitle>Orders</CardTitle>
+          <CardDescription>Recent orders from your store. The orders are sorted by date, with the most recent orders displayed at the top of the table.</CardDescription>
+        </CardHeader>
+        <CardContent className="max-w-full">
+          <OrdersTable
+            data={orders?.data?.data || []}
+            setOrderId={setOrderId}
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 };
