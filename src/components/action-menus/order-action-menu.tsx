@@ -7,6 +7,9 @@ import {
   Archive,
   RefreshCw,
   FileDown,
+  Layers,
+  Truck,
+  CheckCircle,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -15,13 +18,19 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
 import { useTranslation } from 'react-i18next';
 import { Order } from '@/lib/interfaces';
 import { message } from 'antd';
+import { useUpdateOrderStatus } from '@/api';
+import { GearIcon } from '@radix-ui/react-icons';
 
 type Props = {
   order: Order;
@@ -30,8 +39,46 @@ type Props = {
 export function OrderActionMenu({ order }: Props) {
   const { t } = useTranslation();
 
-  const handleDelete = () => {
+  const orderStatus = useUpdateOrderStatus();
+
+  const handleCancel = async () => {
     // Implement deletion logic here
+    const params = {
+      id: order._id,
+      status: 'cancelled',
+    };
+
+    await orderStatus.mutateAsync(params);
+  };
+
+  const handleProcess = async () => {
+    // Implement process logic here
+    const params = {
+      id: order._id,
+      status: 'processed',
+    };
+
+    await orderStatus.mutateAsync(params);
+  };
+
+  const handleShip = async () => {
+    // Implement ship logic here
+    const params = {
+      id: order._id,
+      status: 'shipped',
+    };
+
+    await orderStatus.mutateAsync(params);
+  };
+
+  const handleDeliver = async () => {
+    // Implement deliver logic here
+    const params = {
+      id: order._id,
+      status: 'delivered',
+    };
+
+    await orderStatus.mutateAsync(params);
   };
 
   const handleViewDetails = () => {
@@ -59,6 +106,24 @@ export function OrderActionMenu({ order }: Props) {
     // Implement refund logic here
   };
 
+  const handleExport = async () => {
+    // Implement export logic here
+    if (order?.orderPdf) {
+      const url = `${import.meta.env.VITE_API_URL}/${order?.orderPdf}`;
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const downloadUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = order?.orderPdf?.split('uploads/')[1];
+      link.click();
+    } else {
+      // Implement error handling logic here
+      message.info('Order PDF not available');
+    }
+  };
+
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -74,11 +139,6 @@ export function OrderActionMenu({ order }: Props) {
         <DropdownMenuItem>
           <Edit className="mr-2 h-4 w-4" />
           <span>Edit Order</span>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem onClick={handleDelete}>
-          <Trash className="mr-2 h-4 w-4" />
-          <span>Cancel Order</span>
         </DropdownMenuItem>
 
         <DropdownMenuItem onClick={handleViewDetails}>
@@ -101,10 +161,48 @@ export function OrderActionMenu({ order }: Props) {
           <span>Archive Order</span>
         </DropdownMenuItem>
 
-        <DropdownMenuItem onClick={handleArchive}>
+        <DropdownMenuItem onClick={handleExport}>
           <FileDown className="mr-2 h-4 w-4" />
           <span>Export Order</span>
         </DropdownMenuItem>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            <Layers className="mr-2 h-4 w-4" />
+            <span>Order Actions</span>
+          </DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem
+                onClick={handleCancel}
+                disabled={order.status === 'cancelled'}
+              >
+                <Trash className="mr-2 h-4 w-4" />
+                <span>Cancel Order</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={handleProcess}
+                disabled={order.status === 'processed'}
+              >
+                <GearIcon className="mr-2 h-4 w-4" />
+                <span>Process Order</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={handleShip}
+                disabled={order.status === 'shipped'}
+              >
+                <Truck className="mr-2 h-4 w-4" />
+                <span>Ship Order</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={handleDeliver}
+                disabled={order.status === 'shipped'}
+              >
+                <CheckCircle className="mr-2 h-4 w-4" />
+                <span>Deliver Order</span>
+              </DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
       </DropdownMenuContent>
     </DropdownMenu>
   );
