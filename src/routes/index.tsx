@@ -76,6 +76,11 @@ const OrdersDashboard = lazy(
 const SaveOrder = lazy(() => import('@/components/orders/save-order'));
 const OrderDetails = lazy(() => import('@/components/orders/order-details'));
 
+// Sales SubRoutes
+const SalesDashboard = lazy(() => import('@/components/sales/sales-dashboard'));
+const SaveSale = lazy(() => import('@/components/sales/save-sale'));
+const SaleDetails = lazy(() => import('@/components/sales/sale-details'));
+
 // Auth Pages
 const Login = lazy(() => import('@/pages/auth/login'));
 const Register = lazy(() => import('@/pages/auth/register'));
@@ -145,7 +150,12 @@ const ProtectedRoutes = React.memo(() => {
             <Route path="save/:id" element={<SaveOrder />} />
             <Route path=":id" element={<OrderDetails />} />
           </Route>
-          <Route path="sales" element={<Sales />} />
+          <Route path="sales" element={<Sales />} >
+            <Route index element={<SalesDashboard />} />
+            <Route path=":id" element={<SaleDetails />} />
+            <Route path="save/:id" element={<SaveSale />} />
+            <Route path="save" element={<SaveSale />} />
+          </Route>
           <Route path="purchases" element={<Purchases />}>
             <Route index element={<PurchasesList />} />
             <Route path=":id" element={<PurchaseDetails />} />
