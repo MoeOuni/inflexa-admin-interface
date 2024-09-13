@@ -12,15 +12,13 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { ChevronDown, Loader2, MoreHorizontal } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -34,11 +32,7 @@ import {
 
 import { Input } from "../ui/input";
 
-import ConfirmButton from "../app/confirm-button";
 import { useTranslation } from "react-i18next";
-import { useArchiveSupplier } from "@/api";
-import { useRestoreSupplier } from "@/api/suppliers/use-restore-supplier";
-import { useNavigate } from "react-router-dom";
 import { Supplier } from "@/lib/interfaces";
 import { SupplierActionMenu } from "../action-menus/supplier-action-menu";
 
@@ -50,9 +44,6 @@ type Props = {
 
 const SuppliersTable = ({ data, status, loading }: Props) => {
   // const deleteSupplier = useDeleteSupplier({ status });
-
-  const navigate = useNavigate();
-
   const { t } = useTranslation();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -136,7 +127,7 @@ const SuppliersTable = ({ data, status, loading }: Props) => {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center pb-4">
         <Input
           placeholder="Search supplier..."
           value={

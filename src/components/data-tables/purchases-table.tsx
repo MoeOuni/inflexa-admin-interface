@@ -13,20 +13,10 @@ import {
 } from "@tanstack/react-table";
 
 import {
-  ArchiveRestore,
   ArrowDownNarrowWide,
   ArrowDownWideNarrow,
   ChevronDown,
-  Download,
-  Eye,
-  FileText,
-  Link,
   Loader2,
-  Mail,
-  MoreHorizontal,
-  Send,
-  Sheet,
-  SquarePen,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -34,14 +24,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -174,7 +156,7 @@ const PurchasesTable = ({ data, loading }: Props) => {
 
   return (
     <div className="w-full">
-      <div className="flex items-start md:items-center flex-col md:flex-row gap-2 py-4">
+      <div className="flex items-start md:items-center flex-col md:flex-row gap-2 pb-4">
         <Input
           placeholder="Search by supplier..."
           value={

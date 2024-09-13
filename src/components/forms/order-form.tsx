@@ -501,7 +501,7 @@ const OrderForm = () => {
                     type="button"
                     disabled={order.isPending}
                     variant="ghost"
-                    className="gap-1"
+                    className="gap-1 mt-2"
                     onClick={() =>
                       append({
                         product: '',

@@ -110,7 +110,7 @@ export function OrdersTable({ data, setOrderId }: Props) {
     initialState: {
       pagination: {
         pageIndex: 0, //custom initial page index
-        pageSize: 6, //custom default page size
+        pageSize: 10, //custom default page size
       },
     },
     state: {

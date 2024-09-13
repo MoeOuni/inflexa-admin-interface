@@ -11,15 +11,13 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown, Loader2, MoreHorizontal } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -33,12 +31,6 @@ import {
 import { Category } from "@/lib/types";
 import dayjs from "dayjs";
 import { Input } from "../ui/input";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "../ui/hover-card";
-import ConfirmButton from "../app/confirm-button";
 import { useTranslation } from "react-i18next";
 
 type Props = {

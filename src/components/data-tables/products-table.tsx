@@ -171,7 +171,7 @@ export function ProductsTable({ data, loading }: Props) {
     initialState: {
       pagination: {
         pageIndex: 0, //custom initial page index
-        pageSize: 6, //custom default page size
+        pageSize: 10, //custom default page size
       },
     },
     state: {
@@ -184,7 +184,7 @@ export function ProductsTable({ data, loading }: Props) {
 
   return (
     <div className="w-full">
-      <div className="flex items-start md:items-center flex-col md:flex-row gap-2 py-4">
+      <div className="flex items-start md:items-center flex-col md:flex-row gap-2 pb-4">
         <Input
           placeholder={'Search products...'}
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
