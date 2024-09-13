@@ -25,7 +25,42 @@ import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { Button } from '../ui/button';
 import { useState } from 'react';
 
-const sidebarItems = [
+interface IMenuItem {
+  id?: number;
+  title: string;
+  icon: JSX.Element;
+  path?: string;
+  separator?: boolean;
+  children?: {
+    id?: number;
+    title: string;
+    path: string;
+    icon?: JSX.Element;
+    notifications?: { count?: number; color: 'red' | 'green' }[];
+  }[];
+  notifications?: { count?: number; color: 'red' | 'green' }[];
+}
+
+// New component for notification indicator
+const NotificationIndicator = ({
+  count,
+  color,
+}: {
+  count?: number;
+  color: 'red' | 'green';
+}) => (
+  <span
+    className={`ml-auto inline-flex items-center justify-center ${
+      count ? 'px-2 py-1' : 'w-2 h-2'
+    } text-xs font-bold leading-none text-white rounded-full ${
+      color === 'red' ? 'bg-red-500' : 'bg-green-500'
+    }`}
+  >
+    {count && count}
+  </span>
+);
+
+const sidebarItems: IMenuItem[] = [
   {
     id: 1,
     title: 'Dashboard',
@@ -44,18 +79,24 @@ const sidebarItems = [
     title: 'Inventory',
     icon: <Package className="h-5 w-5" />,
     path: '/inventory',
+    notifications: [
+      { count: 2, color: 'red' },
+      { count: 3, color: 'green' },
+    ],
   },
   {
     id: 4,
     title: 'Orders',
     icon: <ShoppingCart className="h-5 w-5" />,
     path: '/orders',
+    notifications: [{ count: 5, color: 'green' }],
   },
   {
     id: 5,
     title: 'Sales',
     icon: <ShoppingBasket className="h-5 w-5" />,
     path: '/sales',
+    notifications: [{ count: 2, color: 'green' }],
   },
   {
     id: 6,
@@ -69,6 +110,7 @@ const sidebarItems = [
     title: 'Customers',
     icon: <Users2 className="h-5 w-5" />,
     path: '/customers',
+    notifications: [{ count: 3, color: 'green' }],
   },
   {
     id: 8,
@@ -87,6 +129,7 @@ const sidebarItems = [
     id: 10,
     title: 'Settings',
     icon: <Settings className="h-5 w-5" />,
+    notifications: [{ color: 'red' }],
     children: [
       {
         id: 101,
@@ -99,6 +142,7 @@ const sidebarItems = [
         title: 'Security',
         path: '/settings/security',
         icon: <Lock className="h-4 w-4" />,
+        notifications: [{ color: 'red' }],
       },
       {
         id: 103,
@@ -111,19 +155,22 @@ const sidebarItems = [
         title: 'Repports',
         path: '/settings/repports',
         icon: <BarChart className="h-4 w-4" />,
+        notifications: [{ color: 'red' }],
       },
       {
         id: 105,
         title: 'Advanced',
         path: '/settings/advanced',
         icon: <MoveHorizontal className="h-4 w-4" />,
+        notifications: [{ color: 'red' }],
       },
       {
         id: 106,
         title: 'Payments',
         path: '/settings/payments',
-        icon:  <Banknote className="h-4 w-4" />
-      }
+        icon: <Banknote className="h-4 w-4" />,
+        notifications: [{ color: 'red' }],
+      },
     ],
   },
 ];
@@ -132,7 +179,7 @@ const Sidebar = () => {
   return (
     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
       {sidebarItems.map((item) => (
-          <MenuItem item={item} key={item.id} />
+        <MenuItem item={item} key={item.id} />
       ))}
     </nav>
   );
@@ -150,7 +197,7 @@ const SidebarMobile = () => {
       <SheetContent side="left" className="flex flex-col overflow-y-scroll">
         <nav className="grid gap-2 text-md font-medium ">
           <Link to="/" className="flex items-center gap-2 font-semibold">
-            <img src="./icon-logo.svg" className="h-8" />
+            <img src="./icon-logo.svg" className="h-8" alt="Inflexa logo" />
             <span className="text-2xl">Inflexa</span>
           </Link>
           <hr className="my-2 border-t border-muted" />
@@ -163,21 +210,7 @@ const SidebarMobile = () => {
   );
 };
 
-const MenuItem = ({
-  item,
-}: {
-  item: {
-    title: string;
-    icon: JSX.Element;
-    path?: string;
-    separator?: boolean;
-    children?: {
-      title: string;
-      path: string;
-      icon?: JSX.Element;
-    }[];
-  };
-}) => {
+const MenuItem = ({ item }: { item: IMenuItem }) => {
   const { pathname } = useLocation();
 
   const [subMenuOpen, setSubMenuOpen] = useState(false);
@@ -196,6 +229,10 @@ const MenuItem = ({
       >
         {item.icon}
         {item.title}
+        {item.notifications &&
+          item.notifications.map((notification, index) => (
+            <NotificationIndicator key={index} color={notification.color} />
+          ))}
         <div className="ml-auto">
           {subMenuOpen ? (
             <ChevronUp className="h-4 w-4" />
@@ -220,6 +257,15 @@ const MenuItem = ({
             >
               {child?.icon}
               {child.title}
+              <div className="ml-auto">
+                {child.notifications &&
+                  child.notifications.map((notification, index) => (
+                    <NotificationIndicator
+                      key={index}
+                      color={notification.color}
+                    />
+                  ))}
+              </div>
             </Link>
           );
         })}
@@ -237,6 +283,16 @@ const MenuItem = ({
       >
         {item.icon}
         {item.title}
+        <div className="ml-auto flex gap-1">
+          {item.notifications &&
+            item.notifications.map((notification, index) => (
+              <NotificationIndicator
+                key={index}
+                count={notification.count}
+                color={notification.color}
+              />
+            ))}
+        </div>
       </Link>
       {item.separator && <hr className="my-2 border-t border-muted" />}
     </>

@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router-dom';
-import { Bell, CircleUser, LoaderCircle, Search } from 'lucide-react';
+import { CircleUser, LoaderCircle, Search } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
@@ -23,6 +23,7 @@ import {
 } from 'react';
 import { AuthContext } from '@/contexts/auth-context';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import NotificationSheet from '@/components/app/notification-sheet';
 
 // import runOneSignal from '@/lib/one-signal';
 
@@ -47,10 +48,9 @@ function MainLayout() {
               <img src="./icon-logo.svg" className="h-8" />
               <span className="text-2xl">Inflexa</span>
             </Link>
-            <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-              <Bell className="h-4 w-4" />
-              <span className="sr-only">Toggle notifications</span>
-            </Button>
+            <div className='ml-auto'>
+            <NotificationSheet hasNewNotifications={true} />
+            </div>
           </div>
           <div className="flex-1">
             <Sidebar />
@@ -95,11 +95,15 @@ function MainLayout() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => {
-                setToken('');
-                setUser(undefined);
-                window.location.reload();
-              }}>Logout</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setToken('');
+                  setUser(undefined);
+                  window.location.reload();
+                }}
+              >
+                Logout
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <ModeToggle />
