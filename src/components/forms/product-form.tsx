@@ -556,7 +556,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                         </FormControl>
                         <div className="leading-none">
                           <FormLabel>
-                            <Tag color="green">Available</Tag>
+                            <Tag className="mb-1" color="green">Available</Tag>
                           </FormLabel>
                           <FormDescription>
                             Indicates whether the item is currently available.
@@ -579,7 +579,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                         </FormControl>
                         <div className="leading-none">
                           <FormLabel>
-                            <Tag color="cyan">Active</Tag>
+                            <Tag className="mb-1" color="cyan">Active</Tag>
                           </FormLabel>
                           <FormDescription>
                             Determines if the item is being displayed on the
@@ -603,7 +603,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                         </FormControl>
                         <div className="leading-none">
                           <FormLabel>
-                            <Tag color="gold">Featured</Tag>
+                            <Tag className="mb-1" color="gold">Featured</Tag>
                           </FormLabel>
                           <FormDescription>
                             Marks the item as featured, highlighting it

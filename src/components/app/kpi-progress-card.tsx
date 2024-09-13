@@ -22,23 +22,22 @@ type Props = {
 
 const KpiProgressCard = (props: Props) => {
   return (
-    <Tooltip>
+    <Tooltip >
       <TooltipTrigger asChild>
-        <Card x-chunk="dashboard-05-chunk-1">
+        <Card x-chunk="dashboard-05-chunk-1" className='cursor-help'>
           <CardHeader className="pb-2">
             <CardDescription>{props?.title}</CardDescription>
-            <CardTitle className="text-4xl">
+            <CardTitle>
               {props?.unit} {props?.value.toLocaleString()}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-muted-foreground mb-2">
               {props?.subtitle}
             </div>
-          </CardContent>
-          <CardFooter>
             <Progress value={props?.progress} aria-label="25% increase" />
-          </CardFooter>
+          </CardContent>
+          
         </Card>
       </TooltipTrigger>
       <TooltipContent>
