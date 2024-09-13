@@ -1,11 +1,17 @@
-import React from 'react'
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
-type Props = {}
+type Props = {};
 
 const SalesList = (props: Props) => {
   return (
-    <div>SalesList</div>
-  )
-}
+    <Card>
+      <CardHeader>
+        <CardTitle>Sales List</CardTitle>
+      </CardHeader>
+      <CardContent></CardContent>
+    </Card>
+  );
+};
 
-export default SalesList
+export default SalesList;

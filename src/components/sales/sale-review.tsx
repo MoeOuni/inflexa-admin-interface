@@ -1,10 +1,20 @@
 import React from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 
 type Props = {}
 
 const SaleReview = (props: Props) => {
   return (
-    <div>SaleReview</div>
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          Sale Review
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+
+      </CardContent>
+    </Card>
   )
 }
 

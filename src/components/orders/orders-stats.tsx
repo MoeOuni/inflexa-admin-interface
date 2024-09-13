@@ -6,29 +6,26 @@ import {
   CardHeader,
   CardTitle,
 } from '../ui/card';
-import { Button } from '../ui/button';
+
 import { Progress } from '../ui/progress';
-import { useNavigate } from 'react-router-dom';
+
 
 const OrdersStats = () => {
-  const navigate = useNavigate();
-
-  const handleNavigate = () => {
-    navigate('/orders/save');
-  };
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-      <Card className="sm:col-span-2" x-chunk="dashboard-05-chunk-0">
-        <CardHeader className="pb-3">
-          <CardTitle>Your Orders</CardTitle>
-          <CardDescription className="max-w-lg text-balance leading-relaxed">
-            Introducing Our Dynamic Orders Dashboard for Seamless Management and
-            Insightful Analysis.
-          </CardDescription>
+    <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
+      <Card x-chunk="dashboard-05-chunk-1">
+        <CardHeader className="pb-2">
+          <CardDescription>Today</CardDescription>
+          <CardTitle className="text-4xl">$329</CardTitle>
         </CardHeader>
+        <CardContent>
+          <div className="text-xs text-muted-foreground">
+            +25% from last day
+          </div>
+        </CardContent>
         <CardFooter>
-          <Button onClick={handleNavigate}>Create New Order</Button>
+          <Progress value={25} aria-label="25% increase" />
         </CardFooter>
       </Card>
       <Card x-chunk="dashboard-05-chunk-1">
