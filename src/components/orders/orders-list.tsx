@@ -19,6 +19,7 @@ import { OrdersTable } from '../data-tables/orders-table';
 import { useOrders } from '@/api';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useUrlState from '@ahooksjs/use-url-state';
 
 type Props = {
   setOrderId: React.Dispatch<React.SetStateAction<string>>;
@@ -26,7 +27,11 @@ type Props = {
 
 const OrdersList = ({ setOrderId }: Props) => {
   const navigate = useNavigate();
-  const orders = useOrders();
+  const [params, setParams] = useUrlState({
+    status: ['pending', 'processed', 'shipped', 'delivered', 'cancelled'],
+  });
+
+  const orders = useOrders({ params: '' });
 
   useEffect(() => {
     if (orders?.data?.data?.length > 0) {
@@ -36,6 +41,21 @@ const OrdersList = ({ setOrderId }: Props) => {
 
   const handleNavigate = () => {
     navigate('/orders/save');
+  };
+
+  const handleCheckChange = (checkedValue: string, checked: boolean) => {
+    if (checked === false) {
+      const tempStatus = params.status.filter(
+        (el: string) => el !== checkedValue
+      );
+      setParams({ status: tempStatus });
+    } else {
+      if (Array.isArray(params.status)) {
+        setParams({ status: [...params.status, checkedValue] });
+      } else {
+        setParams({ status: [params.status, checkedValue] });
+      }
+    }
   };
 
   return (
@@ -58,19 +78,34 @@ const OrdersList = ({ setOrderId }: Props) => {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Filter by</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuCheckboxItem checked>
+              <DropdownMenuCheckboxItem
+                checked={params?.status?.includes('pending')}
+                onCheckedChange={(e) => handleCheckChange('pending', e)}
+              >
                 Pending
               </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem checked>
+              <DropdownMenuCheckboxItem
+                checked={params?.status?.includes('processed')}
+                onCheckedChange={(e) => handleCheckChange('processed', e)}
+              >
                 Processed
               </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem checked>
+              <DropdownMenuCheckboxItem
+                checked={params?.status?.includes('shipped')}
+                onCheckedChange={(e) => handleCheckChange('shipped', e)}
+              >
                 Shipped
               </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem checked>
+              <DropdownMenuCheckboxItem
+                checked={params?.status?.includes('delivered')}
+                onCheckedChange={(e) => handleCheckChange('delivered', e)}
+              >
                 Delivered
               </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem checked>
+              <DropdownMenuCheckboxItem
+                checked={params?.status?.includes('cancelled')}
+                onCheckedChange={(e) => handleCheckChange('cancelled', e)}
+              >
                 Cancelled
               </DropdownMenuCheckboxItem>
             </DropdownMenuContent>

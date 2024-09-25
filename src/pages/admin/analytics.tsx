@@ -1,8 +1,18 @@
+import React from "react";
+
 const Analytics = () => {
   return (
     <>
-      <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Analytics</h1>
+      <h1 className="text-lg text-center font-semibold md:text-2xl">
+        Under Development ⚙️
+      </h1>
+
+      <div className="flex justify-center">
+        <img
+          src="./development-cuate.png"
+          alt="development-cuate"
+          className="max-w-[600px]"
+        />
       </div>
     </>
   );

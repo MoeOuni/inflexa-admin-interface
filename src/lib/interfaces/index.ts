@@ -6,3 +6,4 @@ export * from './supplier'
 export * from './inventory';
 export * from './log';
 export * from './configs'
+export * from './sales'

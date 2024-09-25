@@ -28,9 +28,9 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import { Order } from '@/lib/interfaces';
-import { message } from 'antd';
 import { useUpdateOrderStatus } from '@/api';
 import { GearIcon } from '@radix-ui/react-icons';
+import { toast } from 'sonner';
 
 type Props = {
   order: Order;
@@ -90,7 +90,7 @@ export function OrderActionMenu({ order }: Props) {
       );
     } else {
       // Implement error handling logic here
-      message.info('Order PDF not available');
+      toast.info('Order PDF not available');
     }
   };
 
@@ -119,7 +119,7 @@ export function OrderActionMenu({ order }: Props) {
       link.click();
     } else {
       // Implement error handling logic here
-      message.info('Order PDF not available');
+      toast.info('Order PDF not available');
     }
   };
 
@@ -195,7 +195,7 @@ export function OrderActionMenu({ order }: Props) {
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={handleDeliver}
-                disabled={order.status === 'shipped'}
+                disabled={order.status === 'delivered'}
               >
                 <CheckCircle className="mr-2 h-4 w-4" />
                 <span>Deliver Order</span>
