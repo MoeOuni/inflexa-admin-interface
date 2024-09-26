@@ -38,7 +38,7 @@ const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
       const response = await getMeFn.mutateAsync();
       setUser(response.data);
     };
-    if (token) {
+    if (token && !user) {
       getMeCall();
     }
   }, [token]);
