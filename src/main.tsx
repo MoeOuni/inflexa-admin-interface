@@ -29,6 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </div>
     }
   >
+    
     <ReactQueryProvider>
       <AuthContextProvider>
         <PermissionsContextProvider>

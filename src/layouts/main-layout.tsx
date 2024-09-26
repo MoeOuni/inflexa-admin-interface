@@ -24,6 +24,7 @@ import {
 import { AuthContext } from '@/contexts/auth-context';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import NotificationSheet from '@/components/app/notification-sheet';
+import { useMenuNotifications } from '@/api';
 
 // import runOneSignal from '@/lib/one-signal';
 
@@ -34,6 +35,9 @@ const Spin = () => {
 function MainLayout() {
   const { user, setToken, setUser } = useContext(AuthContext);
 
+  const menuNotificatons = useMenuNotifications({ type: 'menu' });
+
+  console.log(menuNotificatons?.data?.data);
   // useEffect(() => {
   //   // Run OneSignal for push notifications once logged in.
   //   runOneSignal();
@@ -53,7 +57,7 @@ function MainLayout() {
             </div>
           </div>
           <div className="flex-1">
-            <Sidebar />
+            <Sidebar notifications={menuNotificatons?.data?.data || []}/>
           </div>
         </div>
       </div>

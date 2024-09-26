@@ -15,6 +15,7 @@ import {
   ArrowDownNarrowWide,
   ArrowDownWideNarrow,
   ChevronDown,
+  Loader2,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -44,12 +45,13 @@ import { useStore } from '@/contexts/store-context';
 
 type Props = {
   setOrderId: React.Dispatch<React.SetStateAction<string>>;
-  data: Order[]
-}
+  data: Order[];
+  loading: boolean;
+};
 
-export function OrdersTable({ data, setOrderId }: Props) {
+export function OrdersTable({ data, setOrderId, loading }: Props) {
   const { t } = useTranslation();
-  const {currency} = useStore();
+  const { currency } = useStore();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -84,7 +86,8 @@ export function OrdersTable({ data, setOrderId }: Props) {
     {
       accessorKey: 'totalAmount',
       header: 'Amount',
-      cell: ({ row }) => row.original.totalAmount?.toFixed(2) + ' ' + currency?.symbol,
+      cell: ({ row }) =>
+        row.original.totalAmount?.toFixed(2) + ' ' + currency?.symbol,
     },
     {
       id: 'actions',
@@ -235,14 +238,13 @@ export function OrdersTable({ data, setOrderId }: Props) {
                   colSpan={columns?.length}
                   className="h-24 text-center"
                 >
-                  {/* {loading ? (
+                  {loading ? (
                     <div className="flex justify-center">
                       <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                     </div>
                   ) : (
-                    "No results."
-                  )} */}
-                  No results.
+                    'No results.'
+                  )}
                 </TableCell>
               </TableRow>
             )}

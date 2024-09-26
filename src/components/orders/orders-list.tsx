@@ -28,16 +28,18 @@ type Props = {
 const OrdersList = ({ setOrderId }: Props) => {
   const navigate = useNavigate();
   const [params, setParams] = useUrlState({
-    status: ['pending', 'processed', 'shipped', 'delivered', 'cancelled'],
+    status: '',
   });
 
-  const orders = useOrders({ params: '' });
+  const orders = useOrders({
+    params,
+  });
 
   useEffect(() => {
     if (orders?.data?.data?.length > 0) {
       setOrderId(orders.data.data[0]._id);
     }
-  }, [orders.status]);
+  }, [orders.data?.data]);
 
   const handleNavigate = () => {
     navigate('/orders/save');
@@ -45,16 +47,9 @@ const OrdersList = ({ setOrderId }: Props) => {
 
   const handleCheckChange = (checkedValue: string, checked: boolean) => {
     if (checked === false) {
-      const tempStatus = params.status.filter(
-        (el: string) => el !== checkedValue
-      );
-      setParams({ status: tempStatus });
+      setParams({ status: '' });
     } else {
-      if (Array.isArray(params.status)) {
-        setParams({ status: [...params.status, checkedValue] });
-      } else {
-        setParams({ status: [params.status, checkedValue] });
-      }
+      setParams({ status: checkedValue });
     }
   };
 
@@ -79,31 +74,31 @@ const OrdersList = ({ setOrderId }: Props) => {
               <DropdownMenuLabel>Filter by</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem
-                checked={params?.status?.includes('pending')}
+                checked={params?.status === 'pending'}
                 onCheckedChange={(e) => handleCheckChange('pending', e)}
               >
                 Pending
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
-                checked={params?.status?.includes('processed')}
+                checked={params?.status === 'processed'}
                 onCheckedChange={(e) => handleCheckChange('processed', e)}
               >
                 Processed
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
-                checked={params?.status?.includes('shipped')}
+                checked={params?.status === 'shipped'}
                 onCheckedChange={(e) => handleCheckChange('shipped', e)}
               >
                 Shipped
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
-                checked={params?.status?.includes('delivered')}
+                checked={params?.status === 'delivered'}
                 onCheckedChange={(e) => handleCheckChange('delivered', e)}
               >
                 Delivered
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
-                checked={params?.status?.includes('cancelled')}
+                checked={params?.status === 'cancelled'}
                 onCheckedChange={(e) => handleCheckChange('cancelled', e)}
               >
                 Cancelled
@@ -128,6 +123,7 @@ const OrdersList = ({ setOrderId }: Props) => {
           <OrdersTable
             data={orders?.data?.data || []}
             setOrderId={setOrderId}
+            loading={orders?.status === 'pending'}
           />
         </CardContent>
       </Card>

@@ -15,6 +15,7 @@ import enGB from 'antd/locale/en_GB';
 import './App.css';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
+import { WebSocketProvider } from './providers/web-socket-provider';
 
 const { darkAlgorithm, defaultAlgorithm } = antdTheme;
 
@@ -41,13 +42,15 @@ function App() {
         algorithm: theme === 'light' ? [defaultAlgorithm] : [darkAlgorithm],
       }}
     >
-      <TooltipProvider>
-        <Toaster position="top-right" />
-        <Router>
-          {/* Routes go here */}
-          {token ? <ProtectedRoutes /> : <PublicRoutes />}
-        </Router>
-      </TooltipProvider>
+      <WebSocketProvider>
+        <TooltipProvider>
+          <Toaster position="top-right" />
+          <Router>
+            {/* Routes go here */}
+            {token ? <ProtectedRoutes /> : <PublicRoutes />}
+          </Router>
+        </TooltipProvider>
+      </WebSocketProvider>
     </ConfigProvider>
   );
 }

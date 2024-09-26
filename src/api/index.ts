@@ -11,3 +11,4 @@ export * from "./auth";
 export * from "./activities";
 export * from "./orders";
 export * from "./configs";
+export * from "./notifications";

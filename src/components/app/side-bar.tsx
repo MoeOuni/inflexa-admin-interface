@@ -47,18 +47,21 @@ const NotificationIndicator = ({
   color,
 }: {
   count?: number;
-  color: 'red' | 'green';
-}) => (
-  <span
-    className={`ml-auto inline-flex items-center justify-center ${
-      count ? 'px-2 py-1' : 'w-2 h-2'
-    } text-xs font-bold leading-none text-white rounded-full ${
-      color === 'red' ? 'bg-red-500' : 'bg-green-500'
-    }`}
-  >
-    {count && count}
-  </span>
-);
+  color: 'red' | 'green' | 'orange' | 'blue';
+}) => {
+
+  return count ? (
+    <span
+      className={`ml-auto inline-flex items-center justify-center ${
+        count ? 'px-2 py-1' : 'w-2 h-2'
+      } text-xs font-bold leading-none text-white rounded-full ${
+        color === 'red' ? 'bg-red-500' : color === "orange" ? 'bg-orange-500' : 'bg-green-500'
+      }`}
+    >
+      {count && count}
+    </span>
+  ) : null;
+};
 
 const sidebarItems: IMenuItem[] = [
   {
@@ -79,24 +82,18 @@ const sidebarItems: IMenuItem[] = [
     title: 'Inventory',
     icon: <Package className="h-5 w-5" />,
     path: '/inventory',
-    notifications: [
-      { count: 2, color: 'red' },
-      { count: 3, color: 'green' },
-    ],
   },
   {
     id: 4,
     title: 'Orders',
     icon: <ShoppingCart className="h-5 w-5" />,
     path: '/orders',
-    notifications: [{ count: 5, color: 'green' }],
   },
   {
     id: 5,
     title: 'Sales',
     icon: <ShoppingBasket className="h-5 w-5" />,
     path: '/sales',
-    notifications: [{ count: 2, color: 'green' }],
   },
   {
     id: 6,
@@ -110,7 +107,6 @@ const sidebarItems: IMenuItem[] = [
     title: 'Customers',
     icon: <Users2 className="h-5 w-5" />,
     path: '/customers',
-    notifications: [{ count: 3, color: 'green' }],
   },
   {
     id: 8,
@@ -175,12 +171,17 @@ const sidebarItems: IMenuItem[] = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ notifications }: { notifications: any }) => {
   return (
     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-      {sidebarItems.map((item) => (
-        <MenuItem item={item} key={item.id} />
-      ))}
+      {sidebarItems.map((item) => {
+        const ntfs = notifications.find((ntf: any) => ntf.path === item.path);
+        
+        if (ntfs) {
+          item.notifications = ntfs?.notifications;
+        }
+        return <MenuItem item={item} key={item.id} />;
+      })}
     </nav>
   );
 };
@@ -285,7 +286,7 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
         {item.title}
         <div className="ml-auto flex gap-1">
           {item.notifications &&
-            item.notifications.map((notification, index) => (
+            item.notifications?.map((notification, index) => (
               <NotificationIndicator
                 key={index}
                 count={notification.count}
