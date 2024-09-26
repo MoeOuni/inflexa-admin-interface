@@ -10,7 +10,9 @@ const SalesList = ({ setSaleId }: Props) => {
   // const navigate = useNavigate();
 
   const sales = useOrders({
-    params: '?status=delivered',
+    params: {
+      status: "delivered"
+    },
   });
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import KpiProgressCard from '../app/kpi-progress-card';
 
 const SalesStats = () => {
   return (
-    <div className="grid gap-4 grid-cols-1 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5">
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5">
       <KpiProgressCard
         title="Today"
         value={329}

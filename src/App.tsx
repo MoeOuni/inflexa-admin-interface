@@ -44,7 +44,7 @@ function App() {
     >
       <WebSocketProvider>
         <TooltipProvider>
-          <Toaster position="top-right" />
+          <Toaster  position="top-right" />
           <Router>
             {/* Routes go here */}
             {token ? <ProtectedRoutes /> : <PublicRoutes />}

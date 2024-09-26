@@ -37,7 +37,6 @@ function MainLayout() {
 
   const menuNotificatons = useMenuNotifications({ type: 'menu' });
 
-  console.log(menuNotificatons?.data?.data);
   // useEffect(() => {
   //   // Run OneSignal for push notifications once logged in.
   //   runOneSignal();
@@ -52,18 +51,24 @@ function MainLayout() {
               <img src="./icon-logo.svg" className="h-8" />
               <span className="text-2xl">Inflexa</span>
             </Link>
-            <div className='ml-auto'>
-            <NotificationSheet hasNewNotifications={true} />
+            <div className="ml-auto">
+              <NotificationSheet
+                hasNewNotifications={
+                  menuNotificatons?.data?.data?.notifications
+                }
+              />
             </div>
           </div>
           <div className="flex-1">
-            <Sidebar notifications={menuNotificatons?.data?.data || []}/>
+            <Sidebar notifications={menuNotificatons?.data?.data?.menu || []} />
           </div>
         </div>
       </div>
       <div className="flex flex-col">
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-          <SidebarMobile />
+          <SidebarMobile
+            notifications={menuNotificatons?.data?.data?.menu || []}
+          />
           <div className="w-full flex-1">
             <form>
               <div className="relative">

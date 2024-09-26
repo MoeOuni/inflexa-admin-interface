@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useLocation } from 'react-router-dom';
 import {
   Banknote,
@@ -49,13 +50,16 @@ const NotificationIndicator = ({
   count?: number;
   color: 'red' | 'green' | 'orange' | 'blue';
 }) => {
-
-  return count ? (
+  return count !== 0 ? (
     <span
       className={`ml-auto inline-flex items-center justify-center ${
         count ? 'px-2 py-1' : 'w-2 h-2'
       } text-xs font-bold leading-none text-white rounded-full ${
-        color === 'red' ? 'bg-red-500' : color === "orange" ? 'bg-orange-500' : 'bg-green-500'
+        color === 'red'
+          ? 'bg-red-500'
+          : color === 'orange'
+          ? 'bg-orange-500'
+          : 'bg-green-500'
       }`}
     >
       {count && count}
@@ -125,7 +129,6 @@ const sidebarItems: IMenuItem[] = [
     id: 10,
     title: 'Settings',
     icon: <Settings className="h-5 w-5" />,
-    notifications: [{ color: 'red' }],
     children: [
       {
         id: 101,
@@ -138,7 +141,6 @@ const sidebarItems: IMenuItem[] = [
         title: 'Security',
         path: '/settings/security',
         icon: <Lock className="h-4 w-4" />,
-        notifications: [{ color: 'red' }],
       },
       {
         id: 103,
@@ -151,21 +153,18 @@ const sidebarItems: IMenuItem[] = [
         title: 'Repports',
         path: '/settings/repports',
         icon: <BarChart className="h-4 w-4" />,
-        notifications: [{ color: 'red' }],
       },
       {
         id: 105,
         title: 'Advanced',
         path: '/settings/advanced',
         icon: <MoveHorizontal className="h-4 w-4" />,
-        notifications: [{ color: 'red' }],
       },
       {
         id: 106,
         title: 'Payments',
         path: '/settings/payments',
         icon: <Banknote className="h-4 w-4" />,
-        notifications: [{ color: 'red' }],
       },
     ],
   },
@@ -175,18 +174,28 @@ const Sidebar = ({ notifications }: { notifications: any }) => {
   return (
     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
       {sidebarItems.map((item) => {
-        const ntfs = notifications.find((ntf: any) => ntf.path === item.path);
-        
+        const ntfs = notifications.find(
+          (ntf: any) => ntf.path === item.path || ntf.id === item.id
+        );
+
         if (ntfs) {
           item.notifications = ntfs?.notifications;
+          if (ntfs.children) {
+            item.children?.forEach((child) => {
+              child.notifications = ntfs.children.find(
+                (ntf: any) => ntf.id === child.id
+              )?.notifications;
+            });
+          }
         }
+
         return <MenuItem item={item} key={item.id} />;
       })}
     </nav>
   );
 };
 
-const SidebarMobile = () => {
+const SidebarMobile = ({ notifications }: { notifications: any }) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -202,9 +211,24 @@ const SidebarMobile = () => {
             <span className="text-2xl">Inflexa</span>
           </Link>
           <hr className="my-2 border-t border-muted" />
-          {sidebarItems.map((item, index) => (
-            <MenuItem item={item} key={'sm-' + index} />
-          ))}
+          {sidebarItems.map((item) => {
+            const ntfs = notifications.find(
+              (ntf: any) => ntf.path === item.path || ntf.id === item.id
+            );
+
+            if (ntfs) {
+              item.notifications = ntfs?.notifications;
+              if (ntfs.children) {
+                item.children?.forEach((child) => {
+                  child.notifications = ntfs.children.find(
+                    (ntf: any) => ntf.id === child.id
+                  )?.notifications;
+                });
+              }
+            }
+
+            return <MenuItem item={item} key={'sm-' + item.id} />;
+          })}
         </nav>
       </SheetContent>
     </Sheet>
