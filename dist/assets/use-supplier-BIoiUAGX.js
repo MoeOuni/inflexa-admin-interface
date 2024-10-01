@@ -1,1 +1,0 @@
-import{d as u,e as t}from"./index-Cpj_313k.js";import{s as p}from"./supplier-query-keys-DIv9u3_S.js";function n({status:e}){const r=async()=>{const{data:s}=await t.get(`/suppliers/?status=${e}`);return s};return u({queryKey:[p.all,e],queryFn:r})}export{n as u};

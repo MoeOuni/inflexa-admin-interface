@@ -1,1 +1,0 @@
-import{j as r,C as s,a as e,b as a,H as t,c as n}from"./index-Cpj_313k.js";const i=()=>r.jsx(r.Fragment,{children:r.jsxs(s,{"x-chunk":"dashboard-04-chunk-1",children:[r.jsxs(e,{children:[r.jsx(a,{children:"Repports"}),r.jsx(t,{children:"Used to define your repportings parameters."})]}),r.jsx(n,{})]})});export{i as default};

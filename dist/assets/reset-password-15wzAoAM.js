@@ -1,1 +1,0 @@
-import{j as s}from"./index-Cpj_313k.js";const r=()=>s.jsx("div",{children:"ResetPassword"});export{r as default};

@@ -1,1 +1,0 @@
-import{j as s,C as a,a as d,b as e,H as r,c as n}from"./index-Cpj_313k.js";const c=()=>s.jsxs(a,{"x-chunk":"dashboard-04-chunk-1",children:[s.jsxs(d,{children:[s.jsx(e,{children:"Advanced"}),s.jsx(r,{children:"Other advanced settings."})]}),s.jsx(n,{})]});export{c as default};
