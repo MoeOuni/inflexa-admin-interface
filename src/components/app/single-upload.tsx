@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
@@ -8,6 +9,7 @@ type SingleUploadProps = {
   setFiles: void;
 };
 
+// @ts-ignore
 const SingleUpload: React.FC = ({ files, setFiles }: SingleUploadProps) => {
   const props: UploadProps = {
     name: 'file',

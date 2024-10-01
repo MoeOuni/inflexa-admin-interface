@@ -1,3 +1,4 @@
+// @ts-ignores
 import React from 'react';
 
 import {

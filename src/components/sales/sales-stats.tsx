@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from 'react';
 
 import KpiProgressCard from '../app/kpi-progress-card';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { useContext, useEffect } from 'react';
 import { ConfigProvider, theme as antdTheme } from 'antd';

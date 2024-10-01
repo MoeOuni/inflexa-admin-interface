@@ -320,7 +320,7 @@ const OrderForm = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {fields.map((field, index) => (
+                      {fields.map((_field, index) => (
                         <TableRow>
                           <TableCell className="align-top">
                             <FormField

@@ -185,7 +185,7 @@ export function CategoryForm({ selectedCategory, handleChangeView }: Props) {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {fields.map((field, index) => (
+                  {fields.map((_field, index) => (
                     <TableRow>
                       <TableCell>
                         <FormField
