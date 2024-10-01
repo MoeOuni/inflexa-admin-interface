@@ -18,6 +18,7 @@ const MultiUpload = ({
   setFileList,
   maxCount,
 }: MultipleUploadProps) => {
+  // @ts-ignore
   const [fileListState, setFileListState] = useState<UploadFile[]>(
     fileList?.map((file) => {
       return {

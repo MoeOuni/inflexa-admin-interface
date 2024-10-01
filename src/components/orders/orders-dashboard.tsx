@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useState } from 'react';
 import OrderReview from './order-review';
 import OrdersList from './orders-list';

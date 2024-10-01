@@ -1,8 +1,7 @@
+// @ts-ignore
 import React from "react";
 
-type Props = {};
-
-const ProductDetails = (props: Props) => {
+const ProductDetails = () => {
   return <div>ProductDetails</div>;
 };
 

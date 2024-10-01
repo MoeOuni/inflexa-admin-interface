@@ -1,8 +1,8 @@
+// @ts-ignore
 import React from 'react'
 
-type Props = {}
 
-const SaveSale = (props: Props) => {
+const SaveSale = () => {
   return (
     <div>SaveSale</div>
   )

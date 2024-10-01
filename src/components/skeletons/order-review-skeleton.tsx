@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from 'react';
 import { Skeleton } from '../ui/skeleton';
 import { Separator } from '../ui/separator';

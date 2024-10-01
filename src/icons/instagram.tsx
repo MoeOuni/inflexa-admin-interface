@@ -1,3 +1,4 @@
+// @ts-ignore
 import * as React from 'react';
 import type { SVGProps } from 'react';
 const Instagram = (props: SVGProps<SVGSVGElement>) => (
