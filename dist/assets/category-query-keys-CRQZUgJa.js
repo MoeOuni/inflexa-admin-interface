@@ -1,0 +1,1 @@
+import{d as t,e as i}from"./index-Cpj_313k.js";const n=async()=>(await i.get("/categories")).data;function r(){return t({queryKey:e.all,queryFn:n})}const e={all:["categories"],details:()=>[...e.all,"detail"],detail:a=>[...e.details(),a],pagination:a=>[...e.all,"pagination",a],infinite:()=>[...e.all,"infinite"]};export{e as c,r as u};

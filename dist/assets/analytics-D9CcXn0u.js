@@ -1,0 +1,1 @@
+import{j as e}from"./index-Cpj_313k.js";const s=()=>e.jsxs(e.Fragment,{children:[e.jsx("h1",{className:"text-lg text-center font-semibold md:text-2xl",children:"Under Development ⚙️"}),e.jsx("div",{className:"flex justify-center",children:e.jsx("img",{src:"./development-cuate.png",alt:"development-cuate",className:"max-w-[600px]"})})]});export{s as default};

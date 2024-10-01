@@ -1,0 +1,1 @@
+import{d as e,e as s}from"./index-Cpj_313k.js";import{c as r}from"./customer-query-keys-3MpjwF4T.js";const t=async()=>(await s.get("/customers")).data;function a(){return e({queryKey:r.all,queryFn:t})}export{a as u};
