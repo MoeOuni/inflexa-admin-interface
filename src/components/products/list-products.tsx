@@ -42,7 +42,7 @@ const ListProducts = () => {
   });
 
   const handleFilter = (filter: string, checked: boolean) => {
-    if (checked === true) {
+    if (checked) {
       setParams({
         filters: `&status.${filter}=true`,
         search: params.search,
