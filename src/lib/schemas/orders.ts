@@ -33,6 +33,7 @@ export const OrderFormSchema = z.object({
   products: z
     .array(
       z.object({
+        name: z.string().optional(),
         product: z
           .string()
           .min(1, { message: 'Product name is required and cannot be empty' }),

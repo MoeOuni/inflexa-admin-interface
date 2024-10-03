@@ -53,8 +53,8 @@ import { Loader2, PlusCircle, Trash2 } from 'lucide-react';
 import { Product } from '@/lib/interfaces';
 import { PhoneInput } from '../app/phone-input';
 import { PaymentStatus } from '../status-views/payment';
-import { useEffect } from 'react';
 import { toast } from 'sonner';
+import OrderConfirmationPopup from '@/components/popups/order-confirmation.tsx';
 
 type OrderForm = z.infer<typeof OrderFormSchema>;
 
@@ -63,7 +63,10 @@ const OrderForm = () => {
 
   // API HOOKS
   const customers = useCustomers();
-  const products = useProducts();
+  const products = useProducts({
+    isAvailable: true,
+    needsReview: false,
+  });
   const order = useCreateOrder();
 
   const form = useForm<OrderForm>({
@@ -92,7 +95,7 @@ const OrderForm = () => {
         toast.error(
           error?.response?.data?.message ||
             error?.message ||
-            'An error occurred while saving the product.'
+            'An error occurred while saving the product.',
         );
       });
   }
@@ -125,27 +128,14 @@ const OrderForm = () => {
     form.setValue(`products.${index}.product`, product._id || '');
     form.setValue(`products.${index}.productRef`, product.reference || '');
     form.setValue(`products.${index}.price`, product.price?.listPrice || 0);
+    form.setValue(`products.${index}.name`, product.name || '');
   };
-
-  useEffect(() => {
-    if (
-      form.formState.isSubmitted &&
-      Object.keys(form.formState.errors).length > 0
-    ) {
-      if (form.formState.errors.products?.message) {
-        toast.error(form.formState.errors.products.message);
-      } else {
-        toast.error('Please validate all the fields before submitting');
-      }
-    }
-  }, [form.formState.isSubmitted, form.formState.errors]);
 
   return (
     <div className="pb-2">
       <Form {...form}>
         <form
           onInvalid={(e) => console.log(e)}
-          onSubmit={form.handleSubmit(onSubmit)}
           className="grid flex-1 auto-rows-max gap-4"
         >
           {/* Top Side Menu */}
@@ -161,17 +151,11 @@ const OrderForm = () => {
               <Button variant="outline" size="sm" disabled={order.isPending}>
                 Discard
               </Button>
-              <Button
-                type="submit"
-                size="sm"
-                className="h-8 gap-1"
+              <OrderConfirmationPopup
+                form={form}
+                onSubmit={form.handleSubmit(onSubmit)}
                 disabled={order.isPending}
-              >
-                {order.isPending && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}{' '}
-                Save Order
-              </Button>
+              />
             </div>
           </div>
           <div className="grid gap-4 md:grid-cols-[1fr_340px] lg:grid-cols-3 lg:gap-8">
@@ -201,13 +185,13 @@ const OrderForm = () => {
                                   role="combobox"
                                   className={cn(
                                     'max-w-sm justify-between',
-                                    !field.value && 'text-muted-foreground'
+                                    !field.value && 'text-muted-foreground',
                                   )}
                                 >
                                   {field.value
                                     ? customers?.data.data.find(
                                         (customer: Customer) =>
-                                          customer._id === field.value
+                                          customer._id === field.value,
                                       )?.name
                                     : 'Select Customer'}
 
@@ -252,12 +236,12 @@ const OrderForm = () => {
                                                     customer?._id ===
                                                       field.value
                                                       ? 'opacity-100'
-                                                      : 'opacity-0'
+                                                      : 'opacity-0',
                                                   )}
                                                 />
                                               </div>
                                             </CommandItem>
-                                          )
+                                          ),
                                         )}
                                       </CommandGroup>
                                     )}
@@ -333,19 +317,20 @@ const OrderForm = () => {
                                       <PopoverTrigger asChild>
                                         <FormControl>
                                           <Button
+                                            type={'button'}
                                             disabled={order.isPending}
                                             variant="outline"
                                             role="combobox"
                                             className={cn(
                                               'w-full justify-between',
                                               !field.value &&
-                                                'text-muted-foreground'
+                                                'text-muted-foreground',
                                             )}
                                           >
                                             {field.value
                                               ? products?.data.data.find(
                                                   (product: Product) =>
-                                                    product._id === field.value
+                                                    product._id === field.value,
                                                 )?.name
                                               : 'Select Product'}
 
@@ -375,7 +360,7 @@ const OrderForm = () => {
                                                         onSelect={() => {
                                                           handleSelectProduct(
                                                             product,
-                                                            index
+                                                            index,
                                                           );
                                                         }}
                                                       >
@@ -394,12 +379,12 @@ const OrderForm = () => {
                                                               product?._id ===
                                                                 field.value
                                                                 ? 'opacity-100'
-                                                                : 'opacity-0'
+                                                                : 'opacity-0',
                                                             )}
                                                           />
                                                         </div>
                                                       </CommandItem>
-                                                    )
+                                                    ),
                                                   )}
                                                 </CommandGroup>
                                               )}
@@ -431,17 +416,17 @@ const OrderForm = () => {
                                           (product: Product) =>
                                             product?._id ===
                                             form.getValues(
-                                              `products.${index}.product`
-                                            )
+                                              `products.${index}.product`,
+                                            ),
                                         )?.stock?.currentStock
                                       }
                                       className="max-w-24"
                                       onChange={(event) => {
                                         const value = parseFloat(
-                                          event.target.value
+                                          event.target.value,
                                         );
                                         field.onChange(
-                                          typeof value === 'number' && value
+                                          typeof value === 'number' && value,
                                         );
                                       }}
                                     />
@@ -466,10 +451,10 @@ const OrderForm = () => {
                                       className="max-w-36"
                                       onChange={(event) => {
                                         const value = parseFloat(
-                                          event.target.value
+                                          event.target.value,
                                         );
                                         field.onChange(
-                                          typeof value === 'number' && value
+                                          typeof value === 'number' && value,
                                         );
                                       }}
                                     />
@@ -481,6 +466,7 @@ const OrderForm = () => {
                           </TableCell>
                           <TableCell className="align-top">
                             <Button
+                              type={'button'}
                               disabled={order.isPending}
                               variant={'ghost'}
                               onClick={() => remove(index)}
@@ -905,7 +891,7 @@ const OrderForm = () => {
                               onChange={(event) => {
                                 const value = parseFloat(event.target.value);
                                 field.onChange(
-                                  typeof value === 'number' && value
+                                  typeof value === 'number' && value,
                                 );
                               }}
                               disabled={products.isPending}

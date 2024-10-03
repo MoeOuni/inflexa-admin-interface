@@ -14,10 +14,10 @@ import { Suspense } from 'react';
 import { LoaderCircle } from 'lucide-react';
 import dayjs from 'dayjs';
 
-import "dayjs/locale/en";
-import "dayjs/locale/fr";
+import 'dayjs/locale/en';
+import 'dayjs/locale/fr';
 
-import relativeTime from 'dayjs/plugin/relativeTime' // ES 2015
+import relativeTime from 'dayjs/plugin/relativeTime'; // ES 2015
 
 dayjs.extend(relativeTime);
 
@@ -40,5 +40,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </PermissionsContextProvider>
       </AuthContextProvider>
     </ReactQueryProvider>
-  </Suspense>
+  </Suspense>,
 );

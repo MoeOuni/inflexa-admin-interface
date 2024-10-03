@@ -10,6 +10,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  PaginationState,
 } from '@tanstack/react-table';
 import {
   ArrowDownNarrowWide,
@@ -41,19 +42,29 @@ import { Product } from '@/lib/interfaces';
 import { ProductActionMenu } from '../action-menus/product-action-menu';
 import { ProductStatus } from '../status-views/product';
 import { useStore } from '@/contexts/store-context';
+import { useEffect } from 'react';
 
 type Props = {
   data: Product[];
   loading: boolean;
+  pageCount: number;
+  pagination: PaginationState;
+  setPagination: (pagination: { pageIndex: number; pageSize: number }) => void;
 };
 
-export function ProductsTable({ data, loading }: Props) {
+export function ProductsTable({
+  data,
+  loading,
+  pagination,
+  setPagination,
+  pageCount,
+}: Props) {
   const { t } = useTranslation();
   const { currency } = useStore();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
 
   const [columnVisibility, setColumnVisibility] =
@@ -68,7 +79,7 @@ export function ProductsTable({ data, loading }: Props) {
         row.original?.images?.[0] ? (
           <Image.PreviewGroup
             items={row.original?.images?.map(
-              (image) => import.meta.env.VITE_API_URL + '/' + image.url
+              (image) => import.meta.env.VITE_API_URL + '/' + image.url,
             )}
           >
             <Image
@@ -114,9 +125,7 @@ export function ProductsTable({ data, loading }: Props) {
       cell: ({ row }) =>
         row.original.price?.listPrice && (
           <div>
-            {row.original.price?.listPrice?.toFixed(2)}
-            {" "}
-            {currency?.symbol}
+            {row.original.price?.listPrice?.toFixed(2)} {currency?.symbol}
           </div>
         ),
     },
@@ -126,9 +135,7 @@ export function ProductsTable({ data, loading }: Props) {
       cell: ({ row }) =>
         row.original.price?.discountPrice && (
           <div>
-            {row.original.price?.discountPrice?.toFixed(2)}
-            {" "}
-            {currency?.symbol}
+            {row.original.price?.discountPrice?.toFixed(2)} {currency?.symbol}
           </div>
         ),
     },
@@ -168,19 +175,23 @@ export function ProductsTable({ data, loading }: Props) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    initialState: {
-      pagination: {
-        pageIndex: 0, //custom initial page index
-        pageSize: 10, //custom default page size
-      },
-    },
+    pageCount: pageCount ?? 0,
     state: {
+      pagination,
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
     },
+    manualPagination: true,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    onPaginationChange: setPagination,
   });
+
+  useEffect(() => {
+    table.getColumn('image')?.toggleVisibility(false);
+  }, []);
 
   return (
     <div className="w-full">
@@ -195,7 +206,9 @@ export function ProductsTable({ data, loading }: Props) {
         />
         <Input
           placeholder={'Search references...'}
-          value={(table.getColumn('reference')?.getFilterValue() as string) ?? ''}
+          value={
+            (table.getColumn('reference')?.getFilterValue() as string) ?? ''
+          }
           onChange={(event) =>
             table.getColumn('reference')?.setFilterValue(event.target.value)
           }
@@ -251,15 +264,15 @@ export function ProductsTable({ data, loading }: Props) {
                                 ? header.column.getNextSortingOrder() === 'asc'
                                   ? 'Sort ascending'
                                   : header.column.getNextSortingOrder() ===
-                                    'desc'
-                                  ? 'Sort descending'
-                                  : 'Clear sort'
+                                      'desc'
+                                    ? 'Sort descending'
+                                    : 'Clear sort'
                                 : undefined
                             }
                           >
                             {flexRender(
                               header.column.columnDef.header,
-                              header.getContext()
+                              header.getContext(),
                             )}
                           </Tooltip>
                           {{
@@ -289,7 +302,7 @@ export function ProductsTable({ data, loading }: Props) {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

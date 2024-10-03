@@ -1,4 +1,5 @@
-import React from 'react';
+// @ts-ignore
+import React, { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -18,27 +19,59 @@ import {
 import { Button } from '../ui/button';
 import { File, ListFilter } from 'lucide-react';
 import { ProductsTable } from '../data-tables/products-table';
-import { useProducts } from '@/api';
+import { useProductsPagination } from '@/api';
 
 const ListProducts = () => {
-  const products = useProducts();
-
-  const [filter, setFilter] = React.useState({
-    isAvailable: true,
-    isActive: true,
-    isFeatured: true,
-    needsReview: true,
+  const [params, setParams] = useState<{
+    filters?: string;
+    search?: string;
+    preset?: string;
+  }>({
+    filters: '',
+    search: '',
+    preset: 'ALL',
   });
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
+  const products = useProductsPagination({
+    pagination,
+    ...params,
+  });
+
+  const handleFilter = (filter: string, checked: boolean) => {
+    if (checked === true) {
+      setParams({
+        filters: `&status.${filter}=true`,
+        search: params.search,
+      });
+    } else {
+      setParams({
+        filters: '',
+        search: params.search,
+      });
+    }
+  };
 
   return (
     <div>
-      <Tabs onValueChange={(e) => console.log(e)}>
+      <Tabs
+        onValueChange={(e) =>
+          setParams({
+            ...params,
+            preset: e,
+          })
+        }
+        value={params.preset}
+      >
         <div className="flex items-center gap-2 flex-col md:flex-row">
-          <TabsList defaultValue={'all'}>
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="active">In Stock</TabsTrigger>
-            <TabsTrigger value="draft">Out of Stock</TabsTrigger>
-            <TabsTrigger value="archived">Archived</TabsTrigger>
+          <TabsList defaultValue={'ALL'}>
+            <TabsTrigger value="ALL">All</TabsTrigger>
+            <TabsTrigger value="AVAILABLE">In Stock</TabsTrigger>
+            <TabsTrigger value="OUT_OF_STOCK">Out of Stock</TabsTrigger>
+            <TabsTrigger value="ARCHIVED">Archived</TabsTrigger>
           </TabsList>
           <div className="md:ml-auto flex items-center gap-2">
             <DropdownMenu>
@@ -54,46 +87,26 @@ const ListProducts = () => {
                 <DropdownMenuLabel>Filter by</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuCheckboxItem
-                  checked={filter?.isActive}
-                  onCheckedChange={(e) =>
-                    setFilter({
-                      ...filter,
-                      isActive: e,
-                    })
-                  }
+                  checked={params?.filters === '&status.isActive=true'}
+                  onCheckedChange={(e) => handleFilter('isActive', e)}
                 >
                   Active
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem
-                  checked={filter?.isAvailable}
-                  onCheckedChange={(e) =>
-                    setFilter({
-                      ...filter,
-                      isAvailable: e,
-                    })
-                  }
+                  checked={params?.filters === '&status.isAvailable=true'}
+                  onCheckedChange={(e) => handleFilter('isAvailable', e)}
                 >
                   Available
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem
-                  checked={filter?.isFeatured}
-                  onCheckedChange={(e) =>
-                    setFilter({
-                      ...filter,
-                      isFeatured: e,
-                    })
-                  }
+                  checked={params?.filters === '&status.isFeatured=true'}
+                  onCheckedChange={(e) => handleFilter('isFeatured', e)}
                 >
                   Featured
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem
-                  checked={filter?.needsReview}
-                  onCheckedChange={(e) =>
-                    setFilter({
-                      ...filter,
-                      needsReview: e,
-                    })
-                  }
+                  checked={params?.filters === '&status.needsReview=true'}
+                  onCheckedChange={(e) => handleFilter('needsReview', e)}
                 >
                   Needs Review
                 </DropdownMenuCheckboxItem>
@@ -116,7 +129,13 @@ const ListProducts = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ProductsTable loading={true} data={products?.data?.data ?? []} />
+            <ProductsTable
+              loading={products.isPending}
+              data={products?.data?.data?.data ?? []}
+              pageCount={parseInt(products?.data?.headers['x-total-pages'])}
+              pagination={pagination}
+              setPagination={setPagination}
+            />
           </CardContent>
         </Card>
       </Tabs>
