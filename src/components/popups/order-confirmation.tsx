@@ -13,6 +13,7 @@ import { useStore } from '@/contexts/store-context.tsx';
 import React from 'react';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
+import { PaymentStatus } from '@/components/status-views/payment.tsx';
 
 // @ts-ignore
 const OrderConfirmationPopup = ({ form, onSubmit, disabled }) => {
@@ -54,8 +55,29 @@ const OrderConfirmationPopup = ({ form, onSubmit, disabled }) => {
             Confirm the order before proceeding.
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="h-[40vh] w-full rounded-lg border bg-muted">
+        <ScrollArea className="h-[50vh] w-full rounded-lg border bg-muted">
           <div className="grid gap-2 p-4">
+            <div className="flex justify-between border-b pb-2">
+              <div className="text-xs">
+                <div className="text-muted-foreground">Customer</div>
+                <div>{form.getValues().customerName}</div>
+              </div>
+              <div className="text-xs">
+                <div className="text-muted-foreground">
+                  Shipping Information
+                </div>
+                <address className="text-xs not-italic">
+                  <div>
+                    {`${form.getValues().shippingAddress?.street}, ${form.getValues().shippingAddress?.city}, ${form.getValues().shippingAddress?.postalCode}`}
+                  </div>
+
+                  <div>
+                    {`${form.getValues().shippingAddress?.country}, ${form.getValues().shippingAddress?.city}, ${form.getValues().shippingAddress?.state}`}
+                  </div>
+                </address>
+              </div>
+            </div>
+
             <table className="w-full text-left text-sm text-gray-500">
               <thead className="text-xs uppercase text-gray-700">
                 <tr>
@@ -108,6 +130,81 @@ const OrderConfirmationPopup = ({ form, onSubmit, disabled }) => {
                   )}
               </tbody>
             </table>
+
+            <div className="grid gap-2 text-xs uppercase text-gray-700">
+              <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 border-b">
+                <div className="font-bold">Subtotal</div>
+                <div className="text-muted-foreground">
+                  {form
+                    .getValues()
+                    .products.reduce(
+                      (
+                        acc: number,
+                        product: { price: number; quantity: number },
+                      ) => acc + product.price * product.quantity,
+                      0,
+                    )
+                    .toFixed(2)}
+                  {currency.symbol}
+                </div>
+              </div>
+              <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 border-b">
+                <div className="font-bold">Shipping</div>
+                <div className="text-muted-foreground">
+                  {form.getValues()?.shippingCost?.toFixed(2) || 0}
+                  {currency.symbol}
+                </div>
+              </div>
+              <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 border-b">
+                <div className="font-bold">Tax</div>
+                <div className="text-muted-foreground">
+                  {(
+                    form
+                      .getValues()
+                      .products.reduce(
+                        (
+                          acc: number,
+                          product: { price: number; quantity: number },
+                        ) => acc + product.price * product.quantity,
+                        0,
+                      ) * 0.19
+                  ).toFixed(2)}
+                  {currency.symbol}
+                </div>
+              </div>
+              <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 border-b ">
+                <div className="font-bold">Total</div>
+                <div className="text-muted-foreground">
+                  {(
+                    form
+                      .getValues()
+                      .products.reduce(
+                        (
+                          acc: number,
+                          product: { price: number; quantity: number },
+                        ) => acc + product.price * product.quantity,
+                        0,
+                      ) +
+                    (form.getValues()?.shippingCost || 0) +
+                    form
+                      .getValues()
+                      .products.reduce(
+                        (
+                          acc: number,
+                          product: { price: number; quantity: number },
+                        ) => acc + product.price * product.quantity,
+                        0,
+                      ) *
+                      0.19
+                  ).toFixed(2)}
+                  {currency.symbol}
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 ">
+              <div className="text-xs uppercase font-bold">Payment Type</div>
+              <PaymentStatus status={form.getValues().payment} />
+            </div>
           </div>
         </ScrollArea>
         <DialogFooter className="sm:justify-start">
