@@ -65,6 +65,21 @@
     "order_details": "Détails de la commande"
   },
 
+  "order_menu_actions": {
+    "name": "Actions de la commande",
+    "edit": "Modifier la commande",
+    "view_details": "Voir les détails de la commande",
+    "apply_discount": "Appliquer une réduction",
+    "issue_refund": "Émettre un remboursement",
+    "archive": "Archiver la commande",
+    "export": "Exporter la commande",
+    "status": "Statut de la commande",
+    "cancel": "Annuler la commande",
+    "process": "Traiter la commande",
+    "ship": "Expédier la commande",
+    "deliver": "Livrer la commande"
+  },
+
   "address_fields": {
     "street": "Rue",
     "street_placeholder": "Entrez la rue",

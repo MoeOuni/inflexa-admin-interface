@@ -133,42 +133,42 @@ export function OrderActionMenu({ order }: Props) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-64">
-        <DropdownMenuLabel>Order Actions</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("order_menu_actions.name")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         <DropdownMenuItem>
           <Edit className="mr-2 h-4 w-4" />
-          <span>Edit Order</span>
+          <span>{t("order_menu_actions.edit")}r</span>
         </DropdownMenuItem>
 
         <DropdownMenuItem onClick={handleViewDetails}>
           <Box className="mr-2 h-4 w-4" />
-          <span>View Order Details</span>
+          <span>{t("order_menu_actions.view_details")}</span>
         </DropdownMenuItem>
 
         <DropdownMenuItem onClick={handleApplyDiscount}>
           <Tag className="mr-2 h-4 w-4" />
-          <span>Apply Discount</span>
+          <span>{t("order_menu_actions.apply_discount")}t</span>
         </DropdownMenuItem>
 
         <DropdownMenuItem onClick={handleRefund}>
           <RefreshCw className="mr-2 h-4 w-4" />
-          <span>Issue Refund</span>
+          <span>{t("order_menu_actions.issue_refund")}</span>
         </DropdownMenuItem>
 
         <DropdownMenuItem onClick={handleArchive}>
           <Archive className="mr-2 h-4 w-4" />
-          <span>Archive Order</span>
+          <span>{t("order_menu_actions.archive")}r</span>
         </DropdownMenuItem>
 
         <DropdownMenuItem onClick={handleExport}>
           <FileDown className="mr-2 h-4 w-4" />
-          <span>Export Order</span>
+          <span>{t("order_menu_actions.export")}</span>
         </DropdownMenuItem>
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <Layers className="mr-2 h-4 w-4" />
-            <span>Order Actions</span>
+            <span>{t("order_menu_actions.status")}</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
@@ -177,28 +177,28 @@ export function OrderActionMenu({ order }: Props) {
                 disabled={order.status === 'cancelled'}
               >
                 <Trash className="mr-2 h-4 w-4" />
-                <span>Cancel Order</span>
+                <span>{t("order_menu_actions.cancel")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={handleProcess}
                 disabled={order.status === 'processed'}
               >
                 <GearIcon className="mr-2 h-4 w-4" />
-                <span>Process Order</span>
+                <span>{t("order_menu_actions.process")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={handleShip}
                 disabled={order.status === 'shipped'}
               >
                 <Truck className="mr-2 h-4 w-4" />
-                <span>Ship Order</span>
+                <span>{t("order_menu_actions.ship")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={handleDeliver}
                 disabled={order.status === 'delivered'}
               >
                 <CheckCircle className="mr-2 h-4 w-4" />
-                <span>Deliver Order</span>
+                <span>{t("order_menu_actions.deliver")}</span>
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuPortal>

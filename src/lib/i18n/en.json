@@ -65,6 +65,21 @@
     "order_details": "Order Details"
   },
 
+  "order_menu_actions": {
+    "name": "Order Actions",
+    "edit": "Edit Order",
+    "view_details": "View Order Details",
+    "apply_discount": "Apply Discount",
+    "issue_refund": "Issue Refund",
+    "archive": "Archive Order",
+    "export": "Export Order",
+    "status": "Order Status",
+    "cancel": "Cancel Order",
+    "process": "Process Order",
+    "ship": "Ship Order",
+    "deliver": "Deliver Order"
+  },
+
   "address_fields": {
     "street": "Street",
     "street_placeholder": "Enter street",
@@ -102,6 +117,7 @@
     "pending_processing": "Pending Processing",
     "pending_payment_confirmation": "Pending Payment Confirmation"
   },
+
   "status_descriptions": {
     "order_pending": "The order has been placed but not yet processed.",
     "order_processed": "The order has been processed and is ready for shipment.",
