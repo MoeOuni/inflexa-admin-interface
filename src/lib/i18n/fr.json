@@ -80,6 +80,35 @@
     "deliver": "Livrer la commande"
   },
 
+  "product_menu_actions": {
+    "name": "Actions du produit",
+    "edit": "Modifier le produit",
+    "delete_product": "Supprimer le produit",
+    "view_details": "Voir les détails du produit",
+    "apply_discount": "Appliquer une réduction",
+    "variants": "Gestion des variantes",
+    "add_variant": "Ajouter une variante",
+    "edit_variant": "Modifier la variante",
+    "delete_variant": "Supprimer la variante",
+    "stock": "Gestion des stocks",
+    "view_levels": "Voir les niveaux de stock",
+    "reorder": "Réapprovisionner le stock",
+    "adjust": "Ajustement du stock",
+    "pricing": "Gestion des prix",
+    "update": "Mettre à jour les prix",
+    "view_pricing": "Voir l'historique des prix",
+    "analytics_reports": "Analyses et rapports",
+    "sales_reports": "Rapports de ventes",
+    "inventory_reports": "Rapports d'inventaire",
+    "revenue_analysis": "Analyse des revenus",
+    "purchase_history": "Historique des achats",
+    "view_purchase_history": "Voir l'historique des achats",
+    "order_again": "Commander à nouveau",
+    "order_history": "Historique des commandes",
+    "view_orders_history": "Voir l'historique des commandes",
+    "export_orders": "Exporter les commandes"
+  },
+
   "address_fields": {
     "street": "Rue",
     "street_placeholder": "Entrez la rue",

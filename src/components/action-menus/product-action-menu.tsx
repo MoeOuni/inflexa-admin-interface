@@ -48,44 +48,44 @@ const handleEdit = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-64">
-        <DropdownMenuLabel>Product Actions</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("product_menu_actions.name")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         <DropdownMenuItem onClick={handleEdit}>
           <Edit className="mr-2 h-4 w-4" />
-          <span>Edit Product</span>
+          <span>{t("product_menu_actions.edit")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Trash className="mr-2 h-4 w-4" />
-          <span>Delete Product</span>
+          <span>{t("product_menu_actions.delete")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Box className="mr-2 h-4 w-4" />
-          <span>View Product Details</span>
+          <span>{t("product_menu_actions.view_details")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Tag className="mr-2 h-4 w-4" />
-          <span>Apply Discount</span>
+          <span>{t("product_menu_actions.apply_discount")}</span>
         </DropdownMenuItem>
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <Layers className="mr-2 h-4 w-4" />
-            <span>Variant Management</span>
+            <span>{t("product_menu_actions.variants")}</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
               <DropdownMenuItem>
                 <Layers className="mr-2 h-4 w-4" />
-                <span>Add Variant</span>
+                <span>{t("product_menu_actions.add_variant")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Layers className="mr-2 h-4 w-4" />
-                <span>Edit Variants</span>
+                <span>{t("product_menu_actions.edit_variant")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Layers className="mr-2 h-4 w-4" />
-                <span>Delete Variant</span>
+                <span>{t("product_menu_actions.delete_variant")}</span>
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
@@ -94,21 +94,21 @@ const handleEdit = () => {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <Box className="mr-2 h-4 w-4" />
-            <span>Stock Management</span>
+            <span>{t("product_menu_actions.stock")}</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
               <DropdownMenuItem>
                 <Box className="mr-2 h-4 w-4" />
-                <span>View Stock Levels</span>
+                <span>{t("product_menu_actions.view_levels")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Box className="mr-2 h-4 w-4" />
-                <span>Reorder Stock</span>
+                <span>{t("product_menu_actions.reorder")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Box className="mr-2 h-4 w-4" />
-                <span>Stock Adjustment</span>
+                <span>{t("product_menu_actions.adjust")}</span>
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
@@ -117,17 +117,17 @@ const handleEdit = () => {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <Tag className="mr-2 h-4 w-4" />
-            <span>Pricing Actions</span>
+            <span>{t("product_menu_actions.pricing")}</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
               <DropdownMenuItem>
                 <Tag className="mr-2 h-4 w-4" />
-                <span>Update Pricing</span>
+                <span>{t("product_menu_actions.update")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Tag className="mr-2 h-4 w-4" />
-                <span>View Price History</span>
+                <span>{t("product_menu_actions.view_pricing")}</span>
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
@@ -136,21 +136,21 @@ const handleEdit = () => {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <BarChart className="mr-2 h-4 w-4" />
-            <span>Analytics and Reports</span>
+            <span>{t("product_menu_actions.analytics_reports")}</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
               <DropdownMenuItem>
                 <BarChart className="mr-2 h-4 w-4" />
-                <span>Sales Report</span>
+                <span>{t("product_menu_actions.sales_reports")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <BarChart className="mr-2 h-4 w-4" />
-                <span>Inventory Report</span>
+                <span>{t("product_menu_actions.inventory_reports")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <BarChart className="mr-2 h-4 w-4" />
-                <span>Revenue Analysis</span>
+                <span>{t("product_menu_actions.revenue_analysis")}</span>
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
@@ -159,17 +159,17 @@ const handleEdit = () => {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <ShoppingCart className="mr-2 h-4 w-4" />
-            <span>Purchase History</span>
+            <span>{t("product_menu_actions.purchase_history")}</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
               <DropdownMenuItem>
                 <ShoppingCart className="mr-2 h-4 w-4" />
-                <span>View Purchase History</span>
+                <span>{t("product_menu_actions.view_purchase_history")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <ShoppingCart className="mr-2 h-4 w-4" />
-                <span>Order Again</span>
+                <span>{t("product_menu_actions.order_again")}</span>
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
@@ -178,17 +178,17 @@ const handleEdit = () => {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <FileText className="mr-2 h-4 w-4" />
-            <span>Orders History</span>
+            <span>{t("product_menu_actions.order_history")}</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
               <DropdownMenuItem>
                 <FileText className="mr-2 h-4 w-4" />
-                <span>View Orders History</span>
+                <span>{t("product_menu_actions.view_orders_history")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <FileText className="mr-2 h-4 w-4" />
-                <span>Export Orders</span>
+                <span>{t("product_menu_actions.export_orders")}</span>
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuPortal>

@@ -80,6 +80,35 @@
     "deliver": "Deliver Order"
   },
 
+  "product_menu_actions": {
+    "name": "Product Actions",
+    "edit": "Edit Product",
+    "delete_product": "Delete Product",
+    "view_details": "View Product Details",
+    "apply_discount": "Apply Discount",
+    "variants": "Variant Management",
+    "add_variant": "Add Variant",
+    "edit_variant": "Edit Variant",
+    "delete_variant": "Delete Variant",
+    "stock": "Stock Management",
+    "view_levels": "view Stock Levels",
+    "reorder": "Reorder Stock",
+    "adjust": "Stock Adjustment",
+    "pricing": "Pricing Management",
+    "update": "Update Pricing",
+    "view_pricing": "View Price History",
+    "analytics_reports": "Analytics & Reports",
+    "sales_reports": "Sales Reports",
+    "inventory_reports": "Inventory Reports",
+    "revenue_analysis": "Revenue Analysis",
+    "purchase_history": "Purchase History",
+    "view_purchase_history": "View Purchase History",
+    "order_again": "Order Again",
+    "order_history": "Order History",
+    "view_orders_history": "View Orders History",
+    "export_orders": "Export Orders"
+  },
+
   "address_fields": {
     "street": "Street",
     "street_placeholder": "Enter street",
@@ -172,6 +201,8 @@
     "delivery_man_reg_number_tooltip": "Vehicle Registration Number",
     "order_status": "Order Status"
   },
+
+  
 
   "category": "Category",
   "categories": "Categories",
