@@ -15,6 +15,9 @@
   "filter": "Filter",
   "filter_by": "Filter by",
   "export": "Export",
+  "email": "Email",
+  "phone": "Phone",
+  "updated": "Updated",
 
   "new": "New",
 
@@ -45,6 +48,7 @@
   "order": {
     "name": "Order",
     "orders": "Orders",
+    "order_copy_id": "Copy Order ID",
     "orders_table_text": "Recent orders from your store. The orders are sorted by date, with the most recent orders displayed at the top of the table.",
     "save_order": "Save Order",
     "new_order": "New Order",
@@ -56,7 +60,9 @@
       "status": "Status",
       "date": "Date",
       "amount": "Amount"
-    }
+    },
+    "date": "Date",
+    "order_details": "Order Details"
   },
 
   "address_fields": {
@@ -110,8 +116,10 @@
 
   "order_fields": {
     "customer": "Customer",
+    "customer_information": "Customer Information",
     "customer_text": "Select a customer for this order. If the customer is not in the list, you can create a new one from the button below.",
     "notes": "Notes",
+    "shipping": "Shipping",
     "shipping_information": "Shipping Information",
     "billing_address_information": "Billing Address",
     "quantity": "Quantity",
@@ -119,6 +127,7 @@
     "unit_price": "Unit Price",
     "total_price": "Total Price",
     "discount": "Discount",
+    "subtotal": "Subtotal",
     "tax": "Tax",
     "total": "Total",
     "products": "Products",

@@ -15,6 +15,9 @@
   "filter": "Filtrer",
   "filter_by": "Filtrer par",
   "export": "Exporter",
+  "email": "E-mail",
+  "phone": "Téléphone",
+  "updated": "Mis à jour",
 
   "new": "Nouveau",
 
@@ -45,6 +48,7 @@
   "order": {
     "name": "Commande",
     "orders": "Commandes",
+    "order_copy_id": "Copier l'ID de la commande",
     "orders_table_text": "Commandes récentes de votre magasin. Les commandes sont triées par date, les plus récentes étant affichées en haut du tableau.",
     "save_order": "Enregistrer la Commande",
     "new_order": "Nouvelle Commande",
@@ -56,7 +60,9 @@
       "status": "Statut",
       "date": "Date",
       "amount": "Montant"
-    }
+    },
+    "date": "Date",
+    "order_details": "Détails de la commande"
   },
 
   "address_fields": {
@@ -111,8 +117,10 @@
 
   "order_fields": {
     "customer": "Client",
+    "customer_information": "Informations sur le client",
     "customer_text": "Sélectionnez un client pour cette commande. Si le client ne figure pas dans la liste, vous pouvez en créer un nouveau à partir du bouton ci-dessous.",
     "notes": "Remarques",
+    "shipping": "Livraison",
     "shipping_information": "Informations de Livraison",
     "billing_address_information": "Adresse de Facturation",
     "quantity": "Quantité",
@@ -120,6 +128,7 @@
     "unit_price": "Prix Unitaire",
     "total_price": "Prix Total",
     "discount": "Remise",
+    "subtotal": "Sous-total",
     "tax": "Taxe",
     "total": "Total",
     "products": "Produits",
