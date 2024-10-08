@@ -49,16 +49,18 @@ import {
   TableRow,
 } from '../ui/table';
 import { Input } from '../ui/input';
-import { Loader2, PlusCircle, Trash2 } from 'lucide-react';
+import { PlusCircle, Trash2 } from 'lucide-react';
 import { Product } from '@/lib/interfaces';
 import { PhoneInput } from '../app/phone-input';
 import { PaymentStatus } from '../status-views/payment';
 import { toast } from 'sonner';
 import OrderConfirmationPopup from '@/components/popups/order-confirmation.tsx';
+import { useTranslation } from 'react-i18next';
 
 type OrderForm = z.infer<typeof OrderFormSchema>;
 
 const OrderForm = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   // API HOOKS
@@ -95,7 +97,7 @@ const OrderForm = () => {
         toast.error(
           error?.response?.data?.message ||
             error?.message ||
-            'An error occurred while saving the product.',
+            'An error occurred while saving the product.'
         );
       });
   }
@@ -142,14 +144,14 @@ const OrderForm = () => {
           <div className="flex items-center gap-4">
             <BackButton onClick={handleReturnNavigate} />
             <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-              New Order
+              {t('order.new_order')}
             </h1>
             <div>
-              <Badge>New</Badge>
+              <Badge>{t('new')}</Badge>
             </div>
             <div className="hidden items-center gap-2 md:ml-auto md:flex">
               <Button variant="outline" size="sm" disabled={order.isPending}>
-                Discard
+                {t('discard')}
               </Button>
               <OrderConfirmationPopup
                 form={form}
@@ -162,10 +164,9 @@ const OrderForm = () => {
             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
               <Card>
                 <CardHeader>
-                  <CardTitle>Customer</CardTitle>
+                  <CardTitle>{t('order_fields.customer')}</CardTitle>
                   <CardDescription>
-                    Select a customer for this order. If the customer is not in
-                    the list, you can create a new one from the button below.
+                    {t('order_fields.customer_text')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -175,7 +176,7 @@ const OrderForm = () => {
                       control={form.control}
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
-                          <FormLabel>Customer</FormLabel>
+                          <FormLabel>{t('order_fields.customer')}</FormLabel>
                           <Popover>
                             <PopoverTrigger asChild>
                               <FormControl>
@@ -185,15 +186,15 @@ const OrderForm = () => {
                                   role="combobox"
                                   className={cn(
                                     'max-w-sm justify-between',
-                                    !field.value && 'text-muted-foreground',
+                                    !field.value && 'text-muted-foreground'
                                   )}
                                 >
                                   {field.value
                                     ? customers?.data.data.find(
                                         (customer: Customer) =>
-                                          customer._id === field.value,
+                                          customer._id === field.value
                                       )?.name
-                                    : 'Select Customer'}
+                                    : t('select_customer')}
 
                                   <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                 </Button>
@@ -202,7 +203,7 @@ const OrderForm = () => {
                             <PopoverContent className="p-0">
                               <Command>
                                 <CommandInput
-                                  placeholder="Search customer..."
+                                  placeholder={t('search_customer')}
                                   className="h-9"
                                 />
                                 <CommandList>
@@ -236,12 +237,12 @@ const OrderForm = () => {
                                                     customer?._id ===
                                                       field.value
                                                       ? 'opacity-100'
-                                                      : 'opacity-0',
+                                                      : 'opacity-0'
                                                   )}
                                                 />
                                               </div>
                                             </CommandItem>
-                                          ),
+                                          )
                                         )}
                                       </CommandGroup>
                                     )}
@@ -259,7 +260,7 @@ const OrderForm = () => {
                       control={form.control}
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
-                          <FormLabel>Notes</FormLabel>
+                          <FormLabel>{t('order_fields.notes')}</FormLabel>
                           <FormControl>
                             <Textarea
                               disabled={order.isPending}
@@ -281,26 +282,25 @@ const OrderForm = () => {
                     className="ml-auto"
                     onClick={handleNewCustomer}
                   >
-                    Create New Customer
+                    {t('customer_add_button')}
                   </Button>
                 </CardFooter>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Products</CardTitle>
+                  <CardTitle>{t('order_fields.products')}</CardTitle>
                   <CardDescription>
-                    Add products to the order. You can search for products by
-                    name or reference.
+                    {t('order_fields.products_text')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Product</TableHead>
-                        <TableHead>Quantity</TableHead>
-                        <TableHead>Unit Price</TableHead>
+                        <TableHead>{t('order_fields.product')}</TableHead>
+                        <TableHead>{t('order_fields.quantity')}</TableHead>
+                        <TableHead>{t('order_fields.unit_price')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -324,15 +324,15 @@ const OrderForm = () => {
                                             className={cn(
                                               'w-full justify-between',
                                               !field.value &&
-                                                'text-muted-foreground',
+                                                'text-muted-foreground'
                                             )}
                                           >
                                             {field.value
                                               ? products?.data.data.find(
                                                   (product: Product) =>
-                                                    product._id === field.value,
+                                                    product._id === field.value
                                                 )?.name
-                                              : 'Select Product'}
+                                              : t('select_product')}
 
                                             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                           </Button>
@@ -341,7 +341,7 @@ const OrderForm = () => {
                                       <PopoverContent className="p-0">
                                         <Command>
                                           <CommandInput
-                                            placeholder="Search product..."
+                                            placeholder={t('search_product')}
                                             className="h-9"
                                           />
                                           <CommandList>
@@ -360,7 +360,7 @@ const OrderForm = () => {
                                                         onSelect={() => {
                                                           handleSelectProduct(
                                                             product,
-                                                            index,
+                                                            index
                                                           );
                                                         }}
                                                       >
@@ -379,12 +379,12 @@ const OrderForm = () => {
                                                               product?._id ===
                                                                 field.value
                                                                 ? 'opacity-100'
-                                                                : 'opacity-0',
+                                                                : 'opacity-0'
                                                             )}
                                                           />
                                                         </div>
                                                       </CommandItem>
-                                                    ),
+                                                    )
                                                   )}
                                                 </CommandGroup>
                                               )}
@@ -416,17 +416,17 @@ const OrderForm = () => {
                                           (product: Product) =>
                                             product?._id ===
                                             form.getValues(
-                                              `products.${index}.product`,
-                                            ),
+                                              `products.${index}.product`
+                                            )
                                         )?.stock?.currentStock
                                       }
                                       className="max-w-24"
                                       onChange={(event) => {
                                         const value = parseFloat(
-                                          event.target.value,
+                                          event.target.value
                                         );
                                         field.onChange(
-                                          typeof value === 'number' && value,
+                                          typeof value === 'number' && value
                                         );
                                       }}
                                     />
@@ -451,10 +451,10 @@ const OrderForm = () => {
                                       className="max-w-36"
                                       onChange={(event) => {
                                         const value = parseFloat(
-                                          event.target.value,
+                                          event.target.value
                                         );
                                         field.onChange(
-                                          typeof value === 'number' && value,
+                                          typeof value === 'number' && value
                                         );
                                       }}
                                     />
@@ -498,14 +498,16 @@ const OrderForm = () => {
                     }
                   >
                     <PlusCircle className="h-3.5 w-3.5" />
-                    Add Product
+                    {t('add_product_button')}
                   </Button>
                 </CardFooter>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Shipping Address</CardTitle>
+                  <CardTitle>
+                    {t('order_fields.shipping_information')}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="grid gap-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -514,12 +516,16 @@ const OrderForm = () => {
                       name="shippingAddress.street"
                       render={({ field }) => (
                         <FormItem className="space-y-2">
-                          <FormLabel htmlFor="street">Street</FormLabel>
+                          <FormLabel htmlFor="street">
+                            {t('address_fields.street')}
+                          </FormLabel>
                           <FormControl>
                             <Input
                               disabled={order.isPending}
                               id="street"
-                              placeholder="Enter street address"
+                              placeholder={t(
+                                'address_fields.street_placeholder'
+                              )}
                               {...field}
                             />
                           </FormControl>
@@ -532,12 +538,14 @@ const OrderForm = () => {
                       name="shippingAddress.city"
                       render={({ field }) => (
                         <FormItem className="space-y-2">
-                          <FormLabel htmlFor="city">City</FormLabel>
+                          <FormLabel htmlFor="city">
+                            {t('address_fields.city')}
+                          </FormLabel>
                           <FormControl>
                             <Input
                               disabled={order.isPending}
                               id="city"
-                              placeholder="Enter city"
+                              placeholder={t('address_fields.city_placeholder')}
                               {...field}
                             />
                           </FormControl>
@@ -552,12 +560,16 @@ const OrderForm = () => {
                       name="shippingAddress.state"
                       render={({ field }) => (
                         <FormItem className="space-y-2">
-                          <FormLabel htmlFor="state">State</FormLabel>
+                          <FormLabel htmlFor="state">
+                            {t('address_fields.state')}
+                          </FormLabel>
                           <FormControl>
                             <Input
                               disabled={order.isPending}
                               id="state"
-                              placeholder="Enter state"
+                              placeholder={t(
+                                'address_fields.state_placeholder'
+                              )}
                               {...field}
                             />
                           </FormControl>
@@ -571,13 +583,15 @@ const OrderForm = () => {
                       render={({ field }) => (
                         <FormItem className="space-y-2">
                           <FormLabel htmlFor="postalCode">
-                            Postal Code
+                            {t('address_fields.zip_code')}
                           </FormLabel>
                           <FormControl>
                             <Input
                               disabled={order.isPending}
                               id="postalCode"
-                              placeholder="Enter postal code"
+                              placeholder={t(
+                                'address_fields.zip_code_placeholder'
+                              )}
                               {...field}
                             />
                           </FormControl>
@@ -590,12 +604,16 @@ const OrderForm = () => {
                       name="shippingAddress.country"
                       render={({ field }) => (
                         <FormItem className="space-y-2">
-                          <FormLabel htmlFor="country">Country</FormLabel>
+                          <FormLabel htmlFor="country">
+                            {t('address_fields.country')}
+                          </FormLabel>
                           <FormControl>
                             <Input
                               disabled={order.isPending}
                               id="country"
-                              placeholder="Enter country"
+                              placeholder={t(
+                                'address_fields.country_placeholder'
+                              )}
                               {...field}
                             />
                           </FormControl>
@@ -608,7 +626,9 @@ const OrderForm = () => {
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>Billing Address</CardTitle>
+                  <CardTitle>
+                    {t('order_fields.billing_address_information')}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="grid gap-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -617,12 +637,16 @@ const OrderForm = () => {
                       name="billingAddress.street"
                       render={({ field }) => (
                         <FormItem className="space-y-2">
-                          <FormLabel htmlFor="street">Street</FormLabel>
+                          <FormLabel htmlFor="street">
+                            {t('address_fields.street')}
+                          </FormLabel>
                           <FormControl>
                             <Input
                               disabled={order.isPending}
                               id="street"
-                              placeholder="Enter street address"
+                              placeholder={t(
+                                'address_fields.street_placeholder'
+                              )}
                               {...field}
                             />
                           </FormControl>
@@ -635,12 +659,14 @@ const OrderForm = () => {
                       name="billingAddress.city"
                       render={({ field }) => (
                         <FormItem className="space-y-2">
-                          <FormLabel htmlFor="city">City</FormLabel>
+                          <FormLabel htmlFor="city">
+                            {t('address_fields.city')}
+                          </FormLabel>
                           <FormControl>
                             <Input
                               id="city"
                               disabled={order.isPending}
-                              placeholder="Enter city"
+                              placeholder={t('address_fields.city_placeholder')}
                               {...field}
                             />
                           </FormControl>
@@ -655,12 +681,16 @@ const OrderForm = () => {
                       name="billingAddress.state"
                       render={({ field }) => (
                         <FormItem className="space-y-2">
-                          <FormLabel htmlFor="state">State</FormLabel>
+                          <FormLabel htmlFor="state">
+                            {t('address_fields.state')}
+                          </FormLabel>
                           <FormControl>
                             <Input
                               disabled={order.isPending}
                               id="state"
-                              placeholder="Enter state"
+                              placeholder={t(
+                                'address_fields.state_placeholder'
+                              )}
                               {...field}
                             />
                           </FormControl>
@@ -674,13 +704,15 @@ const OrderForm = () => {
                       render={({ field }) => (
                         <FormItem className="space-y-2">
                           <FormLabel htmlFor="postalCode">
-                            Postal Code
+                            {t('address_fields.zip_code')}
                           </FormLabel>
                           <FormControl>
                             <Input
                               disabled={order.isPending}
                               id="postalCode"
-                              placeholder="Enter postal code"
+                              placeholder={t(
+                                'address_fields.zip_code_placeholder'
+                              )}
                               {...field}
                             />
                           </FormControl>
@@ -693,12 +725,16 @@ const OrderForm = () => {
                       name="billingAddress.country"
                       render={({ field }) => (
                         <FormItem className="space-y-2">
-                          <FormLabel htmlFor="country">Country</FormLabel>
+                          <FormLabel htmlFor="country">
+                            {t('address_fields.country')}
+                          </FormLabel>
                           <FormControl>
                             <Input
                               disabled={order.isPending}
                               id="country"
-                              placeholder="Enter country"
+                              placeholder={t(
+                                'address_fields.country_placeholder'
+                              )}
                               {...field}
                             />
                           </FormControl>
@@ -713,7 +749,7 @@ const OrderForm = () => {
             <div className="grid auto-rows-max items-start gap-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Order Status</CardTitle>
+                  <CardTitle>{t('order_fields.order_status')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-6">
@@ -740,8 +776,7 @@ const OrderForm = () => {
                                     <OrderStatus status="pending" />
                                   </FormLabel>
                                   <FormDescription>
-                                    The order has been placed but not yet
-                                    processed.
+                                    {t('status_descriptions.order_pending')}
                                   </FormDescription>
                                 </div>
                               </FormItem>
@@ -756,8 +791,7 @@ const OrderForm = () => {
                                     <OrderStatus status="processed" />
                                   </FormLabel>
                                   <FormDescription>
-                                    The order has been reviewed and is being
-                                    prepared for shipment.
+                                    {t('status_descriptions.order_processed')}
                                   </FormDescription>
                                 </div>
                               </FormItem>
@@ -772,8 +806,7 @@ const OrderForm = () => {
                                     <OrderStatus status="shipped" />
                                   </FormLabel>
                                   <FormDescription>
-                                    The order has been dispatched and is on its
-                                    way to the delivery address.
+                                    {t('status_descriptions.order_shipped')}
                                   </FormDescription>
                                 </div>
                               </FormItem>
@@ -788,8 +821,7 @@ const OrderForm = () => {
                                     <OrderStatus status="delivered" />
                                   </FormLabel>
                                   <FormDescription>
-                                    The order has been delivered to the
-                                    customer.
+                                    {t('status_descriptions.order_delivered')}
                                   </FormDescription>
                                 </div>
                               </FormItem>
@@ -804,8 +836,7 @@ const OrderForm = () => {
                                     <OrderStatus status="cancelled" />
                                   </FormLabel>
                                   <FormDescription>
-                                    The order has been cancelled and will not be
-                                    processed or delivered.
+                                    {t('status_descriptions.order_cancelled')}
                                   </FormDescription>
                                 </div>
                               </FormItem>
@@ -820,93 +851,7 @@ const OrderForm = () => {
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>Delivery (Optional)</CardTitle>
-                  <CardDescription>
-                    You can leave this section empty if the order does is not
-                    ready for delivery.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-6">
-                    <FormField
-                      name="delivery.deliveryMan.name"
-                      control={form.control}
-                      render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                          <FormLabel>
-                            Delivery Man Name
-                            <span className="text-muted-foreground">
-                              {' '}
-                              (Optional)
-                            </span>
-                          </FormLabel>
-                          <FormControl>
-                            <Input disabled={order.isPending} {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      name="delivery.deliveryMan.phone"
-                      control={form.control}
-                      render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                          <FormLabel>Delivery Phone Number</FormLabel>
-                          <FormControl>
-                            <PhoneInput
-                              defaultCountry="TN"
-                              placeholder="Enter a phone number"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      name="delivery.deliveryMan.registrationNumber"
-                      control={form.control}
-                      render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                          <FormLabel>Delivery Registration Number</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      name="deliveryPrice"
-                      control={form.control}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Delivery Price</FormLabel>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              type="number"
-                              step="0.01"
-                              onChange={(event) => {
-                                const value = parseFloat(event.target.value);
-                                field.onChange(
-                                  typeof value === 'number' && value,
-                                );
-                              }}
-                              disabled={products.isPending}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Payment</CardTitle>
+                  <CardTitle>{t('order_fields.payment')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-6">
@@ -915,7 +860,9 @@ const OrderForm = () => {
                       name="payment"
                       render={({ field }) => (
                         <FormItem className="space-y-3">
-                          <FormLabel>Payment Type</FormLabel>
+                          <FormLabel>
+                            {t('order_fields.payment_type')}
+                          </FormLabel>
                           <FormControl>
                             <RadioGroup
                               disabled={order.isPending}
@@ -1004,24 +951,102 @@ const OrderForm = () => {
                   </div>
                 </CardContent>
               </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t('order_fields.delivery')}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-6">
+                    <FormField
+                      name="delivery.deliveryMan.name"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>
+                            {t('order_fields.delivery_man_name_label')}
+                          </FormLabel>
+                          <FormControl>
+                            <Input disabled={order.isPending} {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      name="delivery.deliveryMan.phone"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>
+                            {t('order_fields.delivery_man_phone_label')}
+                          </FormLabel>
+                          <FormControl>
+                            <PhoneInput
+                              defaultCountry="TN"
+                              placeholder="Enter a phone number"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      name="delivery.deliveryMan.registrationNumber"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>
+                            {t('order_fields.delivery_man_reg_number_label')}
+                          </FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      name="deliveryPrice"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>
+                            {t('order_fields.delivery_price_label')}
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              type="number"
+                              step="0.01"
+                              onChange={(event) => {
+                                const value = parseFloat(event.target.value);
+                                field.onChange(
+                                  typeof value === 'number' && value
+                                );
+                              }}
+                              disabled={products.isPending}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
           {/* Bottom Side Action Buttons ON MOBILE */}
           <div className="flex items-center justify-center gap-2 md:hidden">
             <Button variant="outline" size="sm" disabled={order.isPending}>
-              Discard
+              {t('discard')}
             </Button>
-            <Button
-              size="sm"
-              type="submit"
-              className="h-8 gap-1"
+            <OrderConfirmationPopup
+              form={form}
+              onSubmit={form.handleSubmit(onSubmit)}
               disabled={order.isPending}
-            >
-              {order.isPending && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}{' '}
-              Save Order
-            </Button>
+            />
           </div>
         </form>
       </Form>

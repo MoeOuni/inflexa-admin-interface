@@ -25,6 +25,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { Button } from '../ui/button';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface IMenuItem {
   id?: number;
@@ -58,8 +59,8 @@ const NotificationIndicator = ({
         color === 'red'
           ? 'bg-red-500'
           : color === 'orange'
-          ? 'bg-orange-500'
-          : 'bg-green-500'
+            ? 'bg-orange-500'
+            : 'bg-green-500'
       }`}
     >
       {count && count}
@@ -70,99 +71,99 @@ const NotificationIndicator = ({
 const sidebarItems: IMenuItem[] = [
   {
     id: 1,
-    title: 'Dashboard',
+    title: 'menu.dashboard',
     icon: <Home className="h-5 w-5" />,
     path: '/',
   },
   {
     id: 2,
-    title: 'Analytics',
+    title: 'menu.analytics',
     icon: <LineChart className="h-5 w-5" />,
     path: '/analytics',
     separator: true,
   },
   {
     id: 3,
-    title: 'Inventory',
+    title: 'menu.inventory',
     icon: <Package className="h-5 w-5" />,
     path: '/inventory',
   },
   {
     id: 4,
-    title: 'Orders',
+    title: 'menu.orders',
     icon: <ShoppingCart className="h-5 w-5" />,
     path: '/orders',
   },
   {
     id: 5,
-    title: 'Sales',
+    title: 'menu.sales',
     icon: <ShoppingBasket className="h-5 w-5" />,
     path: '/sales',
   },
   {
     id: 6,
-    title: 'Purchases',
+    title: 'menu.purchases',
     icon: <ScanBarcode className="h-5 w-5" />,
     path: '/purchases',
     separator: true,
   },
   {
     id: 7,
-    title: 'Customers',
+    title: 'menu.customers',
     icon: <Users2 className="h-5 w-5" />,
     path: '/customers',
   },
   {
     id: 8,
-    title: 'Suppliers',
+    title: 'menu.suppliers',
     icon: <Handshake className="h-5 w-5" />,
     path: '/suppliers',
     separator: true,
   },
   {
     id: 9,
-    title: 'Logs',
+    title: 'menu.logs',
     icon: <FileClock className="h-5 w-5" />,
     path: '/logs',
   },
   {
     id: 10,
-    title: 'Settings',
+    title: 'menu.settings',
     icon: <Settings className="h-5 w-5" />,
     children: [
       {
         id: 101,
-        title: 'General',
+        title: 'menu.general',
         path: '/settings',
         icon: <SlidersHorizontal className="h-4 w-4" />,
       },
       {
         id: 101,
-        title: 'Security',
+        title: 'menu.security',
         path: '/settings/security',
         icon: <Lock className="h-4 w-4" />,
       },
       {
         id: 103,
-        title: 'Categories',
+        title: 'menu.categories',
         path: '/settings/categories',
         icon: <Tag className="h-4 w-4" />,
       },
       {
         id: 104,
-        title: 'Repports',
+        title: 'menu.reports',
         path: '/settings/repports',
         icon: <BarChart className="h-4 w-4" />,
       },
       {
         id: 105,
-        title: 'Advanced',
+        title: 'menu.advanced',
         path: '/settings/advanced',
         icon: <MoveHorizontal className="h-4 w-4" />,
       },
       {
         id: 106,
-        title: 'Payments',
+        title: 'menu.payments',
         path: '/settings/payments',
         icon: <Banknote className="h-4 w-4" />,
       },
@@ -175,7 +176,7 @@ const Sidebar = ({ notifications }: { notifications: any }) => {
     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
       {sidebarItems.map((item) => {
         const ntfs = notifications.find(
-          (ntf: any) => ntf.path === item.path || ntf.id === item.id
+          (ntf: any) => ntf.path === item.path || ntf.id === item.id,
         );
 
         if (ntfs) {
@@ -183,7 +184,7 @@ const Sidebar = ({ notifications }: { notifications: any }) => {
           if (ntfs.children) {
             item.children?.forEach((child) => {
               child.notifications = ntfs.children.find(
-                (ntf: any) => ntf.id === child.id
+                (ntf: any) => ntf.id === child.id,
               )?.notifications;
             });
           }
@@ -213,7 +214,7 @@ const SidebarMobile = ({ notifications }: { notifications: any }) => {
           <hr className="my-2 border-t border-muted" />
           {sidebarItems.map((item) => {
             const ntfs = notifications.find(
-              (ntf: any) => ntf.path === item.path || ntf.id === item.id
+              (ntf: any) => ntf.path === item.path || ntf.id === item.id,
             );
 
             if (ntfs) {
@@ -221,7 +222,7 @@ const SidebarMobile = ({ notifications }: { notifications: any }) => {
               if (ntfs.children) {
                 item.children?.forEach((child) => {
                   child.notifications = ntfs.children.find(
-                    (ntf: any) => ntf.id === child.id
+                    (ntf: any) => ntf.id === child.id,
                   )?.notifications;
                 });
               }
@@ -237,6 +238,7 @@ const SidebarMobile = ({ notifications }: { notifications: any }) => {
 
 const MenuItem = ({ item }: { item: IMenuItem }) => {
   const { pathname } = useLocation();
+  const { t } = useTranslation();
 
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const toggleSubMenu = () => {
@@ -253,7 +255,7 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
         } flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer`}
       >
         {item.icon}
-        {item.title}
+        {t(item.title)}
         {item.notifications &&
           item.notifications.map((notification, index) => (
             <NotificationIndicator key={index} color={notification.color} />
@@ -281,7 +283,7 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
               } ml-5 flex items-center text-sm gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary`}
             >
               {child?.icon}
-              {child.title}
+              {t(child.title)}
               <div className="ml-auto">
                 {child.notifications &&
                   child.notifications.map((notification, index) => (
@@ -307,7 +309,7 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
         } flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary`}
       >
         {item.icon}
-        {item.title}
+        {t(item.title)}
         <div className="ml-auto flex gap-1">
           {item.notifications &&
             item.notifications?.map((notification, index) => (
