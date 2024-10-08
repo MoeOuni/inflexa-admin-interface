@@ -12,6 +12,9 @@
   "no_result": "Aucun résultat.",
   "validate": "Valider",
   "discard": "Annuler",
+  "filter": "Filtrer",
+  "filter_by": "Filtrer par",
+  "export": "Exporter",
 
   "new": "Nouveau",
 
@@ -42,10 +45,18 @@
   "order": {
     "name": "Commande",
     "orders": "Commandes",
+    "orders_table_text": "Commandes récentes de votre magasin. Les commandes sont triées par date, les plus récentes étant affichées en haut du tableau.",
     "save_order": "Enregistrer la Commande",
     "new_order": "Nouvelle Commande",
+    "new_order_button": "Créer une nouvelle commande",
     "order_confirmation": "Confirmation de Commande",
-    "order_confirmation_text": "Confirmez la commande avant de continuer."
+    "order_confirmation_text": "Confirmez la commande avant de continuer.",
+    "data_table_headers": {
+      "reference": "Référence",
+      "status": "Statut",
+      "date": "Date",
+      "amount": "Montant"
+    }
   },
 
   "address_fields": {

@@ -20,12 +20,14 @@ import { useOrders } from '@/api';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useUrlState from '@ahooksjs/use-url-state';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   setOrderId: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const OrdersList = ({ setOrderId }: Props) => {
+  const {t} = useTranslation();
   const navigate = useNavigate();
   const [params, setParams] = useUrlState({
     status: '',
@@ -59,7 +61,7 @@ const OrdersList = ({ setOrderId }: Props) => {
         <Button className="h-8 gap-1" size={'sm'} onClick={handleNavigate}>
           <SquarePlus className="h-3.5 w-3.5" />
           <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-            Create New Order
+            {t("order.new_order_button")}
           </span>
         </Button>
         <div className="md:ml-auto flex items-center gap-2 ">
@@ -67,56 +69,55 @@ const OrdersList = ({ setOrderId }: Props) => {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="h-7 gap-1 text-sm">
                 <ListFilter className="h-3.5 w-3.5" />
-                <span className="sr-only sm:not-sr-only">Filter</span>
+                <span className="sr-only sm:not-sr-only">{t('filter')}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("filter_by")}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem
                 checked={params?.status === 'pending'}
                 onCheckedChange={(e) => handleCheckChange('pending', e)}
               >
-                Pending
+                {t("status.pending")}
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 checked={params?.status === 'processed'}
                 onCheckedChange={(e) => handleCheckChange('processed', e)}
               >
-                Processed
+                {t("status.processed")}
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 checked={params?.status === 'shipped'}
                 onCheckedChange={(e) => handleCheckChange('shipped', e)}
               >
-                Shipped
+                {t("status.shipped")}
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 checked={params?.status === 'delivered'}
                 onCheckedChange={(e) => handleCheckChange('delivered', e)}
               >
-                Delivered
+                {t("status.delivered")}
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 checked={params?.status === 'cancelled'}
                 onCheckedChange={(e) => handleCheckChange('cancelled', e)}
               >
-                Cancelled
+                {t("status.cancelled")}
               </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <Button size="sm" variant="outline" className="h-7 gap-1 text-sm">
             <File className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only">Export</span>
+            <span className="sr-only sm:not-sr-only">{t("export")}</span>
           </Button>
         </div>
       </div>
       <Card x-chunk="dashboard-05-chunk-3">
         <CardHeader className="px-7">
-          <CardTitle>Orders</CardTitle>
+          <CardTitle>{t("order.orders")}</CardTitle>
           <CardDescription>
-            Recent orders from your store. The orders are sorted by date, with
-            the most recent orders displayed at the top of the table.
+            {t("order.orders_table_text")}
           </CardDescription>
         </CardHeader>
         <CardContent className="max-w-full">

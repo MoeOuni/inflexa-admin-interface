@@ -12,6 +12,9 @@
   "no_result": "No results.",
   "validate": "Validate",
   "discard": "Discard",
+  "filter": "Filter",
+  "filter_by": "Filter by",
+  "export": "Export",
 
   "new": "New",
 
@@ -42,10 +45,18 @@
   "order": {
     "name": "Order",
     "orders": "Orders",
+    "orders_table_text": "Recent orders from your store. The orders are sorted by date, with the most recent orders displayed at the top of the table.",
     "save_order": "Save Order",
     "new_order": "New Order",
+    "new_order_button": "Create New Order",
     "order_confirmation": "Order Confirmation",
-    "order_confirmation_text": "Confirm the order before proceeding."
+    "order_confirmation_text": "Confirm the order before proceeding.",
+    "data_table_headers": {
+      "reference": "Reference",
+      "status": "Status",
+      "date": "Date",
+      "amount": "Amount"
+    }
   },
 
   "address_fields": {

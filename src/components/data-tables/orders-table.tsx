@@ -65,12 +65,12 @@ export function OrdersTable({ data, setOrderId, loading }: Props) {
   const columns: ColumnDef<Order>[] = [
     {
       accessorKey: 'orderNumber',
-      header: 'Reference',
+      header: t("order.data_table_headers.reference"),
       cell: ({ row }) => row.original.orderNumber,
     },
     {
       accessorKey: 'status',
-      header: 'Status',
+      header: t("order.data_table_headers.status"),
       cell: ({ row }) => (
         <div>
           <OrderStatus status={row.original.status} />
@@ -79,19 +79,19 @@ export function OrdersTable({ data, setOrderId, loading }: Props) {
     },
     {
       accessorKey: 'createdAt',
-      header: 'Date',
+      header: t("order.data_table_headers.date"),
       cell: ({ row }) =>
         dayjs(row.original.createdAt).format('YYYY-MM-DD HH:mm'),
     },
     {
       accessorKey: 'totalAmount',
-      header: 'Amount',
+      header: t("order.data_table_headers.amount"),
       cell: ({ row }) =>
         row.original.totalAmount?.toFixed(2) + ' ' + currency?.symbol,
     },
     {
       id: 'actions',
-      header: 'Actions',
+      header: t("actions"),
       enableHiding: false,
       cell: ({ row }) => {
         return <OrderActionMenu order={row.original} />;
@@ -243,7 +243,7 @@ export function OrdersTable({ data, setOrderId, loading }: Props) {
                       <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                     </div>
                   ) : (
-                    'No results.'
+                    t("no_result")
                   )}
                 </TableCell>
               </TableRow>
