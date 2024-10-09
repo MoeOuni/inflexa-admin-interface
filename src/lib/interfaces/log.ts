@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface ILog {
   _id: string;
   userId: string;

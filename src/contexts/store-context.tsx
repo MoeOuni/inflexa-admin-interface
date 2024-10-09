@@ -36,17 +36,20 @@ const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     async function fetchStoreConfig() {
-      await config.mutateAsync(user?.associatedWith?._id || '');
-
-      if (config.isSuccess) {
-        if (
-          JSON.stringify(config.data.data) !==
-          JSON.stringify(storeConfiguration)
-        ) {
-          setStoreConfiguration(config.data.data);
-          toast.success('Store configuration loaded successfully');
-        }
-      }
+      config
+        .mutateAsync(user?.associatedWith?._id || '')
+        .then((response) => {
+          if (
+            JSON.stringify(response.data) !==
+            JSON.stringify(storeConfiguration)
+          ) {
+            setStoreConfiguration(response.data);
+            toast.success('Store configuration loaded successfully 🛜');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
     if (user?.associatedWith?._id) {
