@@ -1,17 +1,17 @@
-import { useLocalStorageState } from "ahooks";
-import PurchaseFormList from "../forms/purchase-form-list";
-import { useNavigate, useParams } from "react-router-dom";
-import { Button } from "../ui/button";
-import PurchaseForm from "../forms/purchase-form";
-import { Purchase } from "@/lib/types";
-import { toast } from "sonner";
-import { useTranslation } from "react-i18next";
-import dayjs from "dayjs";
-import { useCreatePurchase } from "@/api";
-import { useEffect } from "react";
-import { ArrowRight, ClipboardX, Loader2 } from "lucide-react";
-import { APIPurchase } from "@/lib/interfaces";
-import BackButton from "../app/back-button";
+import { useLocalStorageState } from 'ahooks';
+import PurchaseFormList from '../forms/purchase-form-list';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Button } from '../ui/button';
+import PurchaseForm from '../forms/purchase-form';
+import { Purchase } from '@/lib/types';
+import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
+import { useCreatePurchase } from '@/api';
+import { useEffect } from 'react';
+import { ArrowRight, ClipboardX, Loader2 } from 'lucide-react';
+import { APIPurchase } from '@/lib/interfaces';
+import BackButton from '../app/back-button';
 
 const SavePurchase = () => {
   const createPurchase = useCreatePurchase();
@@ -20,32 +20,32 @@ const SavePurchase = () => {
   const navigate = useNavigate();
 
   const [purchase, setPurchase] = useLocalStorageState<Purchase>(
-    "__purchase_form",
+    '__purchase_form',
     {
       defaultValue: {
-        _id: "",
-        reference: "",
-        supplierId: "",
-        supplierLabel: "",
-        createdAt: "",
+        _id: '',
+        reference: '',
+        supplierId: '',
+        supplierLabel: '',
+        createdAt: '',
         purchaseDetails: [],
         total: 0, // Add the 'total' property with a default value
       },
-    }
+    },
   );
   const [steps, setSteps] = useLocalStorageState<number>(
-    "__supplier_form_step",
+    '__supplier_form_step',
     {
       defaultValue: 0,
-    }
+    },
   );
   const { id } = useParams();
 
   const handleNext = async () => {
     if (!purchase?.supplierId) {
-      return toast.error(t("errors.error_required_id_supplier"));
+      return toast.error(t('errors.error_required_id_supplier'));
     } else if (!purchase?.reference) {
-      return toast.error(t("errors.error_required_reference"));
+      return toast.error(t('errors.error_required_reference'));
     }
     const payload: APIPurchase = {
       reference: purchase.reference,
@@ -77,11 +77,7 @@ const SavePurchase = () => {
           {steps === 0 ? (
             <div>
               <div className="flex items-center gap-4">
-                <BackButton
-                  onClick={() => {
-                    navigate("/purchases");
-                  }}
-                />
+                <BackButton />
                 <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                   New Purchase
                 </h1>
@@ -92,7 +88,7 @@ const SavePurchase = () => {
                     size="sm"
                     className="h-8 gap-1"
                     onClick={() => {
-                      navigate("/purchases");
+                      navigate('/purchases');
                     }}
                   >
                     <ClipboardX className="h-3.5 w-3.5" />
@@ -120,13 +116,13 @@ const SavePurchase = () => {
               <PurchaseForm
                 purchase={
                   purchase ?? {
-                    reference: "",
-                    supplierId: "",
-                    supplierLabel: "",
-                    createdAt: "",
+                    reference: '',
+                    supplierId: '',
+                    supplierLabel: '',
+                    createdAt: '',
                     purchaseDetails: [],
                     total: 0,
-                    _id: "",
+                    _id: '',
                   }
                 }
                 setPurchase={setPurchase}
@@ -136,13 +132,13 @@ const SavePurchase = () => {
             <PurchaseFormList
               purchase={
                 purchase ?? {
-                  reference: "",
-                  supplierId: "",
-                  supplierLabel: "",
-                  createdAt: "",
+                  reference: '',
+                  supplierId: '',
+                  supplierLabel: '',
+                  createdAt: '',
                   purchaseDetails: [],
                   total: 0,
-                  _id: "",
+                  _id: '',
                 }
               }
               setPurchase={setPurchase}
