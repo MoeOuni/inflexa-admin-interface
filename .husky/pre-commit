@@ -2,7 +2,10 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # Run the version update script before the build
-node ./update-version.js
+bun run version:bump
+
+# Stage package.json to include the version bump in the commit
+git add package.json
 
 # Run your build process (as you already do)
 bun run build
