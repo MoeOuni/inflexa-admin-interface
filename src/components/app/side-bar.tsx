@@ -31,7 +31,7 @@ interface IMenuItem {
   id?: number;
   title: string;
   icon: JSX.Element;
-  path?: string;
+  path: string | null;
   separator?: boolean;
   children?: {
     id?: number;
@@ -73,7 +73,7 @@ const sidebarItems: IMenuItem[] = [
     id: 1,
     title: 'menu.dashboard',
     icon: <Home className="h-5 w-5" />,
-    path: '/',
+    path: '/dashboard',
   },
   {
     id: 2,
@@ -130,6 +130,7 @@ const sidebarItems: IMenuItem[] = [
     id: 10,
     title: 'menu.settings',
     icon: <Settings className="h-5 w-5" />,
+    path: null,
     children: [
       {
         id: 101,
@@ -245,13 +246,15 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
     setSubMenuOpen(!subMenuOpen);
   };
 
+  console.log(pathname);
+
   return item?.children ? (
     <>
       <div
         onClick={toggleSubMenu}
         key={item?.path}
         className={`${
-          item?.path === pathname && 'bg-muted text-primary'
+          pathname.includes('UNDEFINED_INFLEXA') && 'bg-muted text-primary'
         } flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer`}
       >
         {item.icon}
@@ -279,7 +282,7 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
               key={child?.path}
               to={child?.path || '#'}
               className={`${
-                child?.path === pathname && 'bg-muted text-primary'
+                pathname.includes(child?.path) && 'bg-muted text-primary'
               } ml-5 flex items-center text-sm gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary`}
             >
               {child?.icon}
@@ -305,7 +308,8 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
         key={item?.path}
         to={item?.path || '#'}
         className={`${
-          item?.path === pathname && 'bg-muted text-primary'
+          pathname.includes(item?.path || 'UNDEFINED_INFLEXA') &&
+          'bg-muted text-primary'
         } flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary`}
       >
         {item.icon}

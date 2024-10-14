@@ -1,10 +1,10 @@
-import React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import React from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import type { Role } from "@/lib/types";
-import { useCreateRole, useEditRole, usePermissions } from "@/api";
+import type { Role } from '@/lib/types';
+import { useCreateRole, useEditRole, usePermissions } from '@/api';
 import {
   Form,
   FormControl,
@@ -13,19 +13,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { Checkbox } from "../ui/checkbox";
-import { Button } from "../ui/button";
+} from '../ui/form';
+import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
+import { Checkbox } from '../ui/checkbox';
+import { Button } from '../ui/button';
 
 const FormSchema = z.object({
-  name: z.string().nonempty("Name is required."),
-  description: z.string().nonempty("Description is required."),
+  name: z.string().nonempty('Name is required.'),
+  description: z.string().nonempty('Description is required.'),
   permissions: z
     .array(z.string())
     .refine((value) => value.some((item) => item), {
-      message: "You have to select at least one permission.",
+      message: 'You have to select at least one permission.',
     }),
 });
 
@@ -43,8 +43,8 @@ const RoleForm = ({ selectedRole }: Props) => {
   const [defaultValues, setDefaultValues] = React.useState<
     FormValues | undefined
   >({
-    name: selectedRole?.name || "",
-    description: selectedRole?.description || "",
+    name: selectedRole?.name || '',
+    description: selectedRole?.description || '',
     permissions:
       selectedRole?.permissions?.map((item: any) => {
         return item?._id ?? item;
@@ -54,7 +54,7 @@ const RoleForm = ({ selectedRole }: Props) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues,
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   async function onSubmit(data: FormValues) {
@@ -71,7 +71,7 @@ const RoleForm = ({ selectedRole }: Props) => {
       status = createRole.status;
     }
 
-    if (status === "success") {
+    if (status === 'success') {
       setDefaultValues(undefined);
       form.reset();
     }
@@ -87,7 +87,7 @@ const RoleForm = ({ selectedRole }: Props) => {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Permission Name" />
+                <Input {...field} placeholder="Role Name" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -100,7 +100,7 @@ const RoleForm = ({ selectedRole }: Props) => {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea {...field} placeholder="Description" />
+                <Textarea {...field} placeholder="Role Description" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -113,8 +113,8 @@ const RoleForm = ({ selectedRole }: Props) => {
             <FormItem>
               <FormLabel>Permissions</FormLabel>
               <FormMessage />
-              <div className="flex flex-wrap">
-                {permissions.data?.permissions?.map((permission: any) => {
+              <div className="flex flex-wrap max-h-56 overflow-y-scroll">
+                {permissions.data?.data?.map((permission: any) => {
                   return (
                     <div key={permission._id} className="w-full md:w-1/2 p-1">
                       <FormField
@@ -136,8 +136,8 @@ const RoleForm = ({ selectedRole }: Props) => {
                                       ])
                                     : field.onChange(
                                         field.value.filter(
-                                          (item) => item !== permission._id
-                                        )
+                                          (item) => item !== permission._id,
+                                        ),
                                       );
                                 }}
                               />

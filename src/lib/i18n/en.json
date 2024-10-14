@@ -91,7 +91,7 @@
     "edit_variant": "Edit Variant",
     "delete_variant": "Delete Variant",
     "stock": "Stock Management",
-    "view_levels": "view Stock Levels",
+    "view_levels": "View Stock Levels",
     "reorder": "Reorder Stock",
     "adjust": "Stock Adjustment",
     "pricing": "Pricing Management",
@@ -201,8 +201,6 @@
     "delivery_man_reg_number_tooltip": "Vehicle Registration Number",
     "order_status": "Order Status"
   },
-
-  
 
   "category": "Category",
   "categories": "Categories",

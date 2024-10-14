@@ -28,7 +28,6 @@ import { useContext } from 'react';
 import { AuthContext } from '@/contexts/auth-context';
 import { useNavigate } from 'react-router-dom';
 
-
 const LoginFormSchema = z.object({
   email: z.string().email(),
   password: z
@@ -40,18 +39,17 @@ const LoginFormSchema = z.object({
 type ILogin = z.infer<typeof LoginFormSchema>;
 
 const Login = () => {
-
   const { setToken } = useContext(AuthContext);
   const loginFn = useLogin();
   const navigate = useNavigate();
-  
+
   const form = useForm<ILogin>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
       email: '',
       password: '',
     },
-    mode: 'onChange',
+    mode: 'onBlur',
   });
 
   async function onSubmit(data: ILogin) {
@@ -59,7 +57,7 @@ const Login = () => {
 
     if (response.status === 200) {
       setToken(response.data.data);
-      navigate("/");
+      navigate('/');
     }
   }
 

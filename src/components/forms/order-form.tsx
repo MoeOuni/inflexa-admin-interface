@@ -97,17 +97,13 @@ const OrderForm = () => {
         toast.error(
           error?.response?.data?.message ||
             error?.message ||
-            'An error occurred while saving the product.'
+            'An error occurred while saving the product.',
         );
       });
   }
 
   const handleNewCustomer = () => {
     window.open('/customers/save', '_blank');
-  };
-
-  const handleReturnNavigate = () => {
-    navigate('/orders');
   };
 
   const handleSelectCustomer = (customer: Customer) => {
@@ -142,7 +138,7 @@ const OrderForm = () => {
         >
           {/* Top Side Menu */}
           <div className="flex items-center gap-4">
-            <BackButton onClick={handleReturnNavigate} />
+            <BackButton />
             <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
               {t('order.new_order')}
             </h1>
@@ -186,13 +182,13 @@ const OrderForm = () => {
                                   role="combobox"
                                   className={cn(
                                     'max-w-sm justify-between',
-                                    !field.value && 'text-muted-foreground'
+                                    !field.value && 'text-muted-foreground',
                                   )}
                                 >
                                   {field.value
                                     ? customers?.data.data.find(
                                         (customer: Customer) =>
-                                          customer._id === field.value
+                                          customer._id === field.value,
                                       )?.name
                                     : t('select_customer')}
 
@@ -237,12 +233,12 @@ const OrderForm = () => {
                                                     customer?._id ===
                                                       field.value
                                                       ? 'opacity-100'
-                                                      : 'opacity-0'
+                                                      : 'opacity-0',
                                                   )}
                                                 />
                                               </div>
                                             </CommandItem>
-                                          )
+                                          ),
                                         )}
                                       </CommandGroup>
                                     )}
@@ -324,13 +320,13 @@ const OrderForm = () => {
                                             className={cn(
                                               'w-full justify-between',
                                               !field.value &&
-                                                'text-muted-foreground'
+                                                'text-muted-foreground',
                                             )}
                                           >
                                             {field.value
                                               ? products?.data.data.find(
                                                   (product: Product) =>
-                                                    product._id === field.value
+                                                    product._id === field.value,
                                                 )?.name
                                               : t('select_product')}
 
@@ -360,7 +356,7 @@ const OrderForm = () => {
                                                         onSelect={() => {
                                                           handleSelectProduct(
                                                             product,
-                                                            index
+                                                            index,
                                                           );
                                                         }}
                                                       >
@@ -379,12 +375,12 @@ const OrderForm = () => {
                                                               product?._id ===
                                                                 field.value
                                                                 ? 'opacity-100'
-                                                                : 'opacity-0'
+                                                                : 'opacity-0',
                                                             )}
                                                           />
                                                         </div>
                                                       </CommandItem>
-                                                    )
+                                                    ),
                                                   )}
                                                 </CommandGroup>
                                               )}
@@ -416,17 +412,17 @@ const OrderForm = () => {
                                           (product: Product) =>
                                             product?._id ===
                                             form.getValues(
-                                              `products.${index}.product`
-                                            )
+                                              `products.${index}.product`,
+                                            ),
                                         )?.stock?.currentStock
                                       }
                                       className="max-w-24"
                                       onChange={(event) => {
                                         const value = parseFloat(
-                                          event.target.value
+                                          event.target.value,
                                         );
                                         field.onChange(
-                                          typeof value === 'number' && value
+                                          typeof value === 'number' && value,
                                         );
                                       }}
                                     />
@@ -451,10 +447,10 @@ const OrderForm = () => {
                                       className="max-w-36"
                                       onChange={(event) => {
                                         const value = parseFloat(
-                                          event.target.value
+                                          event.target.value,
                                         );
                                         field.onChange(
-                                          typeof value === 'number' && value
+                                          typeof value === 'number' && value,
                                         );
                                       }}
                                     />
@@ -524,7 +520,7 @@ const OrderForm = () => {
                               disabled={order.isPending}
                               id="street"
                               placeholder={t(
-                                'address_fields.street_placeholder'
+                                'address_fields.street_placeholder',
                               )}
                               {...field}
                             />
@@ -568,7 +564,7 @@ const OrderForm = () => {
                               disabled={order.isPending}
                               id="state"
                               placeholder={t(
-                                'address_fields.state_placeholder'
+                                'address_fields.state_placeholder',
                               )}
                               {...field}
                             />
@@ -590,7 +586,7 @@ const OrderForm = () => {
                               disabled={order.isPending}
                               id="postalCode"
                               placeholder={t(
-                                'address_fields.zip_code_placeholder'
+                                'address_fields.zip_code_placeholder',
                               )}
                               {...field}
                             />
@@ -612,7 +608,7 @@ const OrderForm = () => {
                               disabled={order.isPending}
                               id="country"
                               placeholder={t(
-                                'address_fields.country_placeholder'
+                                'address_fields.country_placeholder',
                               )}
                               {...field}
                             />
@@ -645,7 +641,7 @@ const OrderForm = () => {
                               disabled={order.isPending}
                               id="street"
                               placeholder={t(
-                                'address_fields.street_placeholder'
+                                'address_fields.street_placeholder',
                               )}
                               {...field}
                             />
@@ -689,7 +685,7 @@ const OrderForm = () => {
                               disabled={order.isPending}
                               id="state"
                               placeholder={t(
-                                'address_fields.state_placeholder'
+                                'address_fields.state_placeholder',
                               )}
                               {...field}
                             />
@@ -711,7 +707,7 @@ const OrderForm = () => {
                               disabled={order.isPending}
                               id="postalCode"
                               placeholder={t(
-                                'address_fields.zip_code_placeholder'
+                                'address_fields.zip_code_placeholder',
                               )}
                               {...field}
                             />
@@ -733,7 +729,7 @@ const OrderForm = () => {
                               disabled={order.isPending}
                               id="country"
                               placeholder={t(
-                                'address_fields.country_placeholder'
+                                'address_fields.country_placeholder',
                               )}
                               {...field}
                             />
@@ -1022,7 +1018,7 @@ const OrderForm = () => {
                               onChange={(event) => {
                                 const value = parseFloat(event.target.value);
                                 field.onChange(
-                                  typeof value === 'number' && value
+                                  typeof value === 'number' && value,
                                 );
                               }}
                               disabled={products.isPending}

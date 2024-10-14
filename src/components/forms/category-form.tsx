@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { z } from 'zod';
 import {
   Form,
   FormControl,
@@ -10,21 +10,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import {  ClipboardX, PlusCircle, Save, Trash2 } from "lucide-react";
-import { useCreateCategory, useEditCategory } from "@/api";
-import type { Category } from "@/lib/types";
-import { useTranslation } from "react-i18next";
+} from '../ui/form';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { ClipboardX, PlusCircle, Save, Trash2 } from 'lucide-react';
+import { useCreateCategory, useEditCategory } from '@/api';
+import type { Category } from '@/lib/types';
+import { useTranslation } from 'react-i18next';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import BackButton from "../app/back-button";
+} from '../ui/card';
+import BackButton from '../app/back-button';
 import {
   Table,
   TableBody,
@@ -32,19 +32,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
+} from '../ui/table';
 
 const CategoryFormSchema = z.object({
-  name: z.string().min(2, { message: "Name is required" }),
+  name: z.string().min(2, { message: 'Name is required' }),
   description: z.string().optional(),
   image: z.string().optional(),
   subCategories: z
     .array(
       z.object({
-        name: z.string().nonempty("Name is required"),
+        name: z.string().nonempty('Name is required'),
         description: z.string().optional(),
         image: z.string().optional(),
-      })
+      }),
     )
     .optional(),
 });
@@ -57,7 +57,7 @@ type Props = {
   setSelectedCategory?: React.Dispatch<React.SetStateAction<Category | null>>;
 };
 
-export function CategoryForm({ selectedCategory, handleChangeView }: Props) {
+export function CategoryForm({ selectedCategory }: Props) {
   const { t } = useTranslation();
   const createCategory = useCreateCategory();
   const editCategory = useEditCategory();
@@ -67,11 +67,11 @@ export function CategoryForm({ selectedCategory, handleChangeView }: Props) {
   const form = useForm<CategoryForm>({
     resolver: zodResolver(CategoryFormSchema),
     defaultValues,
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const { fields, append, remove } = useFieldArray({
-    name: "subCategories",
+    name: 'subCategories',
     control: form.control,
   });
 
@@ -87,7 +87,7 @@ export function CategoryForm({ selectedCategory, handleChangeView }: Props) {
       status = createCategory.status;
     }
 
-    if (status === "success") {
+    if (status === 'success') {
       setDefaultValues(undefined);
       fields.forEach((_, index) => remove(index));
       form.reset();
@@ -99,7 +99,7 @@ export function CategoryForm({ selectedCategory, handleChangeView }: Props) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="flex items-center gap-4">
-            <BackButton onClick={handleChangeView} />
+            <BackButton />
             <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
               New Category
             </h1>
@@ -114,9 +114,9 @@ export function CategoryForm({ selectedCategory, handleChangeView }: Props) {
                   setDefaultValues(undefined);
                   fields.forEach((_, index) => remove(index));
                   form.reset({
-                    name: "",
-                    description: "",
-                    image: "",
+                    name: '',
+                    description: '',
+                    image: '',
                   });
                 }}
               >
@@ -133,7 +133,7 @@ export function CategoryForm({ selectedCategory, handleChangeView }: Props) {
               >
                 <Save className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                  {t("save_category_button")}
+                  {t('save_category_button')}
                 </span>
               </Button>
             </div>
@@ -148,7 +148,7 @@ export function CategoryForm({ selectedCategory, handleChangeView }: Props) {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("category_name_label")}</FormLabel>
+                    <FormLabel>{t('category_name_label')}</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={createCategory.isPending} />
                     </FormControl>
@@ -161,7 +161,7 @@ export function CategoryForm({ selectedCategory, handleChangeView }: Props) {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("category_description_label")}</FormLabel>
+                    <FormLabel>{t('category_description_label')}</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={createCategory.isPending} />
                     </FormControl>
@@ -173,15 +173,15 @@ export function CategoryForm({ selectedCategory, handleChangeView }: Props) {
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle>{t("category_sub_category_key")}</CardTitle>
+              <CardTitle>{t('category_sub_category_key')}</CardTitle>
             </CardHeader>
 
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>{t("category_name_label")}</TableHead>
-                    <TableHead>{t("category_description_label")}</TableHead>
+                    <TableHead>{t('category_name_label')}</TableHead>
+                    <TableHead>{t('category_description_label')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -225,10 +225,10 @@ export function CategoryForm({ selectedCategory, handleChangeView }: Props) {
                       </TableCell>
                       <TableCell>
                         <Button
-                          variant={"ghost"}
+                          variant={'ghost'}
                           onClick={() => remove(index)}
                           className=""
-                          size={"sm"}
+                          size={'sm'}
                           disabled={createCategory.isPending}
                         >
                           <Trash2 className="h-5" />
@@ -247,15 +247,15 @@ export function CategoryForm({ selectedCategory, handleChangeView }: Props) {
                 disabled={createCategory.isPending}
                 onClick={() =>
                   append({
-                    name: "",
-                    description: "",
-                    image: "",
+                    name: '',
+                    description: '',
+                    image: '',
                   })
                 }
                 className="gap-1"
               >
                 <PlusCircle className="h-3.5 w-3.5" />
-                {t("category_sub_category_add_button")}
+                {t('category_sub_category_add_button')}
               </Button>
             </CardFooter>
           </Card>

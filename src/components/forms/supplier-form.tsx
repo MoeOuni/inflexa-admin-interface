@@ -1,11 +1,11 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -13,17 +13,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { PhoneInput } from "../app/phone-input";
+} from '../ui/form';
+import { PhoneInput } from '../app/phone-input';
 
-import { useCreateSupplier, useEditSupplier } from "@/api";
-import { Supplier } from "@/lib/types";
-import { Divider } from "antd";
-import BackButton from "../app/back-button";
-import { useNavigate } from "react-router-dom";
-import { ClipboardX, Save } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { SupplierFormSchema } from "@/lib/schemas";
+import { useCreateSupplier, useEditSupplier } from '@/api';
+import { Supplier } from '@/lib/types';
+import { Divider } from 'antd';
+import BackButton from '../app/back-button';
+import { ClipboardX, Save } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { SupplierFormSchema } from '@/lib/schemas';
 
 type SupplierForm = z.infer<typeof SupplierFormSchema>;
 
@@ -33,7 +32,7 @@ type Props = {
 
 export default function SupplierForm({ editValues }: Props) {
   const createSupplier = useCreateSupplier();
-  const editSupplier = useEditSupplier({ status: "ACTIVE" });
+  const editSupplier = useEditSupplier({ status: 'ACTIVE' });
 
   const { t } = useTranslation();
   const [defaultValues, setDefaultValues] = React.useState<
@@ -43,7 +42,7 @@ export default function SupplierForm({ editValues }: Props) {
   const form = useForm<SupplierForm>({
     resolver: zodResolver(SupplierFormSchema),
     defaultValues,
-    mode: "onChange",
+    mode: 'onChange',
   });
   async function onSubmit(data: z.infer<typeof SupplierFormSchema>) {
     let status;
@@ -61,22 +60,17 @@ export default function SupplierForm({ editValues }: Props) {
 
       status = createSupplier.status;
     }
-    if (status === "success") {
+    if (status === 'success') {
       setDefaultValues(undefined);
       form.reset();
     }
   }
 
-  const navigate = useNavigate();
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-6 ">
         <div className="flex items-center gap-4">
-          <BackButton
-            onClick={() => {
-              navigate("/suppliers");
-            }}
-          />
+          <BackButton />
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
             Save Supplier
           </h1>
@@ -105,7 +99,7 @@ export default function SupplierForm({ editValues }: Props) {
               <Save className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                 {t(
-                  editValues ? "supplier_edit_button" : "supplier_save_button"
+                  editValues ? 'supplier_edit_button' : 'supplier_save_button',
                 )}
               </span>
             </Button>
@@ -113,7 +107,7 @@ export default function SupplierForm({ editValues }: Props) {
         </div>
         <Card>
           <CardHeader>
-            <CardTitle> {t("supplier_general_information_label")}</CardTitle>
+            <CardTitle> {t('supplier_general_information_label')}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -122,7 +116,7 @@ export default function SupplierForm({ editValues }: Props) {
                 name="companyName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("supplier_company_name_label")}</FormLabel>
+                    <FormLabel>{t('supplier_company_name_label')}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -140,7 +134,7 @@ export default function SupplierForm({ editValues }: Props) {
                 name="supplierCode"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("supplier_code_label")}</FormLabel>
+                    <FormLabel>{t('supplier_code_label')}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -158,7 +152,7 @@ export default function SupplierForm({ editValues }: Props) {
                 name="taxNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("supplier_tax_number_label")}</FormLabel>
+                    <FormLabel>{t('supplier_tax_number_label')}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -176,7 +170,7 @@ export default function SupplierForm({ editValues }: Props) {
                 name="representative"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("supplier_representative_label")}</FormLabel>
+                    <FormLabel>{t('supplier_representative_label')}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -194,7 +188,7 @@ export default function SupplierForm({ editValues }: Props) {
                 name="phoneNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("supplier_phone_label")}</FormLabel>
+                    <FormLabel>{t('supplier_phone_label')}</FormLabel>
                     <FormControl>
                       <PhoneInput
                         disabled={
@@ -214,7 +208,7 @@ export default function SupplierForm({ editValues }: Props) {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("supplier_email_label")}</FormLabel>
+                    <FormLabel>{t('supplier_email_label')}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -234,7 +228,7 @@ export default function SupplierForm({ editValues }: Props) {
               name="address"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("supplier_address_label")}</FormLabel>
+                  <FormLabel>{t('supplier_address_label')}</FormLabel>
                   <FormControl>
                     <Textarea
                       {...field}
@@ -253,7 +247,7 @@ export default function SupplierForm({ editValues }: Props) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("supplier_description_label")}</FormLabel>
+                  <FormLabel>{t('supplier_description_label')}</FormLabel>
                   <FormControl>
                     <Textarea
                       {...field}
@@ -270,21 +264,21 @@ export default function SupplierForm({ editValues }: Props) {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{t("supplier_bank_info_label_optional")}</CardTitle>
+            <CardTitle>{t('supplier_bank_info_label_optional')}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <FormField
                 control={form.control}
-                name={"banque._rib"}
+                name={'banque._rib'}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("supplier_bank_rib_label")}</FormLabel>
+                    <FormLabel>{t('supplier_bank_rib_label')}</FormLabel>
                     <FormControl>
                       <Input
                         id="rib"
                         {...field}
-                        placeholder={t("supplier_bank_rib_placeholder")}
+                        placeholder={t('supplier_bank_rib_placeholder')}
                         disabled={
                           createSupplier?.isPending || editSupplier?.isPending
                         }
@@ -296,15 +290,15 @@ export default function SupplierForm({ editValues }: Props) {
               />
               <FormField
                 control={form.control}
-                name={"banque._iban"}
+                name={'banque._iban'}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("supplier_bank_iban_label")}</FormLabel>
+                    <FormLabel>{t('supplier_bank_iban_label')}</FormLabel>
                     <FormControl>
                       <Input
                         id="iban"
                         {...field}
-                        placeholder={t("supplier_bank_iban_placeholder")}
+                        placeholder={t('supplier_bank_iban_placeholder')}
                         disabled={
                           createSupplier?.isPending || editSupplier?.isPending
                         }
@@ -316,15 +310,15 @@ export default function SupplierForm({ editValues }: Props) {
               />
               <FormField
                 control={form.control}
-                name={"banque._bic"}
+                name={'banque._bic'}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("supplier_bank_bic_label")}</FormLabel>
+                    <FormLabel>{t('supplier_bank_bic_label')}</FormLabel>
                     <FormControl>
                       <Input
                         id="bic"
                         {...field}
-                        placeholder={t("supplier_bank_bic_placeholder")}
+                        placeholder={t('supplier_bank_bic_placeholder')}
                         disabled={
                           createSupplier?.isPending || editSupplier?.isPending
                         }
@@ -336,18 +330,18 @@ export default function SupplierForm({ editValues }: Props) {
               />
               <FormField
                 control={form.control}
-                name={"banque._representative"}
+                name={'banque._representative'}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      {t("supplier_bank_representative_label")}
+                      {t('supplier_bank_representative_label')}
                     </FormLabel>
                     <FormControl>
                       <Input
                         id="representative"
                         {...field}
                         placeholder={t(
-                          "supplier_bank_representative_placeholder"
+                          'supplier_bank_representative_placeholder',
                         )}
                         disabled={
                           createSupplier?.isPending || editSupplier?.isPending
@@ -365,12 +359,12 @@ export default function SupplierForm({ editValues }: Props) {
               name="banque._agency"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("supplier_bank_agency_label")}</FormLabel>
+                  <FormLabel>{t('supplier_bank_agency_label')}</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       id="agency"
-                      placeholder={t("supplier_bank_agency_placeholder")}
+                      placeholder={t('supplier_bank_agency_placeholder')}
                       disabled={
                         createSupplier?.isPending || editSupplier?.isPending
                       }

@@ -17,7 +17,6 @@ import {
 } from '@/components/ui/select';
 
 import { Textarea } from '@/components/ui/textarea';
-import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 import MultiUpload from '../app/multiple-upload';
@@ -61,10 +60,8 @@ const ProductForm = ({ product }: ProductFormProps) => {
             originalName: image.altText,
           };
         })
-      : []
+      : [],
   );
-
-  const navigate = useNavigate();
 
   const { currency } = useStore();
 
@@ -98,22 +95,22 @@ const ProductForm = ({ product }: ProductFormProps) => {
           product?.price?.listPrice ||
           Number(
             product?.purchaseInvoice?.[product?.purchaseInvoice?.length - 1]
-              ?.purchasePrice
+              ?.purchasePrice,
           ) +
             Number(
               product?.purchaseInvoice?.[product?.purchaseInvoice?.length - 1]
-                ?.taxes?.taxAmount
+                ?.taxes?.taxAmount,
             ) ||
           0,
         discountPrice:
           product?.price?.discountPrice ||
           Number(
             product?.purchaseInvoice?.[product?.purchaseInvoice?.length - 1]
-              ?.purchasePrice
+              ?.purchasePrice,
           ) +
             Number(
               product?.purchaseInvoice?.[product?.purchaseInvoice?.length - 1]
-                ?.taxes?.taxAmount
+                ?.taxes?.taxAmount,
             ) ||
           0,
         currency: product?.price?.currency || currency.symbol,
@@ -148,16 +145,12 @@ const ProductForm = ({ product }: ProductFormProps) => {
     });
   };
 
-  const handleReturnNavigate = () => {
-    navigate(`/inventory`);
-  };
-
   useEffect(() => {
     if (categories?.isSuccess && product?.category?.categoryId) {
       setSubCategories(
         categories?.data?.data?.find(
-          (elem: Category) => elem?._id === product?.category?.categoryId
-        )?.subCategories || []
+          (elem: Category) => elem?._id === product?.category?.categoryId,
+        )?.subCategories || [],
       );
     }
   }, [
@@ -174,9 +167,9 @@ const ProductForm = ({ product }: ProductFormProps) => {
       >
         {/* Top Side Menu */}
         <div className="flex items-center gap-4">
-          <BackButton onClick={handleReturnNavigate} />
+          <BackButton />
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-            {product?.name  || 'New Product'}
+            {product?.name || 'New Product'}
           </h1>
           <div className="ml-auto sm:ml-0">
             <ProductStatus status={product?.status} />
@@ -272,7 +265,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             onChange={(event) => {
                               const value = parseFloat(event.target.value);
                               field.onChange(
-                                typeof value === 'number' && value
+                                typeof value === 'number' && value,
                               );
                             }}
                           />
@@ -298,7 +291,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             onChange={(event) => {
                               const value = parseFloat(event.target.value);
                               field.onChange(
-                                typeof value === 'number' && value
+                                typeof value === 'number' && value,
                               );
                             }}
                           />
@@ -341,7 +334,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             onChange={(event) => {
                               const value = parseFloat(event.target.value);
                               field.onChange(
-                                typeof value === 'number' && value
+                                typeof value === 'number' && value,
                               );
                             }}
                           />
@@ -366,7 +359,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             onChange={(event) => {
                               const value = parseFloat(event.target.value);
                               field.onChange(
-                                typeof value === 'number' && value
+                                typeof value === 'number' && value,
                               );
                             }}
                           />
@@ -476,7 +469,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             onChange={(event) => {
                               const value = parseFloat(event.target.value);
                               field.onChange(
-                                typeof value === 'number' && value
+                                typeof value === 'number' && value,
                               );
                             }}
                           />
@@ -490,12 +483,12 @@ const ProductForm = ({ product }: ProductFormProps) => {
                               Number(
                                 product?.purchaseInvoice?.[
                                   product?.purchaseInvoice?.length - 1
-                                ]?.purchasePrice
+                                ]?.purchasePrice,
                               ) +
                               Number(
                                 product?.purchaseInvoice?.[
                                   product?.purchaseInvoice?.length - 1
-                                ]?.taxes?.taxAmount
+                                ]?.taxes?.taxAmount,
                               )
                             )?.toFixed(2)}{' '}
                             {currency?.symbol}
@@ -522,7 +515,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             onChange={(event) => {
                               const value = parseFloat(event.target.value);
                               field.onChange(
-                                typeof value === 'number' && value
+                                typeof value === 'number' && value,
                               );
                             }}
                           />
@@ -556,7 +549,9 @@ const ProductForm = ({ product }: ProductFormProps) => {
                         </FormControl>
                         <div className="leading-none">
                           <FormLabel>
-                            <Tag className="mb-1" color="green">Available</Tag>
+                            <Tag className="mb-1" color="green">
+                              Available
+                            </Tag>
                           </FormLabel>
                           <FormDescription>
                             Indicates whether the item is currently available.
@@ -579,7 +574,9 @@ const ProductForm = ({ product }: ProductFormProps) => {
                         </FormControl>
                         <div className="leading-none">
                           <FormLabel>
-                            <Tag className="mb-1" color="cyan">Active</Tag>
+                            <Tag className="mb-1" color="cyan">
+                              Active
+                            </Tag>
                           </FormLabel>
                           <FormDescription>
                             Determines if the item is being displayed on the
@@ -603,7 +600,9 @@ const ProductForm = ({ product }: ProductFormProps) => {
                         </FormControl>
                         <div className="leading-none">
                           <FormLabel>
-                            <Tag className="mb-1" color="gold">Featured</Tag>
+                            <Tag className="mb-1" color="gold">
+                              Featured
+                            </Tag>
                           </FormLabel>
                           <FormDescription>
                             Marks the item as featured, highlighting it
@@ -628,15 +627,15 @@ const ProductForm = ({ product }: ProductFormProps) => {
                       value={form.getValues('category.categoryId')}
                       onValueChange={(e) => {
                         const tempSelectCategory = categories.data?.data?.find(
-                          (elem: Category) => elem?._id === e
+                          (elem: Category) => elem?._id === e,
                         );
                         form.setValue('category.categoryId', e);
                         form.setValue(
                           'category.categoryName',
-                          tempSelectCategory?.name || 'N/Q'
+                          tempSelectCategory?.name || 'N/Q',
                         );
                         setSubCategories(
-                          tempSelectCategory?.subCategories || []
+                          tempSelectCategory?.subCategories || [],
                         );
                       }}
                     >
@@ -661,13 +660,13 @@ const ProductForm = ({ product }: ProductFormProps) => {
                       defaultValue={product?.category?.subCategoryId}
                       onValueChange={(e) => {
                         const tempSelectSubCategory = subCategories?.find(
-                          (elem: SubCategory) => elem?._id === e
+                          (elem: SubCategory) => elem?._id === e,
                         );
 
                         form.setValue('category.subCategoryId', e);
                         form.setValue(
                           'category.subCategoryName',
-                          tempSelectSubCategory?.name || 'N/Q'
+                          tempSelectSubCategory?.name || 'N/Q',
                         );
                       }}
                     >

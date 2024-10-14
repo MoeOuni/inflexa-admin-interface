@@ -20,45 +20,45 @@ const Purchases = lazy(() => import('@/pages/admin/purchases'));
 
 // Purchase SubRoutes
 const PurchaseDetails = lazy(
-  () => import('@/components/purchases/purchase-details')
+  () => import('@/components/purchases/purchase-details'),
 );
 const PurchasesList = lazy(
-  () => import('@/components/purchases/purchases-list')
+  () => import('@/components/purchases/purchases-list'),
 );
 const SavePurchase = lazy(() => import('@/components/purchases/save-purchase'));
 
 // Settings Menu SubRoutes
 const GeneralSettings = lazy(
-  () => import('@/components/settings/general-settings')
+  () => import('@/components/settings/general-settings'),
 );
 const SecuritySettings = lazy(
-  () => import('@/components/settings/security-settings')
+  () => import('@/components/settings/security-settings'),
 );
 const RepportsSettings = lazy(
-  () => import('@/components/settings/repports-settings')
+  () => import('@/components/settings/repports-settings'),
 );
 const AdvancedSettings = lazy(
-  () => import('@/components/settings/advanced-settings')
+  () => import('@/components/settings/advanced-settings'),
 );
 const CategoriesSettings = lazy(
-  () => import('@/components/settings/categories-settings')
+  () => import('@/components/settings/categories-settings'),
 );
 
 // Suppliers SubRoutes
 const SupplierProfile = lazy(
-  () => import('@/components/suppliers/supplier-profile')
+  () => import('@/components/suppliers/supplier-profile'),
 );
 const SuppliersList = lazy(
-  () => import('@/components/suppliers/suppliers-list')
+  () => import('@/components/suppliers/suppliers-list'),
 );
 const SaveSupplier = lazy(() => import('@/components/suppliers/save-supplier'));
 
 // Customers SubRoutes
 const CustomersList = lazy(
-  () => import('@/components/customers/customers-list')
+  () => import('@/components/customers/customers-list'),
 );
 const CustomerDetails = lazy(
-  () => import('@/components/customers/customer-details')
+  () => import('@/components/customers/customer-details'),
 );
 const SaveCustomer = lazy(() => import('@/components/customers/save-customer'));
 
@@ -66,12 +66,15 @@ const SaveCustomer = lazy(() => import('@/components/customers/save-customer'));
 const SaveProduct = lazy(() => import('@/components/products/save-product'));
 const ListProducts = lazy(() => import('@/components/products/list-products')); // Fix the casing here
 const ProductDetails = lazy(
-  () => import('@/components/products/product-details')
+  () => import('@/components/products/product-details'),
+);
+const ProductVariants = lazy(
+  () => import('@/components/products/product-variants'),
 );
 
 // Orders SubRoutes
 const OrdersDashboard = lazy(
-  () => import('@/components/orders/orders-dashboard')
+  () => import('@/components/orders/orders-dashboard'),
 );
 const SaveOrder = lazy(() => import('@/components/orders/save-order'));
 const OrderDetails = lazy(() => import('@/components/orders/order-details'));
@@ -131,7 +134,7 @@ const ProtectedRoutes = React.memo(() => {
     <>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Home />} />
+          <Route path="dashboard" element={<Home />} />
           <Route path="settings" element={<Settings />}>
             <Route index element={<GeneralSettings />} />
             <Route path="security" element={<SecuritySettings />} />
@@ -143,6 +146,7 @@ const ProtectedRoutes = React.memo(() => {
             <Route index element={<ListProducts />} />
             <Route path="product/:id" element={<SaveProduct />} />
             <Route path="product/:id/details" element={<ProductDetails />} />
+            <Route path="product/:id/variants" element={<ProductVariants />} />
           </Route>
           <Route path="orders" element={<Orders />}>
             <Route index element={<OrdersDashboard />} />
@@ -150,7 +154,7 @@ const ProtectedRoutes = React.memo(() => {
             <Route path="save/:id" element={<SaveOrder />} />
             <Route path=":id" element={<OrderDetails />} />
           </Route>
-          <Route path="sales" element={<Sales />} >
+          <Route path="sales" element={<Sales />}>
             <Route index element={<SalesDashboard />} />
             <Route path=":id" element={<SaleDetails />} />
             <Route path="save/:id" element={<SaveSale />} />
@@ -175,9 +179,9 @@ const ProtectedRoutes = React.memo(() => {
             <Route path="save/:id" element={<SaveSupplier />} />
             <Route path="save" element={<SaveSupplier />} />
           </Route>
-          <Route path="/logs" element={<Logs />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="logs" element={<Logs />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

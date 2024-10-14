@@ -1,20 +1,18 @@
 import { ChevronLeft } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-type Props = {
-  onClick?: () => void;
-};
-
-const BackButton = (props: Props) => {
+const BackButton = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   return (
     <Button
       type="button"
       variant="outline"
       size="icon"
       className="h-7 w-7"
-      onClick={props.onClick}
+      onClick={() => navigate(-1)}
     >
       <ChevronLeft className="h-4 w-4" />
       <span className="sr-only">{t('back')}</span>

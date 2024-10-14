@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useStore } from "@/contexts/store-context";
-import { useForm } from "react-hook-form";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useStore } from '@/contexts/store-context';
+import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -10,23 +10,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import PurchaseDetailsList from "../purchases/purchase-details-list";
-import type { ProductForm, Purchase } from "@/lib/types";
-import { ProductFomSchema } from "@/lib/schemas";
-import { useCreateProduct, useUpdatePurchase } from "@/api";
-import { APICreateInventory, APIPurchase } from "@/lib/interfaces";
-import { toast } from "sonner";
-import dayjs from "dayjs";
+} from '../ui/form';
+import PurchaseDetailsList from '../purchases/purchase-details-list';
+import type { ProductForm, Purchase } from '@/lib/types';
+import { ProductFomSchema } from '@/lib/schemas';
+import { useCreateProduct, useUpdatePurchase } from '@/api';
+import { APICreateInventory, APIPurchase } from '@/lib/interfaces';
+import { toast } from 'sonner';
+import dayjs from 'dayjs';
 import {
   calculateTotalPrice,
   calculateTotalTax,
   calculateTotalWithoutTax,
-} from "@/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import BackButton from "../app/back-button";
-import { useNavigate } from "react-router-dom";
-import { Save, Tags } from "lucide-react";
+} from '@/lib/utils';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import BackButton from '../app/back-button';
+import { Save, Tags } from 'lucide-react';
 
 type Props = {
   purchase: Purchase;
@@ -42,21 +41,19 @@ export default function PurchaseFormList({
   const createInventory = useCreateProduct();
   const updatePurchase = useUpdatePurchase();
 
-  const navigate = useNavigate();
-
   const { tax, currency } = useStore();
 
   const form = useForm<ProductForm>({
     resolver: zodResolver(ProductFomSchema),
     defaultValues: {
-      reference: "",
-      name: "",
+      reference: '',
+      name: '',
       price: 0,
       tax: tax,
       quantity: 1,
-      unit: "",
+      unit: '',
     },
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const handleFinish = async () => {
@@ -73,10 +70,10 @@ export default function PurchaseFormList({
     await updatePurchase.mutateAsync(payload);
 
     setPurchase({
-      reference: "",
-      supplierId: "",
-      supplierLabel: "",
-      createdAt: "",
+      reference: '',
+      supplierId: '',
+      supplierLabel: '',
+      createdAt: '',
       purchaseDetails: [],
       total: 0,
     });
@@ -88,7 +85,7 @@ export default function PurchaseFormList({
     try {
       if (!purchase?._id)
         return toast.error(
-          "Purchase not created yet try again. or contact the support team."
+          'Purchase not created yet try again. or contact the support team.',
         );
 
       const payload: APICreateInventory = {
@@ -108,15 +105,15 @@ export default function PurchaseFormList({
       });
 
       form.reset({
-        reference: "",
-        name: "",
+        reference: '',
+        name: '',
         price: 0,
         tax: tax,
         quantity: 1,
-        unit: "",
+        unit: '',
       });
     } catch (error) {
-      toast.error("An error occurred while saving the product.");
+      toast.error('An error occurred while saving the product.');
     }
   };
 
@@ -125,11 +122,7 @@ export default function PurchaseFormList({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex items-center gap-4">
-            <BackButton
-              onClick={() => {
-                navigate("/purchases");
-              }}
-            />
+            <BackButton />
             <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
               New Purchase
             </h1>
@@ -207,7 +200,7 @@ export default function PurchaseFormList({
                           {...field}
                           onChange={(event) => {
                             const value = parseFloat(event.target.value);
-                            field.onChange(typeof value === "number" && value);
+                            field.onChange(typeof value === 'number' && value);
                           }}
                         />
                         <FormMessage />
@@ -227,7 +220,7 @@ export default function PurchaseFormList({
                           {...field}
                           onChange={(event) => {
                             const value = parseFloat(event.target.value);
-                            field.onChange(typeof value === "number" && value);
+                            field.onChange(typeof value === 'number' && value);
                           }}
                         />
                         <FormMessage />
@@ -263,7 +256,7 @@ export default function PurchaseFormList({
                           {...field}
                           onChange={(event) => {
                             const value = parseFloat(event.target.value);
-                            field.onChange(typeof value === "number" && value);
+                            field.onChange(typeof value === 'number' && value);
                           }}
                         />
 
