@@ -13,8 +13,13 @@ type paginationState = {
 
 export function useProductsPagination(queryObj: paginationState) {
   const getProductsFn = async () => {
+    const { pageIndex, pageSize } = queryObj.pagination;
+    const searchParam = queryObj?.search ? `&search=${queryObj.search}` : '';
+    const filtersParam = queryObj?.filters ? `&filters=${queryObj.filters}` : '';
+    const presetParam = queryObj?.preset && queryObj?.preset !== 'ALL' ? `&preset=${queryObj.preset}` : '';
+
     const response = await apiClient.get(
-      `/products?page=${queryObj?.pagination?.pageIndex}&limit=${queryObj?.pagination?.pageSize}${queryObj?.search ? `&search=${queryObj.search}` : ''}${queryObj?.filters}${queryObj?.preset ? (queryObj?.preset !== 'ALL' ? `&preset=${queryObj.preset}` : '') : ''}`,
+      `/products?page=${pageIndex}&limit=${pageSize}${searchParam}${filtersParam}${presetParam}`,
     );
     return {
       data: response.data,

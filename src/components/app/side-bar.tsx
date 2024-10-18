@@ -56,11 +56,12 @@ const NotificationIndicator = ({
       className={`ml-auto inline-flex items-center justify-center ${
         count ? 'px-2 py-1' : 'w-2 h-2'
       } text-xs font-bold leading-none text-white rounded-full ${
-        color === 'red'
-          ? 'bg-red-500'
-          : color === 'orange'
-          ? 'bg-orange-500'
-          : 'bg-green-500'
+        {
+          red: 'bg-red-500',
+          orange: 'bg-orange-500',
+          green: 'bg-green-500',
+          blue: 'bg-blue-500',
+        }[color]
       }`}
     >
       {count}
@@ -259,13 +260,12 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
       >
         {item.icon}
         {t(item.title)}
-        {item.notifications &&
-          item.notifications.map((notification, index) => (
-            <NotificationIndicator
-              key={'notif-' + index + item.id}
-              color={notification.color}
-            />
-          ))}
+        {item?.notifications?.map((notification, index) => (
+          <NotificationIndicator
+            key={'notif-' + index + item.id}
+            color={notification.color}
+          />
+        ))}
         <div className="ml-auto">
           {subMenuOpen ? (
             <ChevronUp className="h-4 w-4" />
@@ -308,7 +308,7 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
     <>
       <Link
         key={item?.path}
-        to={item?.path || '#'}
+        to={item?.path ?? '#'}
         className={`${
           pathname.includes(item?.path ?? 'UNDEFINED_INFLEXA') &&
           'bg-muted text-primary'

@@ -82,8 +82,10 @@ export const WebSocketProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const contextValue = React.useMemo(() => ({ socket, sendMessage }), [socket]);
+
   return (
-    <WebSocketContext.Provider value={{ socket, sendMessage }}>
+    <WebSocketContext.Provider value={contextValue}>
       {children}
     </WebSocketContext.Provider>
   );

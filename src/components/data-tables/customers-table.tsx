@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -10,21 +10,21 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 import {
   ArrowDownNarrowWide,
   ArrowDownWideNarrow,
   ChevronDown,
   Loader2,
-} from "lucide-react";
+} from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   Table,
   TableBody,
@@ -32,14 +32,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Input } from "../ui/input";
+} from '@/components/ui/table';
+import { Input } from '../ui/input';
 
-import { useTranslation } from "react-i18next";
-import { Tooltip } from "antd";
-import { Customer } from "@/lib/interfaces/customer";
-import { useStore } from "@/contexts/store-context";
-import { CustomerActionMenu } from "../action-menus/customer-action-menu";
+import { useTranslation } from 'react-i18next';
+import { Tooltip } from 'antd';
+import { Customer } from '@/lib/interfaces/customer';
+import { useStore } from '@/contexts/store-context';
+import { CustomerActionMenu } from '../action-menus/customer-action-menu';
 
 type Props = {
   data: Customer[];
@@ -61,29 +61,29 @@ export function CustomersTable({ data, loading }: Props) {
 
   const columns: ColumnDef<Customer>[] = [
     {
-      accessorKey: "customerId",
-      header: t("customer_id_label"),
+      accessorKey: 'customerId',
+      header: t('customer_id_label'),
       cell: ({ row }) => <div>{row.original.customerId}</div>,
     },
     {
-      accessorKey: "name",
-      header: t("customer_name_label"),
+      accessorKey: 'name',
+      header: t('customer_name_label'),
       cell: ({ row }) => <div className="capitalize">{row.original.name}</div>,
     },
     {
-      accessorKey: "contactInfo.email",
-      header: t("customer_email_label"),
+      accessorKey: 'contactInfo.email',
+      header: t('customer_email_label'),
       cell: ({ row }) => (
         <div>
           {row.original.contactInfo?.email
             ? row.original.contactInfo?.email
-            : " - "}
+            : ' - '}
         </div>
       ),
     },
     {
-      accessorKey: "contactInfo.phone",
-      header: t("customer_phone_label"),
+      accessorKey: 'contactInfo.phone',
+      header: t('customer_phone_label'),
       cell: ({ row }) => (
         <div className="capitalize">{row.original.contactInfo?.phone}</div>
       ),
@@ -96,18 +96,18 @@ export function CustomersTable({ data, loading }: Props) {
     //   ),
     // },
     {
-      accessorKey: "financialInfo.creditLimit",
-      header: t("customer_credit_limit_label"),
+      accessorKey: 'financialInfo.creditLimit',
+      header: t('customer_credit_limit_label'),
       cell: ({ row }) => {
         const displayValue = `${
-          row.original.financialInfo?.creditLimit?.toLocaleString() ?? "0"
+          row.original.financialInfo?.creditLimit?.toLocaleString() ?? '0'
         }
         ${currency?.symbol}`;
         return <div className="capitalize">{displayValue}</div>;
       },
     },
     {
-      id: "actions",
+      id: 'actions',
       enableHiding: false,
       cell: ({ row }) => {
         return <CustomerActionMenu customer={row.original} />;
@@ -144,17 +144,17 @@ export function CustomersTable({ data, loading }: Props) {
     <div className="w-full">
       <div className="flex items-center pb-4">
         <Input
-          placeholder={t("search_customer")}
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder={t('search_customer')}
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn('name')?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              {t("columns")} <ChevronDown className="ml-2 h-4 w-4" />
+              {t('columns')} <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -190,22 +190,23 @@ export function CustomersTable({ data, loading }: Props) {
                         <div
                           className={
                             header.column.getCanSort()
-                              ? "cursor-pointer select-none flex items-center"
-                              : ""
+                              ? 'cursor-pointer select-none flex items-center'
+                              : ''
                           }
                           onClick={header.column.getToggleSortingHandler()}
                         >
                           <Tooltip
-                            title={
-                              header.column.getCanSort()
-                                ? header.column.getNextSortingOrder() === "asc"
-                                  ? "Sort ascending"
+                            title={() => {
+                              const tooltipTitle = header.column.getCanSort()
+                                ? header.column.getNextSortingOrder() === 'asc'
+                                  ? 'Sort ascending'
                                   : header.column.getNextSortingOrder() ===
-                                    "desc"
-                                  ? "Sort descending"
-                                  : "Clear sort"
-                                : undefined
-                            }
+                                    'desc'
+                                  ? 'Sort descending'
+                                  : 'Clear sort'
+                                : undefined;
+                              return tooltipTitle;
+                            }}
                           >
                             {flexRender(
                               header.column.columnDef.header,
@@ -233,7 +234,7 @@ export function CustomersTable({ data, loading }: Props) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -256,7 +257,7 @@ export function CustomersTable({ data, loading }: Props) {
                       <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                     </div>
                   ) : (
-                    "No results."
+                    'No results.'
                   )}
                 </TableCell>
               </TableRow>
@@ -272,7 +273,7 @@ export function CustomersTable({ data, loading }: Props) {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            {t("previous")}
+            {t('previous')}
           </Button>
           <Button
             variant="outline"
@@ -280,7 +281,7 @@ export function CustomersTable({ data, loading }: Props) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            {t("next")}
+            {t('next')}
           </Button>
         </div>
       </div>

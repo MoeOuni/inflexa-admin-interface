@@ -222,16 +222,17 @@ const PurchasesTable = ({ data, loading }: Props) => {
                           onClick={header.column.getToggleSortingHandler()}
                         >
                           <Tooltip
-                            title={
-                              header.column.getCanSort()
-                                ? header.column.getNextSortingOrder() === "asc"
-                                  ? "Sort ascending"
-                                  : header.column.getNextSortingOrder() ===
-                                    "desc"
-                                  ? "Sort descending"
-                                  : "Clear sort"
-                                : undefined
-                            }
+                           title={() => {
+                            const tooltipTitle = header.column.getCanSort()
+                              ? header.column.getNextSortingOrder() === 'asc'
+                                ? 'Sort ascending'
+                                : header.column.getNextSortingOrder() ===
+                                  'desc'
+                                ? 'Sort descending'
+                                : 'Clear sort'
+                              : undefined;
+                            return tooltipTitle;
+                          }}
                           >
                             {flexRender(
                               header.column.columnDef.header,

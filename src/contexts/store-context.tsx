@@ -40,8 +40,7 @@ const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({
         .mutateAsync(user?.associatedWith?._id || '')
         .then((response) => {
           if (
-            JSON.stringify(response.data) !==
-            JSON.stringify(storeConfiguration)
+            JSON.stringify(response.data) !== JSON.stringify(storeConfiguration)
           ) {
             setStoreConfiguration(response.data);
             toast.success('Store configuration loaded successfully 🛜');
@@ -57,10 +56,19 @@ const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [user]);
 
+  const contextValue = React.useMemo(
+    () => ({
+      tax,
+      setTax,
+      currency,
+      setCurrency,
+      storeConfiguration,
+    }),
+    [tax, currency, storeConfiguration]
+  );
+
   return (
-    <StoreContext.Provider
-      value={{ tax, setTax, currency, setCurrency, storeConfiguration }}
-    >
+    <StoreContext.Provider value={contextValue}>
       {children}
     </StoreContext.Provider>
   );
