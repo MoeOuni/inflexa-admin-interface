@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import type { Role } from '@/lib/types';
+import type { Role, TSFixMe } from '@/lib/types';
 import { useCreateRole, useEditRole, usePermissions } from '@/api';
 import {
   Form,
@@ -46,7 +46,7 @@ const RoleForm = ({ selectedRole }: Props) => {
     name: selectedRole?.name || '',
     description: selectedRole?.description || '',
     permissions:
-      selectedRole?.permissions?.map((item: any) => {
+      selectedRole?.permissions?.map((item: TSFixMe) => {
         return item?._id ?? item;
       }) || [],
   });
@@ -114,7 +114,7 @@ const RoleForm = ({ selectedRole }: Props) => {
               <FormLabel>Permissions</FormLabel>
               <FormMessage />
               <div className="flex flex-wrap max-h-56 overflow-y-scroll">
-                {permissions.data?.data?.map((permission: any) => {
+                {permissions.data?.data?.map((permission: TSFixMe) => {
                   return (
                     <div key={permission._id} className="w-full md:w-1/2 p-1">
                       <FormField

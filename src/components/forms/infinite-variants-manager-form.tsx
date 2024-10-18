@@ -31,8 +31,6 @@ const VariantItem: React.FC<{
   ({ variant, level = 0, addVariant, updateVariant, removeVariant }) => {
     const [isExpanded, setIsExpanded] = useState(true);
 
-    console.log('Rendering VariantItem', variant);
-
     return (
       <div style={{ marginLeft: `${level * 16}px` }} className="mb-3">
         <div className="flex items-center gap-2 mb-2">
