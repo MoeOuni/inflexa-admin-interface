@@ -33,7 +33,7 @@ import { GearIcon } from '@radix-ui/react-icons';
 import { toast } from 'sonner';
 
 type Props = {
-  order: Order;
+  readonly order: Order;
 };
 
 export function OrderActionMenu({ order }: Props) {

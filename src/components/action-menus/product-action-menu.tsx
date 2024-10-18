@@ -29,7 +29,7 @@ import { Product } from '@/lib/interfaces';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
-  product: Product;
+  readonly product: Product;
 };
 
 export function ProductActionMenu({ product }: Props) {

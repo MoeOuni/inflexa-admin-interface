@@ -28,8 +28,8 @@ import { useRestoreSupplier } from "@/api/suppliers/use-restore-supplier";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
-  supplier: Supplier;
-  status: string;
+  readonly supplier: Supplier;
+  readonly status: string;
 };
 
 export function SupplierActionMenu({ supplier, status }: Props) {
@@ -83,7 +83,7 @@ export function SupplierActionMenu({ supplier, status }: Props) {
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() =>
-                  navigate(`/suppliers/save/${supplier?._id || ""}`)
+                  navigate(`/suppliers/save/${supplier?._id ?? ""}`)
                 }
               >
                 <User className="mr-2 h-4 w-4" />
@@ -96,9 +96,9 @@ export function SupplierActionMenu({ supplier, status }: Props) {
               <DropdownMenuItem
                 onClick={() => {
                   if (status === "ACTIVE") {
-                    archiveSupplier.mutate(supplier?._id || "");
+                    archiveSupplier.mutate(supplier?._id ?? "");
                   } else {
-                    restoreSupplier.mutate(supplier?._id || "");
+                    restoreSupplier.mutate(supplier?._id ?? "");
                   }
                 }}
               >

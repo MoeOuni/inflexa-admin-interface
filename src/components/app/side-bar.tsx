@@ -59,11 +59,11 @@ const NotificationIndicator = ({
         color === 'red'
           ? 'bg-red-500'
           : color === 'orange'
-            ? 'bg-orange-500'
-            : 'bg-green-500'
+          ? 'bg-orange-500'
+          : 'bg-green-500'
       }`}
     >
-      {count && count}
+      {count}
     </span>
   ) : null;
 };
@@ -177,7 +177,7 @@ const Sidebar = ({ notifications }: { notifications: any }) => {
     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
       {sidebarItems.map((item) => {
         const ntfs = notifications.find(
-          (ntf: any) => ntf.path === item.path || ntf.id === item.id,
+          (ntf: any) => ntf.path === item.path || ntf.id === item.id
         );
 
         if (ntfs) {
@@ -185,7 +185,7 @@ const Sidebar = ({ notifications }: { notifications: any }) => {
           if (ntfs.children) {
             item.children?.forEach((child) => {
               child.notifications = ntfs.children.find(
-                (ntf: any) => ntf.id === child.id,
+                (ntf: any) => ntf.id === child.id
               )?.notifications;
             });
           }
@@ -215,7 +215,7 @@ const SidebarMobile = ({ notifications }: { notifications: any }) => {
           <hr className="my-2 border-t border-muted" />
           {sidebarItems.map((item) => {
             const ntfs = notifications.find(
-              (ntf: any) => ntf.path === item.path || ntf.id === item.id,
+              (ntf: any) => ntf.path === item.path || ntf.id === item.id
             );
 
             if (ntfs) {
@@ -223,7 +223,7 @@ const SidebarMobile = ({ notifications }: { notifications: any }) => {
               if (ntfs.children) {
                 item.children?.forEach((child) => {
                   child.notifications = ntfs.children.find(
-                    (ntf: any) => ntf.id === child.id,
+                    (ntf: any) => ntf.id === child.id
                   )?.notifications;
                 });
               }
@@ -261,7 +261,10 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
         {t(item.title)}
         {item.notifications &&
           item.notifications.map((notification, index) => (
-            <NotificationIndicator key={index} color={notification.color} />
+            <NotificationIndicator
+              key={'notif-' + index + item.id}
+              color={notification.color}
+            />
           ))}
         <div className="ml-auto">
           {subMenuOpen ? (
@@ -280,7 +283,7 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
           return (
             <Link
               key={child?.path}
-              to={child?.path || '#'}
+              to={child?.path ?? '#'}
               className={`${
                 pathname.includes(child?.path) && 'bg-muted text-primary'
               } ml-5 flex items-center text-sm gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary`}
@@ -288,13 +291,12 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
               {child?.icon}
               {t(child.title)}
               <div className="ml-auto">
-                {child.notifications &&
-                  child.notifications.map((notification, index) => (
-                    <NotificationIndicator
-                      key={index}
-                      color={notification.color}
-                    />
-                  ))}
+                {child?.notifications?.map((notification, index) => (
+                  <NotificationIndicator
+                    key={index}
+                    color={notification.color}
+                  />
+                ))}
               </div>
             </Link>
           );
@@ -308,24 +310,23 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
         key={item?.path}
         to={item?.path || '#'}
         className={`${
-          pathname.includes(item?.path || 'UNDEFINED_INFLEXA') &&
+          pathname.includes(item?.path ?? 'UNDEFINED_INFLEXA') &&
           'bg-muted text-primary'
         } flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary`}
       >
         {item.icon}
         {t(item.title)}
         <div className="ml-auto flex gap-1">
-          {item.notifications &&
-            item.notifications?.map((notification, index) => (
-              <NotificationIndicator
-                key={index}
-                count={notification.count}
-                color={notification.color}
-              />
-            ))}
+          {item?.notifications?.map((notification, index) => (
+            <NotificationIndicator
+              key={'notif-' + index + item.id}
+              count={notification.count}
+              color={notification.color}
+            />
+          ))}
         </div>
       </Link>
-      {item.separator && <hr className="my-2 border-t border-muted" />}
+      {item?.separator && <hr className="my-2 border-t border-muted" />}
     </>
   );
 };

@@ -25,7 +25,7 @@ import { useTranslation } from "react-i18next";
 import { Purchase } from "@/lib/interfaces";
 
 type Props = {
-  purchase: Purchase;
+  readonly purchase: Purchase;
 };
 
 export function PurchaseActionMenu({ purchase }: Props) {

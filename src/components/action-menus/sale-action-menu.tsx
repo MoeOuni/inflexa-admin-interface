@@ -21,7 +21,7 @@ import { ISale } from '@/lib/interfaces';
 import { toast } from 'sonner';
 
 type Props = {
-  sale: ISale;
+  readonly sale: ISale;
 };
 
 export function SaleActionMenu({ sale }: Props) {

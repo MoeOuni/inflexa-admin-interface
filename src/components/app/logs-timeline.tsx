@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Timeline } from 'antd';
 
 type LogsTimelineProps = {
-  logs: ILog[];
+  readonly logs: ILog[];
 };
 
 interface ILogWithAction extends ILog {

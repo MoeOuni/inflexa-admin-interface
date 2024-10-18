@@ -9,10 +9,10 @@ import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 
 interface NotificationProps {
-  sender: string;
-  action: string;
-  date: string;
-  description: string;
+  readonly sender: string;
+  readonly action: string;
+  readonly date: string;
+  readonly description: string;
   onDelete: () => void;
   onClick?: () => void;
 }

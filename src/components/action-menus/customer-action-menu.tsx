@@ -36,7 +36,7 @@ import { useTranslation } from "react-i18next";
 import { Customer } from "@/lib/interfaces/customer";
 
 type Props = {
-  customer: Customer;
+  readonly customer: Customer;
 };
 
 export function CustomerActionMenu({ customer }: Props) {

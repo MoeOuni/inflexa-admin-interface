@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-ignore
 import React from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
@@ -16,7 +17,7 @@ type Props = {
   value: number;
   unit: string;
   progress: number;
-  key: string;
+  readonly key: string;
   subtitle: string;
 };
 
