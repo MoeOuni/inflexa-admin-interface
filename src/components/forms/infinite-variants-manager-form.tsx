@@ -7,7 +7,7 @@ import React from 'react';
 interface Variant {
   id: string;
   name: string;
-  listPrice: number;
+  additionalPrice: number;
   discountPrice: number;
   stock: number;
   children: Variant[];
@@ -60,12 +60,12 @@ const VariantItem: React.FC<{
           />
           <Input
             type="number"
-            name={`variant-listPrice-${variant.id}`}
-            value={variant.listPrice}
+            name={`variant-additionalPrice-${variant.id}`}
+            value={variant.additionalPrice}
             onChange={(e) =>
               updateVariant(
                 variant.id,
-                'listPrice',
+                'additionalPrice',
                 parseFloat(e.target.value) || 0,
               )
             }
@@ -143,7 +143,7 @@ export default function InfiniteVariantManagerForm() {
     const newVariant: Variant = {
       id: generateId(),
       name: '',
-      listPrice: 0,
+      additionalPrice: 0,
       discountPrice: 0,
       stock: 0,
       children: [],

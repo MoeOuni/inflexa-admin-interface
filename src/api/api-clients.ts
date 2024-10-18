@@ -41,8 +41,9 @@ apiClient.interceptors.response.use(
         // Cancel all other API calls
         return new axios.Cancel('Unauthorized. API call cancelled.');
       }
+    } else {
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
   }
 );
 
