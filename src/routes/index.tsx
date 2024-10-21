@@ -5,6 +5,7 @@ import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import MainLayout from '@/layouts/main-layout';
 // Error Pages
 const NotFound = lazy(() => import('@/pages/not-found'));
+const Unauthorized = lazy(() => import('@/pages/unauthorized'));
 
 // Protected Pages
 const Home = lazy(() => import('@/pages/admin/home'));
@@ -181,6 +182,7 @@ const ProtectedRoutes = React.memo(() => {
           </Route>
           <Route path="logs" element={<Logs />} />
         </Route>
+        <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

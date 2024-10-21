@@ -16,6 +16,7 @@ import './App.css';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import { WebSocketProvider } from './providers/web-socket-provider';
+import { ApiProvider } from '@/contexts/api-context.tsx';
 
 const { darkAlgorithm, defaultAlgorithm } = antdTheme;
 
@@ -42,15 +43,18 @@ function App() {
         algorithm: theme === 'light' ? [defaultAlgorithm] : [darkAlgorithm],
       }}
     >
-      <WebSocketProvider>
-        <TooltipProvider>
-          <Toaster  position="top-right" />
-          <Router>
-            {/* Routes go here */}
-            {token ? <ProtectedRoutes /> : <PublicRoutes />}
-          </Router>
-        </TooltipProvider>
-      </WebSocketProvider>
+      <Router>
+        <ApiProvider>
+          <WebSocketProvider>
+            <TooltipProvider>
+              <Toaster position="top-right" />
+
+              {/* Routes go here */}
+              {token ? <ProtectedRoutes /> : <PublicRoutes />}
+            </TooltipProvider>
+          </WebSocketProvider>
+        </ApiProvider>
+      </Router>
     </ConfigProvider>
   );
 }

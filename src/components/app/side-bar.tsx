@@ -178,7 +178,7 @@ const Sidebar = ({ notifications }: { notifications: any }) => {
     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
       {sidebarItems.map((item) => {
         const ntfs = notifications.find(
-          (ntf: any) => ntf.path === item.path || ntf.id === item.id
+          (ntf: any) => ntf.path === item.path || ntf.id === item.id,
         );
 
         if (ntfs) {
@@ -186,7 +186,7 @@ const Sidebar = ({ notifications }: { notifications: any }) => {
           if (ntfs.children) {
             item.children?.forEach((child) => {
               child.notifications = ntfs.children.find(
-                (ntf: any) => ntf.id === child.id
+                (ntf: any) => ntf.id === child.id,
               )?.notifications;
             });
           }
@@ -216,7 +216,7 @@ const SidebarMobile = ({ notifications }: { notifications: any }) => {
           <hr className="my-2 border-t border-muted" />
           {sidebarItems.map((item) => {
             const ntfs = notifications.find(
-              (ntf: any) => ntf.path === item.path || ntf.id === item.id
+              (ntf: any) => ntf.path === item.path || ntf.id === item.id,
             );
 
             if (ntfs) {
@@ -224,7 +224,7 @@ const SidebarMobile = ({ notifications }: { notifications: any }) => {
               if (ntfs.children) {
                 item.children?.forEach((child) => {
                   child.notifications = ntfs.children.find(
-                    (ntf: any) => ntf.id === child.id
+                    (ntf: any) => ntf.id === child.id,
                   )?.notifications;
                 });
               }
@@ -246,8 +246,6 @@ const MenuItem = ({ item }: { item: IMenuItem }) => {
   const toggleSubMenu = () => {
     setSubMenuOpen(!subMenuOpen);
   };
-
-  console.log(pathname);
 
   return item?.children ? (
     <>

@@ -13,6 +13,5 @@ export function useProductDetails() {
   return useQuery({
     queryKey: productQueryKeys.detail(id || 'VALID_ID'),
     queryFn: getProductDetailsFn,
-    retry: 1,
   });
 }
