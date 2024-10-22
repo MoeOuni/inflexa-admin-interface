@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/table";
 import { Category } from "@/lib/types";
 import dayjs from "dayjs";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 
 type Props = {

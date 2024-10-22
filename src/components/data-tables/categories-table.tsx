@@ -32,13 +32,13 @@ import {
 } from "@/components/ui/table";
 import { Category } from "@/lib/types";
 import dayjs from "dayjs";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "../ui/hover-card";
-import ConfirmButton from "../app/confirm-button";
+} from "@/components/ui/hover-card";
+import ConfirmButton from "@/components/app/confirm-button";
 import { useDeleteCategory } from "@/api";
 import { useTranslation } from "react-i18next";
 

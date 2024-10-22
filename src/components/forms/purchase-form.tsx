@@ -1,11 +1,11 @@
 import { useSuppliers } from "@/api";
-import { ComboBox } from "../app/combo-box";
+import { ComboBox } from "@/components/app/combo-box";
 import { Purchase, Supplier } from "@/lib/types";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { Input } from "../ui/input";
-import PurchaseDetailsList from "../purchases/purchase-details-list";
+import { Input } from "@/components/ui/input";
+import PurchaseDetailsList from "@/components/modules/purchases/purchase-details-list";
 import { useStore } from "@/contexts/store-context";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type Props = {
   purchase: Purchase;

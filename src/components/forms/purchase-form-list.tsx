@@ -10,8 +10,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import PurchaseDetailsList from '../purchases/purchase-details-list';
+} from '@/components/ui/form';
+import PurchaseDetailsList from '@/components/modules/purchases/purchase-details-list';
 import type { ProductForm, Purchase } from '@/lib/types';
 import { ProductFomSchema } from '@/lib/schemas';
 import { useCreateProduct, useUpdatePurchase } from '@/api';
@@ -23,8 +23,8 @@ import {
   calculateTotalTax,
   calculateTotalWithoutTax,
 } from '@/lib/utils';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import BackButton from '../app/back-button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import BackButton from '@/components/app/back-button';
 import { Save, Tags } from 'lucide-react';
 
 type Props = {

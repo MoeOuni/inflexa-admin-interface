@@ -1,7 +1,7 @@
 import { useLogs } from '@/api';
-import GeneralKpis from '@/components/analytics/general-kpis';
+import GeneralKpis from '@/components/modules/analytics/general-kpis';
 import LogsTimeline from '@/components/app/logs-timeline';
-import SalesStats from '@/components/sales/sales-stats';
+import SalesStats from '@/components/modules/sales/sales-stats';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';

@@ -12,11 +12,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import React from 'react';
 import { useProductDetails } from '@/api';
-import ProductDetailsCard from '@/components/products/product-details-card.tsx';
+import ProductDetailsCard from '@/components/modules/products/product-details-card.tsx';
 import { Label } from '@/components/ui/label.tsx';
-import ProductDetailsCardSkeleton from '@/components/skeletons/product-details-card-skeleton.tsx';
+import ProductDetailsCardSkeleton from '@/components/app/skeletons/product-details-card-skeleton.tsx';
 import { Card, CardContent } from '@/components/ui/card.tsx';
-import VariantItemSkeleton from '@/components/skeletons/variant-item-skeleton.tsx';
+import VariantItemSkeleton from '@/components/app/skeletons/variant-item-skeleton.tsx';
 
 interface Variant {
   id: string;

@@ -7,8 +7,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '../ui/sheet';
-import { Button } from '../ui/button';
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
 import { Bell } from 'lucide-react';
 import HoverNotificationCard from './hover-notification-card';
 

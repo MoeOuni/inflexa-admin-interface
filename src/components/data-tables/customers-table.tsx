@@ -33,13 +33,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
 
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from 'antd';
 import { Customer } from '@/lib/interfaces/customer';
 import { useStore } from '@/contexts/store-context';
-import { CustomerActionMenu } from '../action-menus/customer-action-menu';
+import { CustomerActionMenu } from '@/components/app/action-menus/customer-action-menu';
 
 type Props = {
   data: Customer[];

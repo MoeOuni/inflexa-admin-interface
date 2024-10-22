@@ -2,7 +2,7 @@ import { ILog } from '@/lib/interfaces';
 import { useTranslation } from 'react-i18next';
 
 import dayjs from 'dayjs';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Timeline } from 'antd';
 
 type LogsTimelineProps = {

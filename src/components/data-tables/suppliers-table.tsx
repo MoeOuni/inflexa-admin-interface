@@ -30,11 +30,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 
 import { useTranslation } from "react-i18next";
 import { Supplier } from "@/lib/interfaces";
-import { SupplierActionMenu } from "../action-menus/supplier-action-menu";
+import { SupplierActionMenu } from "@/components/app/action-menus/supplier-action-menu";
 
 type Props = {
   data: Supplier[];

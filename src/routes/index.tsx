@@ -21,69 +21,69 @@ const Purchases = lazy(() => import('@/pages/admin/purchases'));
 
 // Purchase SubRoutes
 const PurchaseDetails = lazy(
-  () => import('@/components/purchases/purchase-details'),
+  () => import('@/components/modules/purchases/purchase-details'),
 );
 const PurchasesList = lazy(
-  () => import('@/components/purchases/purchases-list'),
+  () => import('@/components/modules/purchases/purchases-list'),
 );
-const SavePurchase = lazy(() => import('@/components/purchases/save-purchase'));
+const SavePurchase = lazy(() => import('@/components/modules/purchases/save-purchase'));
 
 // Settings Menu SubRoutes
 const GeneralSettings = lazy(
-  () => import('@/components/settings/general-settings'),
+  () => import('@/components/modules/settings/general-settings'),
 );
 const SecuritySettings = lazy(
-  () => import('@/components/settings/security-settings'),
+  () => import('@/components/modules/settings/security-settings'),
 );
 const RepportsSettings = lazy(
-  () => import('@/components/settings/repports-settings'),
+  () => import('@/components/modules/settings/repports-settings'),
 );
 const AdvancedSettings = lazy(
-  () => import('@/components/settings/advanced-settings'),
+  () => import('@/components/modules/settings/advanced-settings'),
 );
 const CategoriesSettings = lazy(
-  () => import('@/components/settings/categories-settings'),
+  () => import('@/components/modules/settings/categories-settings'),
 );
 
 // Suppliers SubRoutes
 const SupplierProfile = lazy(
-  () => import('@/components/suppliers/supplier-profile'),
+  () => import('@/components/modules/suppliers/supplier-profile'),
 );
 const SuppliersList = lazy(
-  () => import('@/components/suppliers/suppliers-list'),
+  () => import('@/components/modules/suppliers/suppliers-list'),
 );
-const SaveSupplier = lazy(() => import('@/components/suppliers/save-supplier'));
+const SaveSupplier = lazy(() => import('@/components/modules/suppliers/save-supplier'));
 
 // Customers SubRoutes
 const CustomersList = lazy(
-  () => import('@/components/customers/customers-list'),
+  () => import('@/components/modules/customers/customers-list'),
 );
 const CustomerDetails = lazy(
-  () => import('@/components/customers/customer-details'),
+  () => import('@/components/modules/customers/customer-details'),
 );
-const SaveCustomer = lazy(() => import('@/components/customers/save-customer'));
+const SaveCustomer = lazy(() => import('@/components/modules/customers/save-customer'));
 
 // Products SubRoutes
-const SaveProduct = lazy(() => import('@/components/products/save-product'));
-const ListProducts = lazy(() => import('@/components/products/list-products')); // Fix the casing here
+const SaveProduct = lazy(() => import('@/components/modules/products/save-product'));
+const ListProducts = lazy(() => import('@/components/modules/products/list-products')); // Fix the casing here
 const ProductDetails = lazy(
-  () => import('@/components/products/product-details'),
+  () => import('@/components/modules/products/product-details'),
 );
 const ProductVariants = lazy(
-  () => import('@/components/products/product-variants'),
+  () => import('@/components/modules/products/product-variants'),
 );
 
 // Orders SubRoutes
 const OrdersDashboard = lazy(
-  () => import('@/components/orders/orders-dashboard'),
+  () => import('@/components/modules/orders/orders-dashboard'),
 );
-const SaveOrder = lazy(() => import('@/components/orders/save-order'));
-const OrderDetails = lazy(() => import('@/components/orders/order-details'));
+const SaveOrder = lazy(() => import('@/components/modules/orders/save-order'));
+const OrderDetails = lazy(() => import('@/components/modules/orders/order-details'));
 
 // Sales SubRoutes
-const SalesDashboard = lazy(() => import('@/components/sales/sales-dashboard'));
-const SaveSale = lazy(() => import('@/components/sales/save-sale'));
-const SaleDetails = lazy(() => import('@/components/sales/sale-details'));
+const SalesDashboard = lazy(() => import('@/components/modules/sales/sales-dashboard'));
+const SaveSale = lazy(() => import('@/components/modules/sales/save-sale'));
+const SaleDetails = lazy(() => import('@/components/modules/sales/sale-details'));
 
 // Auth Pages
 const Login = lazy(() => import('@/pages/auth/login'));

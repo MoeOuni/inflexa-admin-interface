@@ -35,7 +35,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 
 import { useTranslation } from "react-i18next";
 // import { useNavigate } from "react-router-dom";
@@ -43,7 +43,7 @@ import { Purchase } from "@/lib/interfaces";
 import dayjs from "dayjs";
 import { useStore } from "@/contexts/store-context";
 import { Tooltip } from "antd";
-import { PurchaseActionMenu } from "../action-menus/purchase-action-menu";
+import { PurchaseActionMenu } from "@/components/app/action-menus/purchase-action-menu";
 
 type Props = {
   data: Purchase[];

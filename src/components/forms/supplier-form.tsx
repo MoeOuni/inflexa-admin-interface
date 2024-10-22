@@ -13,15 +13,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import { PhoneInput } from '../app/phone-input';
+} from '@/components/ui/form';
+import { PhoneInput } from '@/components/app/phone-input';
 
 import { useCreateSupplier, useEditSupplier } from '@/api';
 import { Supplier } from '@/lib/types';
 import { Divider } from 'antd';
-import BackButton from '../app/back-button';
+import BackButton from '@/components/app/back-button';
 import { ClipboardX, Save } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SupplierFormSchema } from '@/lib/schemas';
 
 type SupplierForm = z.infer<typeof SupplierFormSchema>;

@@ -19,7 +19,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { z } from 'zod';
 
-import MultiUpload from '../app/multiple-upload';
+import MultiUpload from '@/components/app/multiple-upload';
 
 import { ProductSchema } from '@/lib/schemas';
 import { useStore } from '@/contexts/store-context';
@@ -33,15 +33,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import BackButton from '../app/back-button';
+} from '@/components/ui/form';
+import BackButton from '@/components/app/back-button';
 import { APIUpdateProduct, FileFromApi, Product } from '@/lib/interfaces';
-import { ProductStatus } from '../status-views/product';
+import { ProductStatus } from '@/components/app/status-views/product';
 import { Tag } from 'antd';
 import { useCategories, useUpdateProduct } from '@/api';
 import { Category, SubCategory } from '@/lib/types';
 import { useEffect, useState } from 'react';
-import { Checkbox } from '../ui/checkbox';
+import { Checkbox } from '@/components/ui/checkbox';
 
 type ProductFormType = z.infer<typeof ProductSchema>;
 

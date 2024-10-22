@@ -32,14 +32,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
 
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import { useStore } from '@/contexts/store-context';
 import { ISale } from '@/lib/interfaces';
-import { SaleActionMenu } from '../action-menus/sale-action-menu';
+import { SaleActionMenu } from '@/components/app/action-menus/sale-action-menu';
 
 type Props = {
   setSaleId: React.Dispatch<React.SetStateAction<string>>;

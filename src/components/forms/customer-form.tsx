@@ -17,14 +17,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import { PhoneInput } from '../app/phone-input';
+} from '@/components/ui/form';
+import { PhoneInput } from '@/components/app/phone-input';
 // import { toast } from "sonner";
 import { useStore } from '@/contexts/store-context';
 import { useCreateCustomer } from '@/api';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ClipboardX, Save } from 'lucide-react';
-import BackButton from '../app/back-button';
+import BackButton from '@/components/app/back-button';
 
 type CustomerFormType = z.infer<typeof CustomerFormSchema>;
 function CustomerForm() {

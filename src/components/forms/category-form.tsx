@@ -10,9 +10,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { ClipboardX, PlusCircle, Save, Trash2 } from 'lucide-react';
 import { useCreateCategory, useEditCategory } from '@/api';
 import type { Category } from '@/lib/types';
@@ -23,8 +23,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../ui/card';
-import BackButton from '../app/back-button';
+} from '@/components/ui/card';
+import BackButton from '@/components/app/back-button';
 import {
   Table,
   TableBody,
@@ -32,7 +32,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../ui/table';
+} from '@/components/ui/table';
 
 const CategoryFormSchema = z.object({
   name: z.string().min(2, { message: 'Name is required' }),

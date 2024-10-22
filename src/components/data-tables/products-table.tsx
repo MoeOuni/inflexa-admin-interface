@@ -34,13 +34,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
 
 import { useTranslation } from 'react-i18next';
 import { Image, Tooltip } from 'antd';
 import { Product } from '@/lib/interfaces';
-import { ProductActionMenu } from '../action-menus/product-action-menu';
-import { ProductStatus } from '../status-views/product';
+import { ProductActionMenu } from '@/components/app/action-menus/product-action-menu';
+import { ProductStatus } from '@/components/app/status-views/product';
 import { useStore } from '@/contexts/store-context';
 import { useEffect } from 'react';
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 
 type SingleUploadProps = {
   files: any;

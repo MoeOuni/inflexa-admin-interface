@@ -33,14 +33,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
 
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import { Order } from '@/lib/interfaces';
-import { OrderStatus } from '../status-views/order';
-import { OrderActionMenu } from '../action-menus/order-action-menu';
+import { OrderStatus } from '@/components/app/status-views/order';
+import { OrderActionMenu } from '@/components/app/action-menus/order-action-menu';
 import { useStore } from '@/contexts/store-context';
 
 type Props = {

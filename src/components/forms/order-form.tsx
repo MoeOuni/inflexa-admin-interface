@@ -11,12 +11,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import BackButton from '../app/back-button';
+} from '@/components/ui/form';
+import BackButton from '@/components/app/back-button';
 import { useNavigate } from 'react-router-dom';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
   Command,
   CommandEmpty,
@@ -24,10 +24,10 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '../ui/command';
+} from '@/components/ui/command';
 import { cn } from '@/lib/utils';
-import { ScrollArea } from '../app/scroll-area';
-import { Textarea } from '../ui/textarea';
+import { ScrollArea } from '@/components/app/scroll-area';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Card,
   CardContent,
@@ -35,11 +35,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../ui/card';
+} from '@/components/ui/card';
 import { useCreateOrder, useCustomers, useProducts } from '@/api';
 import { Customer } from '@/lib/interfaces/customer';
-import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
-import { OrderStatus } from '../status-views/order';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { OrderStatus } from '@/components/app/status-views/order';
 import {
   Table,
   TableBody,
@@ -47,14 +47,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../ui/table';
-import { Input } from '../ui/input';
+} from '@/components/ui/table';
+import { Input } from '@/components/ui/input';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { Product } from '@/lib/interfaces';
-import { PhoneInput } from '../app/phone-input';
-import { PaymentStatus } from '../status-views/payment';
+import { PhoneInput } from '@/components/app/phone-input';
+import { PaymentStatus } from '@/components/app/status-views/payment';
 import { toast } from 'sonner';
-import OrderConfirmationPopup from '@/components/popups/order-confirmation.tsx';
+import OrderConfirmationPopup from '@/components/app/popups/order-confirmation';
 import { useTranslation } from 'react-i18next';
 
 type OrderForm = z.infer<typeof OrderFormSchema>;
