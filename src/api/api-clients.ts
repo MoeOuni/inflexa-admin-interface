@@ -1,4 +1,5 @@
 import axios from 'axios';
+import i18next from 'i18next';
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -18,7 +19,7 @@ apiClient.interceptors.response.use(
   (error) => {
     if (!error.response) {
       return Promise.reject(
-        new Error('Something went wrong. Please try again.'),
+        new Error(i18next.t("UNEXPECTED_ERROR")),
       );
     }
     return Promise.reject(error);

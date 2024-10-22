@@ -40,6 +40,7 @@ export const WebSocketProvider: React.FC<{ children: ReactNode }> = ({
       toast.info('WebSocket connection closed 🛑');
     };
 
+    // TODO: handle errors in production to friendly messages.
     ws.onerror = (error) => {
       toast.error(`WebSocket error occurred ❌: ${JSON.stringify(error)}`);
     };

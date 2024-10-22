@@ -1,3 +1,4 @@
 {
-    
+    "UNEXPECTED_ERROR": "Something went wrong. Please try again.",
+    "UNKOWN_ERROR": "An unknown error occurred."
 }
