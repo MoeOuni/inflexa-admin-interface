@@ -18,7 +18,7 @@ const Logs = () => {
     pageIndex: number;
     pageSize: number;
   }>({
-    pageIndex: 1,
+    pageIndex: 0,
     pageSize: 10,
   });
   const logs = useLogs({
@@ -36,11 +36,16 @@ const Logs = () => {
         <div className="col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle className='flex gap-3 items-center'>{t('logs')} {logs?.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}</CardTitle>
+              <CardTitle className="flex gap-3 items-center">
+                {t('logs')}{' '}
+                {logs?.isPending && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               {logs?.isPending ? (
-                <div className='grid gap-4'>
+                <div className="grid gap-4">
                   {Array.from({ length: 7 }).map((_, index) => (
                     <div key={index} className="grid gap-2">
                       <Skeleton className="h-6 w-2/3" />

@@ -11,24 +11,26 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import React from 'react';
-import { useProductDetails } from '@/api';
+import {
+  useProductDetails,
+  useSaveVariant,
+  useVariantsByProductId,
+} from '@/api';
 import ProductDetailsCard from '@/components/modules/products/product-details-card.tsx';
 import { Label } from '@/components/ui/label.tsx';
 import ProductDetailsCardSkeleton from '@/components/app/skeletons/product-details-card-skeleton.tsx';
 import { Card, CardContent } from '@/components/ui/card.tsx';
 import VariantItemSkeleton from '@/components/app/skeletons/variant-item-skeleton.tsx';
+import { generateId } from '@/lib/utils';
 
 interface Variant {
-  id: string;
+  ref: string;
   name: string;
   additionalPrice?: number;
   discountPrice?: number;
-  stock?: number;
+  currentStock?: number;
   children: Variant[];
 }
-
-// Utility function to generate unique IDs (optional but recommended)
-const generateId = () => Math.random().toString(36).substr(2, 9);
 
 // Memoized VariantItem Component
 const VariantItem: React.FC<{
@@ -64,15 +66,15 @@ const VariantItem: React.FC<{
           </Button>
 
           <div>
-            <Label htmlFor={`variant-name-${variant.id}`} className="text-xs">
+            <Label htmlFor={`variant-name-${variant.ref}`} className="text-xs">
               Name
             </Label>
             <Input
-              id={`variant-name-${variant.id}`}
+              id={`variant-name-${variant.ref}`}
               type="text"
               value={variant.name}
               onChange={(e) =>
-                updateVariant(variant.id, 'name', e.target.value)
+                updateVariant(variant.ref, 'name', e.target.value)
               }
               placeholder="Variant name"
               className="w-full"
@@ -81,18 +83,18 @@ const VariantItem: React.FC<{
 
           <div>
             <Label
-              htmlFor={`variant-additionalPrice-${variant.id}`}
+              htmlFor={`variant-additionalPrice-${variant.ref}`}
               className="text-xs"
             >
               Additional Price
             </Label>
             <Input
-              id={`variant-additionalPrice-${variant.id}`}
+              id={`variant-additionalPrice-${variant.ref}`}
               type="number"
               value={variant.additionalPrice}
               onChange={(e) =>
                 updateVariant(
-                  variant.id,
+                  variant.ref,
                   'additionalPrice',
                   parseFloat(e.target.value) || 0,
                 )
@@ -104,18 +106,18 @@ const VariantItem: React.FC<{
 
           <div>
             <Label
-              htmlFor={`variant-discountPrice-${variant.id}`}
+              htmlFor={`variant-discountPrice-${variant.ref}`}
               className="text-xs"
             >
               Discount Price
             </Label>
             <Input
-              id={`variant-discountPrice-${variant.id}`}
+              id={`variant-discountPrice-${variant.ref}`}
               type="number"
               value={variant.discountPrice}
               onChange={(e) =>
                 updateVariant(
-                  variant.id,
+                  variant.ref,
                   'discountPrice',
                   parseFloat(e.target.value) || 0,
                 )
@@ -126,17 +128,17 @@ const VariantItem: React.FC<{
           </div>
 
           <div>
-            <Label htmlFor={`variant-stock-${variant.id}`} className="text-xs">
+            <Label htmlFor={`variant-stock-${variant.ref}`} className="text-xs">
               Stock
             </Label>
             <Input
-              id={`variant-stock-${variant.id}`}
+              id={`variant-stock-${variant.ref}`}
               type="number"
-              value={variant.stock}
+              value={variant.currentStock}
               onChange={(e) =>
                 updateVariant(
-                  variant.id,
-                  'stock',
+                  variant.ref,
+                  'currentStock',
                   parseFloat(e.target.value) || 0,
                 )
               }
@@ -146,7 +148,7 @@ const VariantItem: React.FC<{
           </div>
 
           <Button
-            onClick={() => addVariant(variant.id)}
+            onClick={() => addVariant(variant.ref)}
             size="icon"
             type="button"
             variant="outline"
@@ -155,7 +157,7 @@ const VariantItem: React.FC<{
           </Button>
 
           <Button
-            onClick={() => removeVariant(variant.id)}
+            onClick={() => removeVariant(variant.ref)}
             size="icon"
             type="button"
             variant="outline"
@@ -168,7 +170,7 @@ const VariantItem: React.FC<{
           <div>
             {variant.children.map((child) => (
               <VariantItem
-                key={child.id}
+                key={child.ref}
                 variant={child}
                 level={level + 1}
                 addVariant={addVariant}
@@ -187,18 +189,29 @@ export default function InfiniteVariantManagerForm() {
   const [variants, setVariants] = useState<Variant[]>([]);
 
   const productDetails = useProductDetails();
+  const saveVariant = useSaveVariant();
+  const variantsData = useVariantsByProductId();
 
   useEffect(() => {
-    console.log(productDetails.data);
-  }, [productDetails.data]);
+    if (productDetails?.data?.data?._id) {
+      variantsData
+        .mutateAsync()
+        .then((data) => {
+          setVariants(data?.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [productDetails.data?.data]);
 
   const addVariant = useCallback((parentId: string | null = null) => {
     const newVariant: Variant = {
-      id: generateId(),
+      ref: generateId('V'),
       name: '',
-      additionalPrice: undefined,
-      discountPrice: undefined,
-      stock: undefined,
+      additionalPrice: 0,
+      discountPrice: 0,
+      currentStock: 0,
       children: [],
     };
 
@@ -207,7 +220,7 @@ export default function InfiniteVariantManagerForm() {
     } else {
       const updateVariantsRecursive = (variants: Variant[]): Variant[] => {
         return variants.map((v) => {
-          if (v.id === parentId) {
+          if (v.ref === parentId) {
             return { ...v, children: [...v.children, newVariant] };
           }
           if (v.children.length > 0) {
@@ -224,7 +237,7 @@ export default function InfiniteVariantManagerForm() {
     (id: string, field: keyof Variant, value: string | number) => {
       const updateVariantRecursive = (variants: Variant[]): Variant[] => {
         return variants.map((v) => {
-          if (v.id === id) {
+          if (v.ref === id) {
             return { ...v, [field]: value };
           }
           if (v.children.length > 0) {
@@ -242,7 +255,7 @@ export default function InfiniteVariantManagerForm() {
   const removeVariant = useCallback((id: string) => {
     const removeVariantRecursive = (variants: Variant[]): Variant[] => {
       return variants
-        .filter((v) => v.id !== id)
+        .filter((v) => v.ref !== id)
         .map((v) => ({
           ...v,
           children: removeVariantRecursive(v.children),
@@ -252,8 +265,13 @@ export default function InfiniteVariantManagerForm() {
     setVariants((prevVariants) => removeVariantRecursive(prevVariants));
   }, []);
 
-  const handleFinish = () => {
-    console.log(variants);
+  const handleFinish = async () => {
+    const payload = {
+      productId: productDetails?.data?.data?._id,
+      variants: variants,
+    };
+
+    await saveVariant.mutateAsync(payload);
   };
 
   return (
@@ -292,7 +310,7 @@ export default function InfiniteVariantManagerForm() {
             {variants?.length > 0 ? (
               variants.map((variant) => (
                 <VariantItem
-                  key={variant.id}
+                  key={variant.ref}
                   variant={variant}
                   addVariant={addVariant}
                   updateVariant={updateVariant}

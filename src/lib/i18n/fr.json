@@ -2,6 +2,9 @@
   "confirm_yes": "Confirmer",
   "confirm_cancel": "Annuler",
 
+  "socket_is_live": "La connexion en temps réel est établie 🛜",
+  "socket_is_closed": "La connexion en temps réel a été fermée 🛑",
+
   "open_menu": "Ouvrir le menu",
   "actions": "Actions",
   "columns": "Colonnes",
@@ -42,7 +45,9 @@
     "categories": "Catégories",
     "reports": "Rapports",
     "advanced": "Avancé",
-    "payments": "Paiements"
+    "payments": "Paiements",
+    "scheduled_tasks": "Tâches planifiées",
+    "developer_tools": "Outils de développement"
   },
 
   "order": {

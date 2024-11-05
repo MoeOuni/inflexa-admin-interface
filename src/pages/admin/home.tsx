@@ -12,9 +12,9 @@ const Home = () => {
   const navigate = useNavigate();
   const logs = useLogs({
     pagination: {
-      pageIndex: 1,
+      pageIndex: 0,
       pageSize: 7,
-    }
+    },
   });
 
   return (
@@ -33,11 +33,16 @@ const Home = () => {
         <div className="col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle className='flex gap-3 items-center'>Recent Activities 📃 {logs?.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}</CardTitle>
+              <CardTitle className="flex gap-3 items-center">
+                Recent Activities 📃{' '}
+                {logs?.isPending && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+              </CardTitle>
             </CardHeader>
             <CardContent className="min-h-[400px]">
               {logs?.isPending ? (
-                <div className='grid gap-4'>
+                <div className="grid gap-4">
                   {Array.from({ length: 6 }).map((_, index) => (
                     <div key={index} className="grid gap-2">
                       <Skeleton className="h-6 w-2/3" />
@@ -51,9 +56,14 @@ const Home = () => {
               ) : (
                 <div>
                   <LogsTimeline logs={logs?.data?.data?.data || []} />
-                  <Button variant={"secondary"} onClick={() => {
-                    navigate("/logs?pageIndex=1&pageSize=10")
-                  }}>View All Activities</Button>
+                  <Button
+                    variant={'secondary'}
+                    onClick={() => {
+                      navigate('/logs?pageIndex=1&pageSize=10');
+                    }}
+                  >
+                    View All Activities
+                  </Button>
                 </div>
               )}
             </CardContent>

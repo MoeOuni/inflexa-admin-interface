@@ -1,4 +1,6 @@
 {
     "UNEXPECTED_ERROR": "Something went wrong. Please try again.",
-    "UNKOWN_ERROR": "An unknown error occurred."
+    "UNKOWN_ERROR": "An unknown error occurred.",
+    "SOCKET_DOWN": "An error occurred while trying to establish a live connection.",
+    "SOCKET_IS_NOT_CONNECTED": "Live connection is not established."
 }

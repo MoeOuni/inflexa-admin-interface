@@ -34,11 +34,14 @@ function App() {
       locale={i18n.language === 'en' ? enGB : frFR}
       theme={{
         token: {
-          colorPrimary: '#3C82F6',
-          colorInfo: '#3C82F6',
-          colorBgContainer: theme === 'dark' ? '#030712' : '#ffffff',
-          colorBgElevated: theme === 'dark' ? '#0D1525' : '#FAFBFC',
+          colorPrimary: "#ea580c",
+          colorInfo: "#ea580c",
           borderRadius: 5,
+        },
+        components: {
+          Upload: {
+            colorFillAlter: 'rgba(255,255,255,0)',
+          },
         },
         algorithm: theme === 'light' ? [defaultAlgorithm] : [darkAlgorithm],
       }}

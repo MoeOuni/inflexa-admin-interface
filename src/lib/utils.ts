@@ -6,6 +6,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+import { v4 as uuidv4 } from 'uuid';
+
 export const parseFilePath = (filePath: string): FileFromApi => {
   // Split the file path into parts
   const parts = filePath.split('/');
@@ -18,13 +20,14 @@ export const parseFilePath = (filePath: string): FileFromApi => {
   const [fileNameWithoutExt, fileExtension] = fileNameWithExt.split('.');
 
   // Extract the original name (file name before unique ID, without extension)
-  const originalName = fileNameWithoutExt.split('-').slice(0, -1).join('-') + `.${fileExtension}`;
+  const originalName =
+    fileNameWithoutExt.split('-').slice(0, -1).join('-') + `.${fileExtension}`;
 
   return {
-      baseDir,
-      fileExtension,
-      fileName: fileNameWithExt, // Keep the extension with the file name
-      originalName,
+    baseDir,
+    fileExtension,
+    fileName: fileNameWithExt, // Keep the extension with the file name
+    originalName,
   };
 };
 
@@ -51,3 +54,6 @@ export function calculateTotalPrice(items?: CalObject[]) {
     return total + item.price * item.quantity * (1 + item.tax / 100);
   }, 0);
 }
+
+// Utility function to generate unique IDs (optional but recommended)
+export const generateId = (startsWith?: string) => `${startsWith}${uuidv4()}`;

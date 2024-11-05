@@ -7,3 +7,4 @@ export * from './inventory';
 export * from './log';
 export * from './configs'
 export * from './sales'
+export * from './app'

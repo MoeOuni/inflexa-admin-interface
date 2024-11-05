@@ -2,6 +2,10 @@
   "confirm_yes": "Confirm",
   "confirm_cancel": "Cancel",
 
+  "socket_is_live": "Live connection is established 🛜",
+  "socket_is_closed": "Live connection has been closed 🛑",
+
+
   "open_menu": "Open menu",
   "actions": "Actions",
   "columns": "Columns",
@@ -42,7 +46,9 @@
     "categories": "Categories",
     "reports": "Reports",
     "advanced": "Advanced",
-    "payments": "Payments"
+    "payments": "Payments",
+    "scheduled_tasks": "Scheduled Tasks",
+    "developer_tools": "Developer Tools"
   },
 
   "order": {

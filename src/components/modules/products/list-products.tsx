@@ -33,7 +33,7 @@ const ListProducts = () => {
   });
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 6,
+    pageSize: 10,
   });
 
   const products = useProductsPagination({

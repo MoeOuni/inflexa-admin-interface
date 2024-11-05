@@ -8,8 +8,9 @@ import React, {
   ReactNode,
 } from 'react';
 import { toast } from 'sonner';
-import { v4 as uuidv4 } from 'uuid';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+import { AuthContext } from '@/contexts/auth-context';
 
 interface WebSocketContextType {
   socket: WebSocket | null;
@@ -23,26 +24,36 @@ const WebSocketContext = createContext<WebSocketContextType | undefined>(
 export const WebSocketProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const { t } = useTranslation();
   const [socket, setSocket] = useState<WebSocket | null>(null);
+  const { user, token } = useContext(AuthContext);
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    // If there is no token, return early and do nothing.
+    if (!token) return;
+
     const ws = new WebSocket(
-      `${import.meta.env.VITE_API_WS_URL}/ws?id=${uuidv4()}`
+      `${import.meta.env.VITE_API_WS_URL}/ws?id=${user?._id}`
     );
+
     setSocket(ws);
 
     ws.onopen = () => {
-      toast.success('WebSocket connection established 🚀');
+      toast.success(t('socket_is_live'));
     };
 
     ws.onclose = () => {
-      toast.info('WebSocket connection closed 🛑');
+      toast.info(t('socket_is_closed'));
     };
 
     // TODO: handle errors in production to friendly messages.
     ws.onerror = (error) => {
-      toast.error(`WebSocket error occurred ❌: ${JSON.stringify(error)}`);
+      if (import.meta.env.VITE_API_NODE_ENV !== 'development') {
+        toast.error(t('SOCKET_DOWN'));
+      } else {
+        toast.error(`WebSocket error occurred ❌: ${JSON.stringify(error)}`);
+      }
     };
 
     ws.onmessage = (message) => {
@@ -73,13 +84,13 @@ export const WebSocketProvider: React.FC<{ children: ReactNode }> = ({
     return () => {
       ws.close();
     };
-  }, []);
+  }, [token]);
 
   const sendMessage = (message: string) => {
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket.send(message);
     } else {
-      console.error('WebSocket is not open');
+      console.error(t("SOCKET_IS_NOT_CONNECTED"));
     }
   };
 

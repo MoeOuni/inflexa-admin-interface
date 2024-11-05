@@ -12,7 +12,7 @@ const Analytics = () => {
         <img
           src="./development-cuate.png"
           alt="development-cuate"
-          className="max-w-[600px]"
+          className="max-w-[550px]"
         />
       </div>
     </>

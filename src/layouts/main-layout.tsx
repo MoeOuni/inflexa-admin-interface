@@ -1,30 +1,18 @@
-import { Link, Outlet } from 'react-router-dom';
-import { CircleUser, LoaderCircle, Search } from 'lucide-react';
+import { Outlet } from 'react-router-dom';
+import { LoaderCircle, Search } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 
-import { Sidebar, SidebarMobile } from '@/components/app/side-bar';
 import { ModeToggle } from '@/components/app/mode-toggle';
 import { LangToggle } from '@/components/app/lang-toggle';
+import { Suspense } from 'react';
 import {
-  Suspense,
-  useContext,
-  // useEffect
-} from 'react';
-import { AuthContext } from '@/contexts/auth-context';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import NotificationSheet from '@/components/app/notification-sheet';
-import { useMenuNotifications } from '@/api';
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar.tsx';
+import { AppSidebar } from '@/components/app/app-sidebar';
+import { Separator } from '@/components/ui/separator.tsx';
 
 // import runOneSignal from '@/lib/one-signal';
 
@@ -33,44 +21,21 @@ const Spin = () => {
 };
 
 function MainLayout() {
-  const { user, setToken, setUser } = useContext(AuthContext);
-
-  const menuNotificatons = useMenuNotifications({ type: 'menu' });
-
   // useEffect(() => {
   //   // Run OneSignal for push notifications once logged in.
   //   runOneSignal();
   // }, []);
 
   return (
-    <div className="lg:grid md:grid min-h-screen w-full lg:grid-cols-[235px_1fr]">
-      <div className="hidden border-r bg-muted/40 lg:block">
-        <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-            <Link to="/" className="flex items-center gap-2 font-semibold">
-              <img src="./icon-logo.svg" className="h-8" />
-              <span className="text-2xl">Inflexa</span>
-            </Link>
-            <div className="ml-auto">
-              <NotificationSheet
-                hasNewNotifications={
-                  menuNotificatons?.data?.data?.notifications
-                }
-              />
-            </div>
-          </div>
-          <div className="flex-1">
-            <Sidebar notifications={menuNotificatons?.data?.data?.menu || []} />
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col">
-        <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-          <SidebarMobile
-            notifications={menuNotificatons?.data?.data?.menu || []}
-          />
-          <div className="w-full flex-1">
-            <form>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <div className="w-full flex items-center gap-2 px-4">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+
+            <form className="w-full">
               <div className="relative">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -80,52 +45,20 @@ function MainLayout() {
                 />
               </div>
             </form>
+            <div className="flex gap-2">
+              <ModeToggle />
+              <LangToggle />
+            </div>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                {user?.profile?.avatarUrl ? (
-                  <Avatar>
-                    <AvatarImage
-                      src={user?.profile?.avatarUrl as string}
-                      alt="me"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                ) : (
-                  <CircleUser className="h-5 w-5" />
-                )}
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => {
-                  setToken('');
-                  setUser(undefined);
-                  window.location.reload();
-                }}
-              >
-                Logout
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <ModeToggle />
-          <LangToggle />
         </header>
-        <div style={{ height: 'calc(100vh - 60px)', overflow: 'hidden' }}>
-          <div
-            className="p-4 lg:p-6 w-auto overflow-y-scroll"
-            style={{ maxHeight: 'calc(100vh - 60px)' }}
-          >
+        <div
+          className="p-4 lg:p-6 w-auto overflow-y-scroll pt-0"
+          style={{ maxHeight: 'calc(100vh - 4.1rem)' }}
+        >
+          <div>
             <Suspense
               fallback={
-                <div className="flex min-h-[100vh] items-center justify-center">
+                <div className="flex h-[100%] items-center justify-center">
                   <Spin />
                 </div>
               }
@@ -134,8 +67,8 @@ function MainLayout() {
             </Suspense>
           </div>
         </div>
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
 

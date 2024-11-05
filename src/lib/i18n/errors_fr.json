@@ -1,4 +1,6 @@
 {
     "UNEXPECTED_ERROR": "Quelque chose s'est mal passé. Veuillez réessayer.",
-    "UNKOWN_ERROR": "Une erreur inconnue s'est produite."
+    "UNKOWN_ERROR": "Une erreur inconnue s'est produite.",
+    "SOCKET_DOWN": "Une erreur s'est produite lors de l'établissement d'une connexion en direct.",
+    "SOCKET_IS_NOT_CONNECTED": "La connexion en temps réel n'est pas établie."
 }
