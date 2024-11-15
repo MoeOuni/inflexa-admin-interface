@@ -34,8 +34,8 @@ function App() {
       locale={i18n.language === 'en' ? enGB : frFR}
       theme={{
         token: {
-          colorPrimary: "#ea580c",
-          colorInfo: "#ea580c",
+          colorPrimary: "#18181B",
+          colorInfo: "#18181B",
           borderRadius: 5,
         },
         components: {

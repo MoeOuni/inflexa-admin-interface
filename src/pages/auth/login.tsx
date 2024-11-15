@@ -27,6 +27,7 @@ import { Loader2 } from 'lucide-react';
 import { useContext } from 'react';
 import { AuthContext } from '@/contexts/auth-context';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@/providers/theme-provider.tsx';
 
 const LoginFormSchema = z.object({
   email: z.string().email(),
@@ -39,6 +40,7 @@ const LoginFormSchema = z.object({
 type ILogin = z.infer<typeof LoginFormSchema>;
 
 const Login = () => {
+  const {theme} = useTheme();
   const { setToken } = useContext(AuthContext);
   const loginFn = useLogin();
   const navigate = useNavigate();
@@ -69,8 +71,8 @@ const Login = () => {
             <CardTitle className="text-2xl flex items-center gap-2">
               Login to{' '}
               <div className="flex items-center gap-1">
-                <img src="./icon-logo.svg" className="h-8" />{' '}
-                <span style={{ color: '#0074D9' }}>Inflexa admin</span>
+                <img src={theme === "light" ? "./icon-logo.svg" : "./icon-logo-dark.svg"} className="h-8" />{' '}
+                <span style={{ color: theme === "light" ? '#EA580B': '#FAFAFA' }}>Inflexa admin</span>
               </div>
             </CardTitle>
             <CardDescription>

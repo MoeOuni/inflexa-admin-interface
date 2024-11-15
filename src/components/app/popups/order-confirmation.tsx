@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -59,9 +60,9 @@ const OrderConfirmationPopup = ({ form, onSubmit, disabled }) => {
             {t('order.order_confirmation_text')}
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="h-[60vh] w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-muted">
+        <ScrollArea className="h-[60vh] w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-muted">
           <div className="grid gap-2 p-4">
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-zinc-200 dark:border-zinc-700 pb-2">
               <div className="text-xs">
                 <div className="text-muted-foreground">
                   {t('order_fields.customer')}
@@ -88,12 +89,12 @@ const OrderConfirmationPopup = ({ form, onSubmit, disabled }) => {
               </div>
             </div>
 
-            <table className="w-full text-left text-sm dark:dark:text-white text-gray-500">
-              <thead className="text-xs uppercase border-gray-200 dark:border-gray-700 border-b dark:dark:text-white text-gray-700">
+            <table className="w-full text-left text-sm dark:dark:text-white text-zinc-500">
+              <thead className="text-xs uppercase border-zinc-200 dark:border-zinc-700 border-b dark:dark:text-white text-zinc-700">
                 <tr>
                   <th
                     scope="col"
-                    className="dark:bg-gray-600 bg-gray-100 px-3 py-3"
+                    className="dark:bg-zinc-600 bg-zinc-100 px-3 py-3"
                   >
                     {t('order_fields.quantity')}
                   </th>
@@ -102,7 +103,7 @@ const OrderConfirmationPopup = ({ form, onSubmit, disabled }) => {
                   </th>
                   <th
                     scope="col"
-                    className="dark:bg-gray-600 bg-gray-100 px-3 py-3 text-right"
+                    className="dark:bg-zinc-600 bg-zinc-100 px-3 py-3 text-right"
                   >
                     {t('order_fields.unit_price')}
                   </th>
@@ -111,7 +112,7 @@ const OrderConfirmationPopup = ({ form, onSubmit, disabled }) => {
                   </th>
                   <th
                     scope="col"
-                    className="dark:bg-gray-600 bg-gray-100 px-3 py-3 text-right"
+                    className="dark:bg-zinc-600 bg-zinc-100 px-3 py-3 text-right"
                   >
                     {t('order_fields.total_price')}
                   </th>
@@ -128,19 +129,19 @@ const OrderConfirmationPopup = ({ form, onSubmit, disabled }) => {
                       price: number;
                     }) => (
                       <tr
-                        className="border-b border-gray-200 dark:border-gray-700"
+                        className="border-b border-zinc-200 dark:border-zinc-700"
                         key={product.product}
                       >
-                        <td className="dark:bg-gray-600 bg-gray-100 px-3 py-3">
+                        <td className="dark:bg-zinc-600 bg-zinc-100 px-3 py-3">
                           {product.quantity}
                         </td>
                         <td className="px-3 py-3 font-bold">{product.name}</td>
-                        <td className="dark:bg-gray-600 bg-gray-100 px-3 py-3 text-right">
+                        <td className="dark:bg-zinc-600 bg-zinc-100 px-3 py-3 text-right">
                           {product.price.toFixed(2)}
                           {currency.symbol}
                         </td>
                         <td className="px-3 py-3">19%</td>
-                        <td className="dark:bg-gray-600 bg-gray-100 px-3 py-3 text-right">
+                        <td className="dark:bg-zinc-600 bg-zinc-100 px-3 py-3 text-right">
                           {(product.price * product.quantity).toFixed(2)}
                           {currency.symbol}
                         </td>
@@ -150,8 +151,8 @@ const OrderConfirmationPopup = ({ form, onSubmit, disabled }) => {
               </tbody>
             </table>
 
-            <div className="grid gap-2 text-xs uppercase dark:text-white text-gray-700">
-              <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 border-gray-200 dark:border-gray-700 border-b">
+            <div className="grid gap-2 text-xs uppercase dark:text-white text-zinc-700">
+              <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 border-zinc-200 dark:border-zinc-700 border-b">
                 <div className="font-bold">Subtotal</div>
                 <div className="text-muted-foreground dark:text-white">
                   {form
@@ -167,14 +168,14 @@ const OrderConfirmationPopup = ({ form, onSubmit, disabled }) => {
                   {currency.symbol}
                 </div>
               </div>
-              <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 border-gray-200 dark:border-gray-700 border-b">
+              <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 border-zinc-200 dark:border-zinc-700 border-b">
                 <div className="font-bold">Shipping</div>
                 <div className="text-muted-foreground dark:text-white">
                   {form.getValues()?.deliveryPrice?.toFixed(2) || 0}
                   {currency.symbol}
                 </div>
               </div>
-              <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 border-gray-200 dark:border-gray-700 border-b">
+              <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 border-zinc-200 dark:border-zinc-700 border-b">
                 <div className="font-bold">Tax</div>
                 <div className="text-muted-foreground dark:text-white">
                   {(
@@ -192,7 +193,7 @@ const OrderConfirmationPopup = ({ form, onSubmit, disabled }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 border-gray-200 dark:border-gray-700 border-b ">
+              <div className="grid grid-cols-[1fr_auto] items-center gap-2 pb-2 px-3 border-zinc-200 dark:border-zinc-700 border-b ">
                 <div className="font-bold">Total</div>
                 <div className="text-muted-foreground dark:text-white">
                   {(
@@ -233,15 +234,15 @@ const OrderConfirmationPopup = ({ form, onSubmit, disabled }) => {
                 {t('order_fields.delivery_man')}
               </div>
               <div className="grid gap-1">
-                <div className="text-xs dark:text-white text-gray-700 flex justify-between gap-3">
+                <div className="text-xs dark:text-white text-zinc-700 flex justify-between gap-3">
                   <span>{t('order_fields.delivery_man_name')}: </span>{' '}
                   <span> {form.getValues().delivery?.deliveryMan?.name}</span>
                 </div>
-                <div className="text-xs dark:text-white text-gray-700 flex justify-between gap-3">
+                <div className="text-xs dark:text-white text-zinc-700 flex justify-between gap-3">
                   <span>{t('order_fields.delivery_man_phone')}: </span>
                   <span> {form.getValues().delivery?.deliveryMan?.phone}</span>
                 </div>
-                <div className="text-xs dark:text-white text-gray-700 flex justify-between gap-3">
+                <div className="text-xs dark:text-white text-zinc-700 flex justify-between gap-3">
                   <span>{t('order_fields.delivery_man_reg_number')}: </span>{' '}
                   <span>
                     {' '}

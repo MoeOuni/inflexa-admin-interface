@@ -170,9 +170,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const menuNotifications = useMenuNotifications({ type: 'menu' });
 
-  console.log(menuNotifications?.data?.data)
-
-
   return (
     <Sidebar variant="floating" collapsible="icon" {...props}>
       <SidebarHeader>

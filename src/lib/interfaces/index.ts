@@ -8,3 +8,4 @@ export * from './log';
 export * from './configs'
 export * from './sales'
 export * from './app'
+export * from './data-table.ts'
