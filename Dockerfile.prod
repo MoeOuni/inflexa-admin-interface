@@ -1,0 +1,25 @@
+# Base image with Bun
+FROM oven/bun:latest AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files and install dependencies
+COPY package.json bun.lockb ./
+RUN bun install --frozen-lockfile
+
+# Copy the rest of the app
+COPY . .
+
+# Build the app
+RUN bun run build
+
+# Serve the built app using Caddy
+FROM caddy:latest AS runner
+WORKDIR /app
+
+# Copy built files from the builder stage
+COPY --from=builder /app/dist /usr/share/caddy
+
+# Use Caddy to serve the static files
+CMD ["caddy", "file-server", "--root", "/usr/share/caddy"]
