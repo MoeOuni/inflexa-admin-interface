@@ -1,28 +1,11 @@
-import { useCustomers } from '@/api';
-import { CustomersTable } from '@/components/data-tables/customers-table';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { File, ListFilter, SquarePlus } from 'lucide-react';
+import { SquarePlus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import CustomersDataTable from '@/components/data-tables/customers/customers-data-table';
 
 const CustomersList = () => {
   const { t } = useTranslation();
-  const customersData = useCustomers();
   const navigate = useNavigate();
 
   return (
@@ -38,7 +21,7 @@ const CustomersList = () => {
             {t('customer_add_button')}
           </span>
         </Button>
-        <div className="ml-auto flex items-center gap-2">
+        {/* <div className="ml-auto flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="h-8 gap-1">
@@ -63,9 +46,9 @@ const CustomersList = () => {
               Export
             </span>
           </Button>
-        </div>
+        </div> */}
       </div>
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle>{t('customers')}</CardTitle>
           <CardDescription>{t('customers_table_description')}</CardDescription>
@@ -76,7 +59,8 @@ const CustomersList = () => {
             loading={customersData.isLoading}
           />
         </CardContent>
-      </Card>
+      </Card> */}
+      <CustomersDataTable />
     </div>
   );
 };

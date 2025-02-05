@@ -55,7 +55,7 @@ const Home = () => {
                 </div>
               ) : (
                 <div>
-                  <LogsTimeline logs={logs?.data?.data?.data || []} />
+                  <LogsTimeline logs={logs?.data?.data || []} />
                   <Button
                     variant={'secondary'}
                     onClick={() => {

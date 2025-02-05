@@ -57,7 +57,7 @@ const Logs = () => {
                   ))}
                 </div>
               ) : (
-                <LogsTimeline logs={logs?.data?.data?.data || []} />
+                <LogsTimeline logs={logs?.data?.data || []} />
               )}
               <Pagination>
                 <PaginationContent>

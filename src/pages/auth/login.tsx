@@ -59,7 +59,7 @@ const Login = () => {
 
     if (response.status === 200) {
       setToken(response.data.data);
-      navigate('/');
+      navigate('/dashboard');
     }
   }
 

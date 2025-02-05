@@ -1,5 +1,5 @@
 import { Toaster } from '@/components/ui/sonner';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import { WebSocketProvider } from './providers/web-socket-provider';
 import { ApiProvider } from '@/contexts/api-context.tsx';
+import { NuqsAdapter } from 'nuqs/adapters/react';
 
 const { darkAlgorithm, defaultAlgorithm } = antdTheme;
 
@@ -25,17 +26,15 @@ function App() {
   const { theme } = useTheme();
   const { i18n } = useTranslation();
 
-  useEffect(() => {
-    dayjs.locale(i18n.language);
-  }, [i18n.language]);
+  dayjs.locale(i18n.resolvedLanguage);
 
   return (
     <ConfigProvider
       locale={i18n.language === 'en' ? enGB : frFR}
       theme={{
         token: {
-          colorPrimary: "#18181B",
-          colorInfo: "#18181B",
+          colorPrimary: '#18181B',
+          colorInfo: '#18181B',
           borderRadius: 5,
         },
         components: {
@@ -46,18 +45,20 @@ function App() {
         algorithm: theme === 'light' ? [defaultAlgorithm] : [darkAlgorithm],
       }}
     >
-      <Router>
-        <ApiProvider>
-          <WebSocketProvider>
-            <TooltipProvider>
-              <Toaster position="top-right" />
+      <NuqsAdapter>
+        <Router>
+          <ApiProvider>
+            <WebSocketProvider>
+              <TooltipProvider>
+                <Toaster position="top-right" />
 
-              {/* Routes go here */}
-              {token ? <ProtectedRoutes /> : <PublicRoutes />}
-            </TooltipProvider>
-          </WebSocketProvider>
-        </ApiProvider>
-      </Router>
+                {/* Routes go here */}
+                {token ? <ProtectedRoutes /> : <PublicRoutes />}
+              </TooltipProvider>
+            </WebSocketProvider>
+          </ApiProvider>
+        </Router>
+      </NuqsAdapter>
     </ConfigProvider>
   );
 }

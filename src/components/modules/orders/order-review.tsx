@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// @ts-ignore
-import React from 'react';
-
 import {
   Card,
   CardContent,
@@ -26,7 +21,7 @@ type Props = {
 };
 
 const OrderReview = ({ orderId }: Props) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const orderDetails = useOrderDetails(orderId);
   const { storeConfiguration } = useStore();
 
@@ -40,14 +35,14 @@ const OrderReview = ({ orderId }: Props) => {
             <div className="flex flex-row items-start ">
               <div className="grid gap-0.5">
                 <CardTitle className="group flex items-center gap-2 text-lg">
-                  {t("order.name")} {orderDetails?.data?.data?.orderNumber}
+                  {t('order.name')} {orderDetails?.data?.data?.orderNumber}
                   <Button
                     size="icon"
                     variant="outline"
                     className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
                   >
                     <Copy className="h-3 w-3" />
-                    <span className="sr-only">{t("order.order_copy_id")}</span>
+                    <span className="sr-only">{t('order.order_copy_id')}</span>
                   </Button>
                 </CardTitle>
               </div>
@@ -56,7 +51,7 @@ const OrderReview = ({ orderId }: Props) => {
               </div>
             </div>
             <CardDescription>
-              {t("order.date")}:{' '}
+              {t('order.date')}:{' '}
               {dayjs(orderDetails?.data?.data?.createdAt).format(
                 'MMMM DD, YYYY'
               )}
@@ -64,7 +59,7 @@ const OrderReview = ({ orderId }: Props) => {
           </CardHeader>
           <CardContent className="p-6 text-sm">
             <div className="grid gap-3">
-              <div className="font-semibold">{t("order.order_details")}</div>
+              <div className="font-semibold">{t('order.order_details')}</div>
               <ul className="grid gap-3">
                 {orderDetails?.data?.data?.products?.map((product: any) => (
                   <li
@@ -84,28 +79,36 @@ const OrderReview = ({ orderId }: Props) => {
               <Separator className="my-2" />
               <ul className="grid gap-3">
                 <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">{t("order_fields.subtotal")}</span>
+                  <span className="text-muted-foreground">
+                    {t('order_fields.subtotal')}
+                  </span>
                   <span>
                     {orderDetails?.data?.data?.totalAmount?.toFixed(2)}{' '}
                     {storeConfiguration?.currency}
                   </span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">{t("order_fields.shipping")}</span>
+                  <span className="text-muted-foreground">
+                    {t('order_fields.shipping')}
+                  </span>
                   <span>
                     {orderDetails?.data?.data?.deliveryPrice?.toFixed(2)}{' '}
                     {storeConfiguration?.currency}
                   </span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">{t("order_fields.tax")}</span>
+                  <span className="text-muted-foreground">
+                    {t('order_fields.tax')}
+                  </span>
                   <span>
                     {orderDetails?.data?.data?.totalTax?.toFixed(2)}{' '}
                     {storeConfiguration?.currency}
                   </span>
                 </li>
                 <li className="flex items-center justify-between font-semibold">
-                  <span className="text-muted-foreground">{t("order_fields.total")}</span>
+                  <span className="text-muted-foreground">
+                    {t('order_fields.total')}
+                  </span>
                   <span>
                     {(
                       orderDetails?.data?.data?.totalTax +
@@ -120,7 +123,9 @@ const OrderReview = ({ orderId }: Props) => {
             <Separator className="my-4" />
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-3">
-                <div className="font-semibold">{t("order_fields.shipping_information")}</div>
+                <div className="font-semibold">
+                  {t('order_fields.shipping_information')}
+                </div>
                 <address className="grid gap-0.5 not-italic text-muted-foreground">
                   <span>{orderDetails?.data?.data?.customer?.name}</span>
                   <span>
@@ -135,7 +140,9 @@ const OrderReview = ({ orderId }: Props) => {
                 </address>
               </div>
               <div className="grid auto-rows-max gap-3">
-                <div className="font-semibold">{t("order_fields.billing_address_information")}</div>
+                <div className="font-semibold">
+                  {t('order_fields.billing_address_information')}
+                </div>
                 <div className="grid gap-0.5 not-italic text-muted-foreground">
                   <span>
                     {orderDetails?.data?.data?.billingAddress?.state},{' '}
@@ -151,14 +158,18 @@ const OrderReview = ({ orderId }: Props) => {
             </div>
             <Separator className="my-4" />
             <div className="grid gap-3">
-              <div className="font-semibold">{t("order_fields.customer_information")}</div>
+              <div className="font-semibold">
+                {t('order_fields.customer_information')}
+              </div>
               <dl className="grid gap-3">
                 <div className="flex items-center justify-between">
-                  <dt className="text-muted-foreground">{t("order_fields.customer")}</dt>
+                  <dt className="text-muted-foreground">
+                    {t('order_fields.customer')}
+                  </dt>
                   <dd>{orderDetails?.data?.data?.customer?.name}</dd>
                 </div>
                 <div className="flex items-center justify-between">
-                  <dt className="text-muted-foreground">{t("email")}</dt>
+                  <dt className="text-muted-foreground">{t('email')}</dt>
                   <dd>
                     <a href="mailto:">
                       {orderDetails?.data?.data?.customer?.contactInfo?.email ||
@@ -167,7 +178,7 @@ const OrderReview = ({ orderId }: Props) => {
                   </dd>
                 </div>
                 <div className="flex items-center justify-between">
-                  <dt className="text-muted-foreground">{t("phone")}</dt>
+                  <dt className="text-muted-foreground">{t('phone')}</dt>
                   <dd>
                     <a href="tel:">
                       {orderDetails?.data?.data?.customer?.contactInfo?.phone ||
@@ -180,7 +191,7 @@ const OrderReview = ({ orderId }: Props) => {
           </CardContent>
           <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
             <div className="text-xs text-muted-foreground">
-              {t("updated")}{' '}
+              {t('updated')}{' '}
               <time dateTime="2023-11-23">
                 {dayjs(orderDetails?.data?.data?.updatedAt).format(
                   'MMMM DD, YYYY'

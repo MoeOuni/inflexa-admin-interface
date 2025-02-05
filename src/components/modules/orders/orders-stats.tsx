@@ -9,9 +9,7 @@ import {
 
 import { Progress } from '@/components/ui/progress';
 
-
 const OrdersStats = () => {
-
   return (
     <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
       <Card x-chunk="dashboard-05-chunk-1">

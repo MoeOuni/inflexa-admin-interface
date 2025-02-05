@@ -18,6 +18,7 @@ const Analytics = lazy(() => import('@/pages/admin/analytics'));
 const Customers = lazy(() => import('@/pages/admin/customers'));
 const Suppliers = lazy(() => import('@/pages/admin/suppliers'));
 const Purchases = lazy(() => import('@/pages/admin/purchases'));
+const ScheduledTasks = lazy(() => import('@/pages/admin/scheduled-tasks'));
 
 // Purchase SubRoutes
 const PurchaseDetails = lazy(
@@ -180,6 +181,7 @@ const ProtectedRoutes = React.memo(() => {
             <Route path="save/:id" element={<SaveSupplier />} />
             <Route path="save" element={<SaveSupplier />} />
           </Route>
+          <Route path="scheduled-tasks" element={<ScheduledTasks />} />
           <Route path="logs" element={<Logs />} />
         </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />

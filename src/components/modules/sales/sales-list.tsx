@@ -1,36 +1,10 @@
-import React, { useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { SalesTable } from '@/components/data-tables/sales-table';
-// import { useNavigate } from 'react-router-dom';
-import { useOrders } from '@/api';
+import React from 'react';
+import SalesDataTable from '@/components/data-tables/sales/sales-data-table';
 
 type Props = { setSaleId: React.Dispatch<React.SetStateAction<string>> };
 
 const SalesList = ({ setSaleId }: Props) => {
-  // const navigate = useNavigate();
-
-  const sales = useOrders({
-    params: {
-      status: "delivered"
-    },
-  });
-
-  useEffect(() => {
-    if (sales?.data?.data?.length > 0) {
-      setSaleId(sales.data.data[0]._id);
-    }
-  }, [sales.status]);
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Sales List</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <SalesTable data={sales?.data?.data || []} setSaleId={setSaleId} />
-      </CardContent>
-    </Card>
-  );
+  return <SalesDataTable setSaleId={setSaleId} />;
 };
 
 export default SalesList;

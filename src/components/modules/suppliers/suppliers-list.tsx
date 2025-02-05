@@ -1,32 +1,12 @@
-import { useSuppliers } from '@/api';
-import ProvidersTable from '@/components/data-tables/suppliers-table';
-import { useState } from 'react';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { File, ListFilter, SquarePlus } from 'lucide-react';
+import { SquarePlus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import SuppliersDataTable from '@/components/data-tables/suppliers/suppliers-data-table';
 
 const SuppliersList = () => {
-  const [status, setStatus] = useState<string>('ACTIVE');
   const { t } = useTranslation();
   const navigate = useNavigate();
-
-  const suppliers = useSuppliers({ status });
 
   return (
     <div>
@@ -41,7 +21,7 @@ const SuppliersList = () => {
             {t('supplier_add_button')}
           </span>
         </Button>
-        <div className="ml-auto flex items-center gap-2">
+        {/* <div className="ml-auto flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="h-8 gap-1">
@@ -86,10 +66,10 @@ const SuppliersList = () => {
               Export
             </span>
           </Button>
-        </div>
+        </div> */}
       </div>
 
-      <Card x-chunk="dashboard-06-chunk-0">
+      {/* <Card x-chunk="dashboard-06-chunk-0">
         <CardHeader>
           <CardTitle>{t('suppliers')}</CardTitle>
           <CardDescription>{t('suppliers_table_description')}</CardDescription>
@@ -101,7 +81,8 @@ const SuppliersList = () => {
             loading={suppliers?.isLoading}
           />
         </CardContent>
-      </Card>
+      </Card> */}
+      <SuppliersDataTable />
     </div>
   );
 };

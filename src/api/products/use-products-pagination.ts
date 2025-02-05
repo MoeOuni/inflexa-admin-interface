@@ -1,25 +1,13 @@
 import { apiClient, productQueryKeys } from '@/api';
+import { usePagination } from '@/hooks/use-pagination';
 import { useQuery } from '@tanstack/react-query';
 
-type paginationState = {
-  pagination: {
-    pageIndex: number;
-    pageSize: number;
-  };
-  search?: string;
-  filters?: string;
-  preset?: string;
-};
+export function useProductsPagination() {
+  const [{ page, per_page }] = usePagination();
 
-export function useProductsPagination(queryObj: paginationState) {
   const getProductsFn = async () => {
-    const { pageIndex, pageSize } = queryObj.pagination;
-    const searchParam = queryObj?.search ? `&search=${queryObj.search}` : '';
-    const filtersParam = queryObj?.filters ? `&filters=${queryObj.filters}` : '';
-    const presetParam = queryObj?.preset && queryObj?.preset !== 'ALL' ? `&preset=${queryObj.preset}` : '';
-
     const response = await apiClient.get(
-      `/products?page=${pageIndex}&limit=${pageSize}${searchParam}${filtersParam}${presetParam}`,
+      `/products?page=${page}&limit=${per_page}`
     );
     return {
       data: response.data,
@@ -28,15 +16,7 @@ export function useProductsPagination(queryObj: paginationState) {
   };
 
   return useQuery({
-    queryKey: ['', 'ALL', undefined, null].includes(queryObj?.preset)
-      ? productQueryKeys.paginationFiltered(
-          queryObj.pagination.pageIndex,
-          queryObj?.filters,
-        )
-      : productQueryKeys.paginationPreset(
-          queryObj.pagination.pageIndex,
-          queryObj?.preset,
-        ),
+    queryKey: productQueryKeys.pagination(page, per_page),
     queryFn: getProductsFn,
   });
 }

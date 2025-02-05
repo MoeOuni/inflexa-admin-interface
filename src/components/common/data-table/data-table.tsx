@@ -1,8 +1,15 @@
 import React from 'react';
 import { flexRender, type Table as TanstackTable } from '@tanstack/react-table';
 import { cn } from '@/lib/utils';
-import { Table, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { getCommonPinningStyles } from '@/lib/data-table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+
 import DataTablePagination from './data-table-pagination';
 
 interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
@@ -11,7 +18,7 @@ interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
    * @type TanstackTable<TData>
    */
   table: TanstackTable<TData>;
-
+  onRowClick?: (row: TData) => void;
   /**
    * The floating bar to render at the bottom of the table on row selection.
    * @default null
@@ -23,6 +30,7 @@ interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
 function DataTable<TData>({
   table,
   floatingBar = null,
+  onRowClick,
   children,
   className,
   ...props
@@ -40,13 +48,7 @@ function DataTable<TData>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      style={{
-                        ...getCommonPinningStyles({ column: header.column }),
-                      }}
-                    >
+                    <TableHead key={header.id} colSpan={header.colSpan}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -59,12 +61,41 @@ function DataTable<TData>({
               </TableRow>
             ))}
           </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                  onClick={() => onRowClick && onRowClick(row.original)}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={table.getVisibleFlatColumns().length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
         </Table>
       </div>
       <div className="flex flex-col gap-2.5">
         {/* Pagination */}
         <DataTablePagination table={table} />
-        {table.getFilteredSelectedRowModel().rows.length > 0 && floatingBar}
+        {table.getFilteredSelectedRowModel()?.rows.length > 0 && floatingBar}
       </div>
     </div>
   );

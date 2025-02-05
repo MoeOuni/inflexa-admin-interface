@@ -6,14 +6,11 @@ export const productQueryKeys = {
   all: ['products'],
   details: () => [...productQueryKeys.all, 'detail'],
   detail: (id: string) => [...productQueryKeys.details(), id],
-  pagination: (page: number) => [...productQueryKeys.all, 'pagination', page],
-  paginationFiltered: (page: number, filters?: string) => [
-    ...productQueryKeys.pagination(page),
-    filters,
-  ],
-  paginationPreset: (page: number, preset?: string) => [
-    ...productQueryKeys.pagination(page),
-    preset,
+  pagination: (page: number, per_page: number) => [
+    ...productQueryKeys.all,
+    'pagination',
+    per_page,
+    page,
   ],
   infinite: () => [...productQueryKeys.all, 'infinite'],
 };

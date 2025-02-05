@@ -4,3 +4,4 @@ export * from './use-update-purchase';
 export * from './purchase-query-keys';
 export * from './use-delete-purchase';
 export * from './use-purchase-details';
+export * from './use-purchases-pagination'

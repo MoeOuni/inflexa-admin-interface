@@ -155,7 +155,7 @@ const data = {
     {
       name: 'menu.scheduled_tasks',
       icon: CalendarClock,
-      url: '#',
+      url: '/scheduled-tasks',
     },
     {
       name: 'menu.developer_tools',

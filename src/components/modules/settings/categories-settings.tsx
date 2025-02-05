@@ -1,22 +1,13 @@
 import React from 'react';
-import { CategoriesTable } from '@/components/data-tables/categories-table';
 import { CategoryForm } from '@/components/forms/category-form';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { SquarePlus } from 'lucide-react';
-import { useCategories } from '@/api';
 import { Category } from '@/lib/types';
 import { useTranslation } from 'react-i18next';
+import CategoriesDataTable from '@/components/data-tables/categories/categories-data-table';
 
 const CategoriesSettings = () => {
   const { t } = useTranslation();
-  const categories = useCategories();
   const [view, setView] = React.useState('table');
   const [selectedCategory, setSelectedCategory] =
     React.useState<Category | null>(null);
@@ -25,10 +16,6 @@ const CategoriesSettings = () => {
     setView(view === 'table' ? 'form' : 'table');
   };
 
-  const handleEdit = (category?: Category) => {
-    setSelectedCategory(category || null);
-    if (category) setView('form');
-  };
 
   return (
     <>
@@ -52,21 +39,7 @@ const CategoriesSettings = () => {
           handleChangeView={handleViewChange}
         />
       ) : (
-        <Card x-chunk="dashboard-04-chunk-1">
-          <CardHeader>
-            <CardTitle>{t('categories')}</CardTitle>
-            <CardDescription>
-              {t('categories_table_description')}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <CategoriesTable
-              data={categories?.data?.data ?? []}
-              handleEdit={handleEdit}
-              loading={categories.isLoading}
-            />
-          </CardContent>
-        </Card>
+        <CategoriesDataTable />
       )}
     </>
   );
