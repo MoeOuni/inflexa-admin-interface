@@ -36,7 +36,7 @@ type Props = {
   readonly order: Order;
 };
 
-export function OrderActionMenu({ order }: Props) {
+export function OrdersRowActionMenu({ order }: Props) {
   const { t } = useTranslation();
 
   const orderStatus = useUpdateOrderStatus();
