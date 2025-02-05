@@ -5,8 +5,11 @@ FROM oven/bun:latest
 WORKDIR /app
 
 # Copy package files and install dependencies
-COPY package.json bun.lockb ./
-RUN bun install
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
+
+# Explicitly install Vite if it's missing
+RUN bun add vite
 
 # Copy the rest of the application
 COPY . .
@@ -15,4 +18,4 @@ COPY . .
 EXPOSE 5173
 
 # Start Vite in development mode with hot reloading
-CMD ["bun", "run", "dev", "--", "--host"]
+CMD ["bun", "run", "dev", "--", "--host", "0.0.0.0"]
